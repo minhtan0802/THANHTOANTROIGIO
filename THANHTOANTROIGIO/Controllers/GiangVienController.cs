@@ -3,7 +3,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
-using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.Controllers
@@ -39,6 +38,13 @@ namespace THANHTOANTROIGIO.Controllers
         public JsonResult AjaxMethod_getLoaiGVByMaGV(GiangVien model)
         {
             var data = GiangVienDAO.getLoaiGVByMaGV(model.MaGiangVien);
+            return Json(JsonConvert.SerializeObject(data));
+        }
+
+        [Route("ds-gv-by-khoa")]
+        public JsonResult AjaxMethod_getDSGVByBoMon(Khoa model)
+        {
+            var data = GiangVienDAO.getDSGVByBoMon(model.MaKhoa);
             return Json(JsonConvert.SerializeObject(data));
         }
 

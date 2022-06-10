@@ -22,7 +22,7 @@ namespace THANHTOANTROIGIO.DAO
             {
                 var ngayThayDoi = ctx.ThayDoiHocVis.Where(s => s.MaGV.Equals(maGV)).Max(o => o.NgayThayDoi);
                 hocVi = (ThayDoiHocVi)ctx.ThayDoiHocVis
-                              .Where(s => s.MaGV.Equals(maGV.Trim()) && s.NgayThayDoi.Year == ngayThayDoi.Year && s.NgayThayDoi.Month == ngayThayDoi.Month && s.NgayThayDoi.Day == ngayThayDoi.Day).FirstOrDefault();
+                              .Where(s => s.MaGV.Equals(maGV.Trim()) && s.NgayThayDoi==ngayThayDoi).FirstOrDefault();
             }
             return hocVi.MaHocVi;
         }

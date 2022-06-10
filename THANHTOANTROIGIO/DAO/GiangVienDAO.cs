@@ -15,7 +15,7 @@ namespace THANHTOANTROIGIO.DAO
         {
             using (var context = new ThanhToanTroiGioEntities())
             {
-                var list = context.GiangViens.Where(gv => gv.MaBoMon == maBoMon && gv.TrangThaiXoa==false).ToList();
+                var list = context.GiangViens.Where(gv => gv.MaBoMon == maBoMon && gv.TrangThaiXoa == false).ToList();
                 return list;
             }
         }
@@ -27,7 +27,7 @@ namespace THANHTOANTROIGIO.DAO
             {
                 var ngayThayDoi = ctx.ThayDoiLoaiGVs.Where(s => s.MaGV.Equals(maGiangVien)).Max(o => o.NgayThayDoi);
                 loaiGV = (ThayDoiLoaiGV)ctx.ThayDoiLoaiGVs
-                              .Where(s => s.MaGV.Equals(maGiangVien.Trim()) && s.NgayThayDoi.Year == ngayThayDoi.Year && s.NgayThayDoi.Month == ngayThayDoi.Month && s.NgayThayDoi.Day == ngayThayDoi.Day).FirstOrDefault();
+                              .Where(s => s.MaGV.Equals(maGiangVien.Trim()) && s.NgayThayDoi == ngayThayDoi).FirstOrDefault();
             }
             if (loaiGV.MaLoaiGV == "0")
             {
@@ -50,5 +50,44 @@ namespace THANHTOANTROIGIO.DAO
             }
             return gv.ChucDanh.Trim();
         }
+        public static IEnumerable<Object> getDSGVByBoMon(string maKhoa)
+        {
+            List<BoMon> listBoMon = new List<BoMon>();
+            List<GiangVien> listGV = new List<GiangVien>();
+            GiangVienTree gvTree = new GiangVienTree();
+            List<GiangVienTree> listGVTree = new List<GiangVienTree>();
+            List<Tree_GV> listTreeGV = new List<Tree_GV>();
+            Tree_GV treeGV = new Tree_GV();
+
+            using (var context = new ThanhToanTroiGioEntities())
+            {
+                listBoMon = context.BoMons.Where(x => x.MaKhoa == maKhoa).OrderBy(x => x.TenBoMon).ToList();
+                listGV = context.GiangViens.Where(g=>g.TrangThaiXoa==false).OrderBy(x =>x.Ten).ToList();
+                for (int i = 0; i < listBoMon.Count; i++)
+                {
+                    listGVTree=new List<GiangVienTree>();
+                   
+                    treeGV = new Tree_GV();
+                    for (int j = 0; j < listGV.Count; j++)
+                    {
+                        if (listGV[j].MaBoMon == listBoMon[i].MaBoMon)
+                        {
+                            gvTree = new GiangVienTree();
+                            gvTree.text = listGV[j].Ho + " " + listGV[j].Ten;
+                            gvTree.id = listGV[j].MaGiangVien;
+                            listGVTree.Add(gvTree);
+                            listGV.RemoveAt(j);
+                        }
+                    }
+                    treeGV.text = listBoMon[i].TenBoMon;
+                    treeGV.id = listBoMon[i].MaBoMon;
+                    treeGV.nodes = listGVTree;
+                    listTreeGV.Add(treeGV);
+                }
+                return listTreeGV;
+            }
+
+        }
+
     }
 }

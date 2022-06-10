@@ -103,7 +103,7 @@ $(document).ready(function () {
         var khoa = {
             MaKhoa: maKhoa, TenKhoa: tenKhoa
         };
-        $("#select_BoMon").empty();
+        /*  $("#select_BoMon").empty();*/
         $.ajax({
             async: true,
             type: 'POST',
@@ -117,6 +117,7 @@ $(document).ready(function () {
                         text: item.TenBoMon
                     }));
                 });
+                $("#select_BoMon").select2();
                 $("#select_BoMon").prop("selectedIndex", 0);
                 maBoMon = $("#select_BoMon option:selected").val();
                 tenBoMon = $("#select_BoMon option:selected").text();
@@ -290,7 +291,7 @@ $(document).ready(function () {
             maLoaiGV = false;
         }
 
-        maGVEdit=$("#maGV").val(maGV.trim());
+        maGVEdit = $("#maGV").val(maGV.trim());
         $("#ho").val(ho.trim());
         $("#ten").val(ten.trim());
 
@@ -309,6 +310,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_HocVi").value = response;
+                $('#select_HocVi').trigger('change'); 
                 maHocVi = response;
                 console.log(response);
             },
@@ -326,6 +328,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_ChucDanh").value = response;
+                $('#select_ChucDanh').trigger('change'); 
                 maChucDanh = response;
                 console.log("Chức danh: " + response);
             },
@@ -343,6 +346,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_ChucVu").value = response;
+                $('#select_ChucVu').trigger('change'); 
                 maChucVu = response;
             },
             error: function () {
@@ -356,7 +360,7 @@ $(document).ready(function () {
     });
     $(document).ready(function () {
         $("#btnSave").click(function (e) {
-            if (maGVEdit!="") {
+            if (maGVEdit != "") {
                 editGiangVien();
             }
             else {
@@ -366,6 +370,7 @@ $(document).ready(function () {
         });
         $("#btnThemGV").click(function (e) {
             $("#modalAddGV").modal("show");
+            
         });
         $("#btnClose").click(function (e) {
             $("#modalAddGV").modal("hide");
@@ -582,6 +587,12 @@ $(document).ready(function () {
             };
         });
     });
+    $('select').select2({
+        dropdownParent: $('#modalAddGV'),
+    });
+    $('#select_ChuyenBoMon').select2('destroy');
+    $('#select_GioiTinh').select2('destroy');
+    document.getElementById("select_ChuyenBoMon").style.display = "none";
 
 
 });
@@ -626,6 +637,9 @@ function chuyenBoMon() {
                         text: item.TenBoMon
                     }));
                 });
+                $('#select_ChuyenBoMon').select2({
+                    dropdownParent: $('#modalAddGV')
+                });
                 $("#select_ChuyenBoMon").prop("selectedIndex", 0);
                 maBoMonChuyen = $("#select_ChuyenBoMon option:selected").val();
                 tenBoMon = $("#select_ChuyenBoMon option:selected").text();
@@ -636,6 +650,7 @@ function chuyenBoMon() {
         });
     }
     else {
+        $('#select_ChuyenBoMon').select2('destroy');
         document.getElementById("select_ChuyenBoMon").style.display = "none";
         document.getElementById("label_SelectCBM").style.display = "none";
     }

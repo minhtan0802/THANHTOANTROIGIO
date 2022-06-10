@@ -1,15 +1,15 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/js/jquery-3.6.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
 <script src="~/lib/script/giang-vien.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 <style>
     * {
         box-sizing: border-box;
@@ -48,8 +48,9 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-    label{
-        font-weight:bold;
+
+    label {
+        font-weight: bold;
     }
 </style>
 
@@ -75,8 +76,13 @@
         </div>
         <div class="column" style="width:67%">
             <label for="fname">Bộ môn</label>
-            <select onchange="onChangeSelect(event)" class="form-select_BoMon" id="select_BoMon" aria-label="Default select example" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;">
+            <select onchange="onChangeSelect(event)" class="form-control" id="select_BoMon" placeholder="Chọn bộ môn..." aria-label="Default select example" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;">
             </select><br /><br />
+            @*   <select class="js-example-basic-single" name="state" id="select_BoMon">
+            <option value="AL">Alabama</option>
+            ...
+            <option value="WY">Wyoming</option>
+            </select>*@
             <!-- Button trigger modal -->
             <!--<button type="button" class="btn btn-primary" id="btnThemGV" data-toggle="modal" data-target="#modalAddGV">
             Thêm-->
@@ -90,7 +96,7 @@
             <!-- Modal -->
             <!-- Button trigger modal -->
             <!-- Modal -->
-            <div class="modal fade" id="modalAddGV" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade modal-lg" id="modalAddGV" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -99,69 +105,74 @@
                         </div>
                         <div class="modal-body">
                             <form class="row g-3" id="formAddGV" style="margin-bottom:20px">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Mã Giảng Viên</label>
                                     <input type="text" class="form-control" id="maGV">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Họ</label>
                                     <input type="text" class="form-control" id="ho">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Tên</label>
                                     <input type="text" class="form-control" id="ten">
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Học Vị</label>
-                                    <select class="form-control" id="select_HocVi"></select>
+
+                                <div class="col-md-3">
+                                    <label for="validationDefault01" class="form-label">Giới tính</label>
+                                    <select class="form-control" id="select_GioiTinh">
+                                        <option value="true">Nam</option>
+                                        <option value="false">Nữ</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Chức vụ</label>
-                                    <select type="text" class="form-control" id="select_ChucVu"></select>
+                                    <select class="form-control" id="select_ChucVu" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Chức danh</label>
-                                    <select type="text" class="form-control" id="select_ChucDanh">
+                                    <select class="form-control" id="select_ChucDanh" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;">
                                         <option value="GV">Giảng viên</option>
                                         <option value="GVC">Giảng viên chính</option>
                                         <option value="GVCC">Giảng viên cao cấp</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Giới tính</label>
-                                    <select type="text" class="form-control" id="select_GioiTinh">
-                                        <option value="true">Nam</option>
-                                        <option value="false">Nữ</option>
-                                    </select>
+
+                                <div class="col-md-3">
+                                    <label for="validationDefault01" class="form-label">Học Vị</label>
+                                    <br />
+                                    <select class="form-control" id="select_HocVi" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
                                 </div>
-                                <div class="col-md-4">
+
+
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Ngày sinh</label>
 
                                     <input type="date" class="form-control" id="ngaySinh" name="ngay-sinh" value="1970-01-01" min="1900-01-01" max="2009-12-31" />
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label for="validationDefault01" class="form-label">Địa chỉ</label>
                                     <input type="text" class="form-control" id="diaChi">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Số điện thoại</label>
                                     <input type="text" class="form-control" id="sdt">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <br />
                                     <input type="checkbox" id="gvCoHuu">
                                     <label for="validationDefault01" class="form-label">GV cơ hữu</label>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <br />
                                     <input type="checkbox" id="checkbox_ChuyenBoMon" onclick="chuyenBoMon()">
                                     <label for="validationDefault01" class="form-label" id="label_ChuyenBoMon">Chuyển bộ môn</label>
 
                                 </div>
                                 <div class="col-md-12">
-                                    <label for="validationDefault01" class="form-label" id="label_SelectCBM"style="display:none">Bộ môn</label>
-                                    <select type="text" class="form-control" id="select_ChuyenBoMon" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;display:none"></select>
+                                    <label for="validationDefault01" class="form-label" id="label_SelectCBM" style="display:none">Bộ môn</label>
+                                    <select class="form-control" id="select_ChuyenBoMon" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;display:none"></select>
                                 </div>
                             </form>
                         </div>
@@ -178,9 +189,9 @@
                     <div class="modal-content" style="background-color:transparent !important; border:none !important">
                         <div class="modal-body">
                             <div class="text-center">
-                               <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                   <span class="visually-hidden">Loading...</span>
-                               </div>
+                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,4 +223,11 @@
         </div>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#select_BoMon').select2();
+    });
+</script>
