@@ -1,10 +1,26 @@
 ﻿var tenNienKhoa = "";
 var maHocKy = "";
 var maKhoa = "";
+var listSubject;
+var listGV;
+var nodeTree = null;
+var table_LTC;
 $(document).ready(function () {
+    $("#select_Khoa").select2();
     init_Select_NienKhoa();
     init_Select_Khoa();
     init_Tree_GV();
+    table_LTC = $("#table_LTC").DataTable();
+    /* document.querySelector(".list-group-item").addEventListener('click', function () { alert("Hello") }, false);*/
+/*    list = document.getElementsByClassName("list-group-item");
+    list.forEach(myFunction);
+
+    function myFunction(item) {
+        item.addEventListener('click', (event) => {
+            console.log('Hi!');
+        });
+    }*/
+   
 });
 ////Onchange
 function onChange_Select_NienKhoa(event) {
@@ -12,8 +28,8 @@ function onChange_Select_NienKhoa(event) {
     init_Select_HocKy();
 }
 function onChange_Select_Khoa(event) {
-   /* tenNienKhoa = $("#select_NienKhoa option:selected").val();
-    init_Select_HocKy();*/
+    maKhoa = $("#select_Khoa option:selected").val();
+    init_Tree_GV();
 }
 
 /////
@@ -24,7 +40,7 @@ function init_Select_HocKy() {
     };
     console.log(JSON.stringify(nienKhoa));
     $.ajax({
-        async: false,
+        async: true,
         type: 'POST',
         data: nienKhoa,
         url: '/nien-khoa-hoc-ky/hoc-ky',
@@ -60,8 +76,8 @@ function init_Select_Khoa() {
                     text: item.TenKhoa
                 }));
             });
-            $("#select_Khoa").select2();
             $("#select_Khoa").prop("selectedIndex", 0);
+            $('#select_Khoa').trigger('change'); 
             maKhoa = $("#select_Khoa option:selected").val();
         },
         error: function () {
@@ -95,7 +111,8 @@ function init_Select_NienKhoa() {
     });
 }
 function init_Tree_GV() {
-    $("#tree_GV").empty();
+    $("#tree_GV").remove();
+    $("#label_GV").after("<div class='form-control' id='tree_GV'></div>");
     var khoa = {
         MaKhoa: maKhoa, TenKhoa: ""
     };
@@ -108,12 +125,36 @@ function init_Tree_GV() {
             console.log(JSON.stringify(response));
             response = $.parseJSON(response);
             $('#tree_GV').bstreeview({
-                data: response,
+               data: response,
                 expandIcon: 'fa fa-angle-down fa-fw',
                 collapseIcon: 'fa fa-angle-right fa-fw',
                 indent: 1.25,
                 parentsMarginLeft: '1.25rem',
                 openNodeLinkOnNewTab: true
+            });
+            listGV = document.querySelectorAll('[aria-level="2"]');
+            $.each(listGV, function (i, item) {
+                console.log(JSON.stringify(item));
+            });
+
+            $.each(listGV, function (i, item) {
+                item.addEventListener('click', function (e) {
+                    nodeCurrent = item;
+
+                    if (nodeTree != nodeCurrent) {
+                        document.getElementById("titleLTC").innerHTML = "Danh sách lớp tín chỉ của GIẢNG VIÊN: " + item.innerHTML;
+                        nodeCurrent.style.background = "#ccc";
+                        console.log('Click happened for: ' + item.id);
+                        if (nodeTree != null) {
+                            nodeTree.style.background = "#ffffff"
+                            nodeTree = item;
+                        }
+                        nodeTree = item;   
+                    }
+                    else {
+
+                    }
+                });
             });
         },
         error: function () {

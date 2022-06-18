@@ -6,7 +6,6 @@ var table_GV_rowIndex = 0;
 var modal = document.getElementById("formAddGV");
 var table_Khoa_rowIndex = 0;
 var table_GV_rowIndex = 0;
-
 var maKhoa = "";
 var tenKhoa = "";
 var maBoMon = "";
@@ -22,40 +21,18 @@ var maChucVu;
 var maLoaiGV;
 var maChucDanh;
 var init_Table_GV;
-
+var table_Khoa, table_GV;
 $(document).ready(function () {
     document.getElementById("title").innerHTML = "Nhập dữ liệu - GIẢNG VIÊN";
     $("#select_ChucDanh").prop("selectedIndex", 0);
-    var table_Khoa = $("#table_Khoa").DataTable();
+    table_Khoa = $("#table_Khoa").DataTable();
     $("#modalLoading").modal('show')
     setTimeout(function () {
         $("#modalLoading").modal('hide')
     }, 2500)
     init_Table_Khoa();
-    function init_Table_Khoa() {
-        $.ajax({
-            async: true,
-            type: 'GET',
-            url: '/khoa/ds-khoa',
-            success: function (response) {
-                response = $.parseJSON(response);
-                $.each(response, function (i, item) {
-                    table_Khoa.row.add([item.MaKhoa, item.TenKhoa]).draw(false);
-                });
-                $("#TenKhoa").val(table_Khoa.cell(0, 1).data());
-                $("#MaKhoa").val(table_Khoa.cell(0, 0).data());
-                maKhoa = table_Khoa.cell(0, 0).data();
-                tenKhoa = table_Khoa.cell(0, 1).data();
-                table_Khoa.rows(0).nodes().to$().addClass('selected');
-                init_Select_BoMon();
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-    }
 
-    var table_GV = $('#table_GV').DataTable({
+    table_GV = $('#table_GV').DataTable({
         "createdRow": function (row, data, dataIndex) {
             if (data[10] == true) {
                 $(row).find("input[type='checkbox']")
@@ -99,124 +76,11 @@ $(document).ready(function () {
         ]
     }
     );
-    function init_Select_BoMon() {
-        var khoa = {
-            MaKhoa: maKhoa, TenKhoa: tenKhoa
-        };
-        /*  $("#select_BoMon").empty();*/
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: khoa,
-            url: '/bo-mon/ds-bo-mon',
-            success: function (response) {
-                response = $.parseJSON(response);
-                $.each(response, function (i, item) {
-                    $('#select_BoMon').append($('<option>', {
-                        value: item.MaBoMon,
-                        text: item.TenBoMon
-                    }));
-                });
-                $("#select_BoMon").select2();
-                $("#select_BoMon").prop("selectedIndex", 0);
-                maBoMon = $("#select_BoMon option:selected").val();
-                tenBoMon = $("#select_BoMon option:selected").text();
-                init_Table_GV();
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-    }
-    function init_Select_HocVi() {
-        $("#select_HocVi").empty();
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: "",
-            url: '/hoc-vi/ds-hoc-vi',
-            success: function (response) {
-                response = $.parseJSON(response);
-                $.each(response, function (i, item) {
-                    $('#select_HocVi').append($('<option>', {
-                        value: item.MaHocVi,
-                        text: item.TenHocVi
-                    }));
-                });
-                $("#select_HocVi").prop("selectedIndex", 0);
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-    }
-
-    function init_Select_ChucVu() {
-        $("#select_ChucVu").empty();
-        $.ajax({
-            async: true,
-            type: 'POST',
-            url: '/chuc-vu/ds-chuc-vu',
-            success: function (response) {
-                response = $.parseJSON(response);
-                $.each(response, function (i, item) {
-                    $('#select_ChucVu').append($('<option>', {
-                        value: item.MaChucVu,
-                        text: item.TenChucVu
-                    }));
-                });
-                $("#select_ChucVu").prop("selectedIndex", 0);
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-    }
     document.getElementById('select_BoMon').addEventListener('change', function () {
         maBoMon = this.value;
         tenBoMon = this.text;
         init_Table_GV();
     });
-    init_Table_GV = function init_Table_GV() {
-        table_GV.clear().draw();
-        var boMon = {
-            MaBoMon: maBoMon, TenBoMon: tenBoMon
-        };
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: boMon,
-            url: '/giangvien/ds-giang-vien',
-            success: function (response) {
-                response = $.parseJSON(response);
-                var rowCount = 0;
-                $.each(response, function (i, item) {
-                    table_GV.row.add([item.MaGiangVien, item.Ho, item.Ten, item.HocVi, item.ChucVu, item.ChucDanh, item.GioiTinh, item.NgaySinh.split('T')[0], item.DiaChi, item.Sdt, item.GVCoHuu]).draw(false);
-                    if (item.GioiTinh == 1) {
-                        table_GV.cell(rowCount, 6).data("Nam");
-                    }
-                    else {
-                        table_GV.cell(rowCount, 6).data("Nữ");
-                    }
-                    if (item.ChucDanh.trim() == "GV") {
-                        table_GV.cell(rowCount, 5).data("Giảng viên");
-                    }
-                    else if (item.ChucDanh.trim() == "GVC") {
-                        table_GV.cell(rowCount, 5).data("Giảng viên chính");
-                    }
-                    else {
-                        table_GV.cell(rowCount, 5).data("Giảng viên cao cấp");
-
-                    }
-                    rowCount++;
-                });
-
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-    }
     init_Select_HocVi();
     init_Select_ChucVu()
     table_Khoa.columns(0).visible(false);
@@ -310,7 +174,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_HocVi").value = response;
-                $('#select_HocVi').trigger('change'); 
+                $('#select_HocVi').trigger('change');
                 maHocVi = response;
                 console.log(response);
             },
@@ -328,7 +192,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_ChucDanh").value = response;
-                $('#select_ChucDanh').trigger('change'); 
+                $('#select_ChucDanh').trigger('change');
                 maChucDanh = response;
                 console.log("Chức danh: " + response);
             },
@@ -346,7 +210,7 @@ $(document).ready(function () {
             success: function (response) {
                 response = $.parseJSON(response);
                 document.getElementById("select_ChucVu").value = response;
-                $('#select_ChucVu').trigger('change'); 
+                $('#select_ChucVu').trigger('change');
                 maChucVu = response;
             },
             error: function () {
@@ -370,174 +234,12 @@ $(document).ready(function () {
         });
         $("#btnThemGV").click(function (e) {
             $("#modalAddGV").modal("show");
-            
+
         });
         $("#btnClose").click(function (e) {
             $("#modalAddGV").modal("hide");
         });
     });
-    function saveGiangVien() {
-        var ma = $("#maGV").val();
-        var ho = $("#ho").val();
-        var ten = $("#ten").val();
-        var hocVi = $("#select_HocVi").val();
-        var chucVu = $("#select_ChucVu").val();
-        var chucDanh = $("#select_ChucDanh").val();
-        var gioiTinh = $("#select_GioiTinh").val();
-        var ngaySinh = $("#ngaySinh").val();
-        var diaChi = $("#diaChi").val();
-        var gvCoHuu = true;
-        var sdt = $("#sdt").val();
-        if ($("#gvCoHuu").prop('checked')) {
-            gvCoHuu = true;
-        }
-        else {
-            gvCoHuu = false;
-        }
-        var gv = {
-            MaGiangVien: ma, Ho: ho, Ten: ten, HocVi: hocVi, ChucDanh: chucDanh, GioiTinh: gioiTinh, NgaySinh: ngaySinh,
-            DiaChi: diaChi, Sdt: sdt, GVCoHuu: gvCoHuu, MaBoMon: maBoMon, ChucVu: chucVu, TrangThaiXoa: false
-        };
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: gv,
-            url: '/giangvien/add',
-            success: function (response) {
-                if (response.result == true) {
-                    toastr.success("Thêm thành công", "Thông báo", { timeOut: 3000 });
-                    init_Table_GV();
-                    $('#modalAddGV').modal('hide');
-                    //      var Modal = document.getElementsByClassName("modal-backdrop fade in");
-                    //      Modal[0].style.display = "none";
-                    //    Modal[1].style.display = "none";
-                    //   var form = document.getElementsById("formAddGV");
-                    // form.style.display = "none";
-                    //       var ModalDialog = document.getElementsByClassName("modal-dialog");
-                    //     ModalDialog.style.display = "none !important";
-
-
-
-
-                } else {
-                    toastr.error(response.data, "Lỗi", { timeOut: 3000 });
-                    return;
-                }
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-        if (ma == null || ma == "") {
-            $("#maGV").focus();
-            return;
-        }
-        if (ho == null || ho == "") {
-            $("#ho").focus();
-            return;
-        }
-        if (ten == null || ten == "") {
-            $("#ten").focus();
-            return;
-        }
-        if (chucDanh == null || chucDanh == "") {
-            $("#chucDanh").focus();
-            return;
-        }
-
-    }
-    function editGiangVien() {
-        maGVEdit = $("#maGV").val().trim();
-        var ho = $("#ho").val();
-        var ten = $("#ten").val();
-        var hocVi = $("#select_HocVi").val();
-        if (hocVi.trim() == maHocVi.trim()) {
-            hocVi = "false";
-        }
-        var chucVu = $("#select_ChucVu").val();
-        if (chucVu.trim() == maChucVu.trim()) {
-            chucVu = "false";
-        }
-        var chucDanh = $("#select_ChucDanh").val();
-        var gioiTinh = $("#select_GioiTinh").val();
-        var ngaySinh = $("#ngaySinh").val();
-        var diaChi = $("#diaChi").val();
-        var gvCoHuu = "true";
-        var sdt = $("#sdt").val();
-        if ($("#gvCoHuu").prop('checked')) {
-            gvCoHuu = true;
-        }
-        else {
-            gvCoHuu = false;
-        }
-        var checkBox = document.getElementById("checkbox_ChuyenBoMon");
-        var maBoMonChuyen = "";
-        if ($("#checkbox_ChuyenBoMon").prop('checked')) {
-            maBoMonChuyen = $("#select_ChuyenBoMon").val();
-        }
-        else {
-            maBoMonChuyen = maBoMon;
-        }
-        var gv = {
-            MaGiangVien: maGV.trim() + " " + maGVEdit, Ho: ho, Ten: ten, HocVi: hocVi, ChucDanh: chucDanh, GioiTinh: gioiTinh, NgaySinh: ngaySinh,
-            DiaChi: diaChi, Sdt: sdt, GVCoHuu: gvCoHuu, MaBoMon: maBoMonChuyen, ChucVu: chucVu, TrangThaiXoa: false
-        };
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: gv,
-            url: '/giangvien/edit',
-            success: function (response) {
-                if (response.result == true) {
-                    toastr.success(response.data, "Thông báo", { timeOut: 3000 });
-                    init_Table_GV();
-                    $('#modalAddGV').modal('hide');
-                    $("#select_ChuyenBoMon").empty();
-                    $("#checkbox_ChuyenBoMon").prop("checked", false);
-                    document.getElementById("select_ChuyenBoMon").style.display = "none";
-                    document.getElementById("label_SelectCBM").style.display = "none";
-                    //      var Modal = document.getElementsByClassName("modal-backdrop fade in");
-                    //      Modal[0].style.display = "none";
-                    //    Modal[1].style.display = "none";
-                    //   var form = document.getElementsById("formAddGV");
-                    // form.style.display = "none";
-                    //       var ModalDialog = document.getElementsByClassName("modal-dialog");
-                    //     ModalDialog.style.display = "none !important";
-
-
-
-
-                } else {
-                    toastr.error(response.data, "Lỗi", { timeOut: 3000 });
-                    return;
-                }
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
-        });
-        if (ma == null || ma == "") {
-            $("#maGV").focus();
-            return;
-        }
-        if (ho == null || ho == "") {
-            $("#ho").focus();
-            return;
-        }
-        if (ten == null || ten == "") {
-            $("#ten").focus();
-            return;
-        }
-        if (chucDanh == null || chucDanh == "") {
-            $("#chucDanh").focus();
-            return;
-        }
-
-    }
-    function myFunction() {
-        document.getElementById("ngaySinh").defaultValue = "1970/1/1";
-
-    }
     $(document).ready(function () {
         // Open modal on page load
         $("#btnAdd").click(function () {
@@ -587,11 +289,16 @@ $(document).ready(function () {
             };
         });
     });
-    $('select').select2({
+    $('#select_ChucDanh').select2({
         dropdownParent: $('#modalAddGV'),
     });
-    $('#select_ChuyenBoMon').select2('destroy');
-    $('#select_GioiTinh').select2('destroy');
+    $('#select_ChucVu').select2({
+        dropdownParent: $('#modalAddGV'),
+    });
+    $('#select_HocVi').select2({
+        dropdownParent: $('#modalAddGV'),
+    });
+    $('#select_BoMon').select2();
     document.getElementById("select_ChuyenBoMon").style.display = "none";
 
 
@@ -658,5 +365,289 @@ function chuyenBoMon() {
 function onChangeSelect(event) {
     maBoMon = $("#select_BoMon option:selected").val();
     tenBoMon = $("#select_BoMon option:selected").text();
-    init_Table_GV;
+    init_Table_GV();
+}
+function init_Table_GV() {
+    table_GV.clear().draw();
+    var boMon = {
+        MaBoMon: maBoMon, TenBoMon: tenBoMon
+    };
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: boMon,
+        url: '/giangvien/ds-giang-vien',
+        success: function (response) {
+            response = $.parseJSON(response);
+            var rowCount = 0;
+            $.each(response, function (i, item) {
+                table_GV.row.add([item.MaGiangVien, item.Ho, item.Ten, item.HocVi, item.ChucVu, item.ChucDanh, item.GioiTinh, item.NgaySinh.split('T')[0], item.DiaChi, item.Sdt, item.GVCoHuu]).draw(false);
+                if (item.GioiTinh == 1) {
+                    table_GV.cell(rowCount, 6).data("Nam");
+                }
+                else {
+                    table_GV.cell(rowCount, 6).data("Nữ");
+                }
+                if (item.ChucDanh.trim() == "GV") {
+                    table_GV.cell(rowCount, 5).data("Giảng viên");
+                }
+                else if (item.ChucDanh.trim() == "GVC") {
+                    table_GV.cell(rowCount, 5).data("Giảng viên chính");
+                }
+                else {
+                    table_GV.cell(rowCount, 5).data("Giảng viên cao cấp");
+
+                }
+                rowCount++;
+            });
+
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function init_Select_ChucVu() {
+    $("#select_ChucVu").empty();
+    $.ajax({
+        async: true,
+        type: 'POST',
+        url: '/chuc-vu/ds-chuc-vu',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $.each(response, function (i, item) {
+                $('#select_ChucVu').append($('<option>', {
+                    value: item.MaChucVu,
+                    text: item.TenChucVu
+                }));
+            });
+            $("#select_ChucVu").prop("selectedIndex", 0);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function init_Select_BoMon() {
+    $('#select_BoMon').empty();
+    var khoa = {
+        MaKhoa: maKhoa, TenKhoa: tenKhoa
+    };
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: khoa,
+        url: '/bo-mon/ds-bo-mon',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $.each(response, function (i, item) {
+                $('#select_BoMon').append($('<option>', {
+                    value: item.MaBoMon,
+                    text: item.TenBoMon
+                }));
+            });
+            $("#select_BoMon").prop("selectedIndex", 0);
+            maBoMon = $("#select_BoMon option:selected").val();
+            tenBoMon = $("#select_BoMon option:selected").text();
+            init_Table_GV();
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function init_Table_Khoa() {
+    $.ajax({
+        async: true,
+        type: 'GET',
+        url: '/khoa/ds-khoa',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $.each(response, function (i, item) {
+                table_Khoa.row.add([item.MaKhoa, item.TenKhoa]).draw(false);
+            });
+            $("#TenKhoa").val(table_Khoa.cell(0, 1).data());
+            $("#MaKhoa").val(table_Khoa.cell(0, 0).data());
+            maKhoa = table_Khoa.cell(0, 0).data();
+            tenKhoa = table_Khoa.cell(0, 1).data();
+            table_Khoa.rows(0).nodes().to$().addClass('selected');
+            init_Select_BoMon();
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function saveGiangVien() {
+    var ma = $("#maGV").val();
+    var ho = $("#ho").val();
+    var ten = $("#ten").val();
+    var hocVi = $("#select_HocVi").val();
+    var chucVu = $("#select_ChucVu").val();
+    var chucDanh = $("#select_ChucDanh").val();
+    var gioiTinh = $("#select_GioiTinh").val();
+    var ngaySinh = $("#ngaySinh").val();
+    var diaChi = $("#diaChi").val();
+    var gvCoHuu = true;
+    var sdt = $("#sdt").val();
+    if ($("#gvCoHuu").prop('checked')) {
+        gvCoHuu = true;
+    }
+    else {
+        gvCoHuu = false;
+    }
+    var gv = {
+        MaGiangVien: ma, Ho: ho, Ten: ten, HocVi: hocVi, ChucDanh: chucDanh, GioiTinh: gioiTinh, NgaySinh: ngaySinh,
+        DiaChi: diaChi, Sdt: sdt, GVCoHuu: gvCoHuu, MaBoMon: maBoMon, ChucVu: chucVu, TrangThaiXoa: false
+    };
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: gv,
+        url: '/giangvien/add',
+        success: function (response) {
+            if (response.result == true) {
+                toastr.success("Thêm thành công", "Thông báo", { timeOut: 3000 });
+                init_Table_GV();
+                $('#modalAddGV').modal('hide');
+                //      var Modal = document.getElementsByClassName("modal-backdrop fade in");
+                //      Modal[0].style.display = "none";
+                //    Modal[1].style.display = "none";
+                //   var form = document.getElementsById("formAddGV");
+                // form.style.display = "none";
+                //       var ModalDialog = document.getElementsByClassName("modal-dialog");
+                //     ModalDialog.style.display = "none !important";
+
+
+
+
+            } else {
+                toastr.error(response.data, "Lỗi", { timeOut: 3000 });
+                return;
+            }
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+    if (ma == null || ma == "") {
+        $("#maGV").focus();
+        return;
+    }
+    if (ho == null || ho == "") {
+        $("#ho").focus();
+        return;
+    }
+    if (ten == null || ten == "") {
+        $("#ten").focus();
+        return;
+    }
+    if (chucDanh == null || chucDanh == "") {
+        $("#chucDanh").focus();
+        return;
+    }
+
+}
+function editGiangVien() {
+    maGVEdit = $("#maGV").val().trim();
+    var ho = $("#ho").val();
+    var ten = $("#ten").val();
+    var hocVi = $("#select_HocVi").val();
+    if (hocVi.trim() == maHocVi.trim()) {
+        hocVi = "false";
+    }
+    var chucVu = $("#select_ChucVu").val();
+    if (chucVu.trim() == maChucVu.trim()) {
+        chucVu = "false";
+    }
+    var chucDanh = $("#select_ChucDanh").val();
+    var gioiTinh = $("#select_GioiTinh").val();
+    var ngaySinh = $("#ngaySinh").val();
+    var diaChi = $("#diaChi").val();
+    var gvCoHuu = "true";
+    var sdt = $("#sdt").val();
+    if ($("#gvCoHuu").prop('checked')) {
+        gvCoHuu = true;
+    }
+    else {
+        gvCoHuu = false;
+    }
+    var checkBox = document.getElementById("checkbox_ChuyenBoMon");
+    var maBoMonChuyen = "";
+    if ($("#checkbox_ChuyenBoMon").prop('checked')) {
+        maBoMonChuyen = $("#select_ChuyenBoMon").val();
+    }
+    else {
+        maBoMonChuyen = maBoMon;
+    }
+    var gv = {
+        MaGiangVien: maGV.trim() + " " + maGVEdit, Ho: ho, Ten: ten, HocVi: hocVi, ChucDanh: chucDanh, GioiTinh: gioiTinh, NgaySinh: ngaySinh,
+        DiaChi: diaChi, Sdt: sdt, GVCoHuu: gvCoHuu, MaBoMon: maBoMonChuyen, ChucVu: chucVu, TrangThaiXoa: false
+    };
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: gv,
+        url: '/giangvien/edit',
+        success: function (response) {
+            if (response.result == true) {
+                toastr.success(response.data, "Thông báo", { timeOut: 3000 });
+                init_Table_GV();
+                $('#modalAddGV').modal('hide');
+                $("#select_ChuyenBoMon").empty();
+                $("#checkbox_ChuyenBoMon").prop("checked", false);
+                document.getElementById("select_ChuyenBoMon").style.display = "none";
+                document.getElementById("label_SelectCBM").style.display = "none";
+
+            } else {
+                toastr.error(response.data, "Lỗi", { timeOut: 3000 });
+                return;
+            }
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+    if (ma == null || ma == "") {
+        $("#maGV").focus();
+        return;
+    }
+    if (ho == null || ho == "") {
+        $("#ho").focus();
+        return;
+    }
+    if (ten == null || ten == "") {
+        $("#ten").focus();
+        return;
+    }
+    if (chucDanh == null || chucDanh == "") {
+        $("#chucDanh").focus();
+        return;
+    }
+
+}
+function myFunction() {
+    document.getElementById("ngaySinh").defaultValue = "1970/1/1";
+}
+function init_Select_HocVi() {
+    $("#select_HocVi").empty();
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: "",
+        url: '/hoc-vi/ds-hoc-vi',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $.each(response, function (i, item) {
+                $('#select_HocVi').append($('<option>', {
+                    value: item.MaHocVi,
+                    text: item.TenHocVi
+                }));
+            });
+            $("#select_HocVi").prop("selectedIndex", 0);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
 }

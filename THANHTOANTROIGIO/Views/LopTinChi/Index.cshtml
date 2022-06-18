@@ -2,11 +2,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/js/jquery-3.6.0.js"></script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">*@
-
+ <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="~/css/bstreeview.css">
+<link rel="stylesheet" href="~/css/bootstrap-treeview.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
 <script src="~/lib/script/lop-tin-chi.js"></script>
 <style>
@@ -64,10 +65,33 @@
 
             <label for="fname">Khoa</label>
             <select onchange="onChange_Select_Khoa(event)" class="form-control" id="select_Khoa" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
-              <label for="fname">Giảng viên</label>
+              <label for="fname" id="label_GV">Giảng viên</label>
             <div class="form-control" id="tree_GV"></div>
         </div>
-        <div class="column" style="width:67%">
+        <div class="column" style="width:80%">
+              <label for="fname" id="titleLTC"></label>
+                <table id="table_LTC" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Tên LTC</th>
+                        <th>Môn học</th>
+                        <th>Sỉ số</th>
+                        <th>HS LT</th>
+                        <th>Nhóm TH</th>
+                        <th>HS TH</th>
+                        <th>LT TD</th>
+                        <th>BT TD</th>
+                        <th>TH TD</th>
+                        <th>Tiết LT QĐ</th>
+                        <th>Tiết TH QĐ</th>
+                        <th>Đơn giá</th>
+                        <th>Hệ lớp</th>
+                        <th>Bậc</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
