@@ -15,15 +15,15 @@ namespace THANHTOANTROIGIO.Helpers
         {
             if (obj.Equals("GiangVien"))
             {
-                using(var context=new ThanhToanTroiGioEntities())
+                using (var context = new ThanhToanTroiGioEntities())
                 {
                     var gv = context.GiangViens.Where(g => g.MaGiangVien.Trim() == id).FirstOrDefault();
                     return gv == null ? 0 : 1;
                 }
-               
+
             }
             return 0;
-           
+
         }
         public static string getNameByID(string id, string table_name)
         {
@@ -42,13 +42,13 @@ namespace THANHTOANTROIGIO.Helpers
 
         public static bool checkGVCoHuu(string maGV)
         {
-            using(var context=new ThanhToanTroiGioEntities())
+            using (var context = new ThanhToanTroiGioEntities())
             {
                 var GVCoHuu = context.GiangViens.Where(gv => gv.MaGiangVien == maGV).FirstOrDefault().GVCoHuu.ToString();
                 return Boolean.Parse(GVCoHuu);
 
             }
-           
+
         }
     }
 }

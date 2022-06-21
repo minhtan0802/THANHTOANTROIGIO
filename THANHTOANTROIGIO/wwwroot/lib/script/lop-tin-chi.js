@@ -110,7 +110,8 @@ function init_Select_NienKhoa() {
         }
     });
 }
-function init_Tree_GV() {
+function init_Tree_GV() 
+{
     $("#tree_GV").remove();
     $("#label_GV").after("<div class='form-control' id='tree_GV'></div>");
     var khoa = {
@@ -144,10 +145,12 @@ function init_Tree_GV() {
                     if (nodeTree != nodeCurrent) {
                         document.getElementById("titleLTC").innerHTML = "Danh sách lớp tín chỉ của GIẢNG VIÊN: " + item.innerHTML;
                         nodeCurrent.style.background = "#ccc";
+                        getListLTC();
                         console.log('Click happened for: ' + item.id);
                         if (nodeTree != null) {
                             nodeTree.style.background = "#ffffff"
                             nodeTree = item;
+
                         }
                         nodeTree = item;   
                     }
@@ -156,6 +159,29 @@ function init_Tree_GV() {
                     }
                 });
             });
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function getListLTC() {
+    alert("Hello");
+    var LTCGetModel = {
+        MaNKHK: maHocKy, MaGV: maGV
+    };
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: LTCGetModel,
+        url: '/lop-tin-chi',
+        success: function (response) {
+            response = $.parseJSON(response);
+            var rowCount = 0;
+            $.each(response, function (i, item) {
+                table_LTC.row.add([item.MaLTC, item.TenLTC, item.TenMonHoc,item.SiSo, item.HSLopDongLT,item.SoNhomTH,item.HeSoLopDongTH,item.TietLTTD,item.TietBTTD,item.TietTHTD,item.TietLTQD,item.TietBTQD,item.THQD,item.DonGia, item.TenHeLop,item.TenBac]).draw(false);  
+            });
+
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

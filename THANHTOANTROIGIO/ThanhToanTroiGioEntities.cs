@@ -33,6 +33,7 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<ThayDoiHocVi>()
                .HasKey(c => new { c.MaGV, c.MaHocVi });
             modelBuilder.Entity<ThayDoiLoaiGV>().HasKey(c => new { c.MaGV, c.MaLoaiGV, c.NgayThayDoi });
+
         }
     }
 }
