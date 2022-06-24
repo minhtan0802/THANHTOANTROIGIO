@@ -2,14 +2,14 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">*@
- <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="~/css/bstreeview.css">
 <link rel="stylesheet" href="~/css/bootstrap-treeview.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
-<script src="~/lib/script/lop-tin-chi.js"></script>
+<script src="~/lib/script/lop-tin-chi3.js"></script>
 <style>
     * {
         box-sizing: border-box;
@@ -65,14 +65,163 @@
 
             <label for="fname">Khoa</label>
             <select onchange="onChange_Select_Khoa(event)" class="form-control" id="select_Khoa" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
-              <label for="fname" id="label_GV">Giảng viên</label>
+            <label for="fname" id="label_GV">Giảng viên</label>
             <div class="form-control" id="tree_GV"></div>
         </div>
         <div class="column" style="width:80%">
-              <label for="fname" id="titleLTC"></label>
-                <table id="table_LTC" class="display" style="width:100%">
+            <button type="button" class="btn btn-primary" id="btnAddLTC">
+                Thêm
+            </button>
+
+            <!-- Modal -->
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade modal-xl" id="modalAddLTC" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="label_LTC"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-4" id="formAddLTC" style="margin-bottom:20px">
+                                <div class="col-md-3" style="margin-top: 10px;">
+                                    <label for="inputTLC">Tên LTC</label>
+                                    <input type="text" class="form-control" id="tenLTC">
+                                </div>
+                                 <div class="col-md-3 " style="margin-top: 10px;">
+                                    <label for="validationDefault01" class="form-label">Môn học</label>
+                                    <select class="form-control" id="monHoc"  style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS học kỳ</label>
+                                    <input type="number" class="form-control" id="hsHocKy">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS LTC</label>
+                                    <input type="number" class="form-control" id="hsLTC">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Thanh toán</label>
+                                    <input type="number" class="form-control" id="thanhToan" readonly>
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS bậc</label>
+                                    <input type="number" class="form-control" id="hsBac">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Hệ lớp</label>
+                                    <input type="number" class="form-control" id="heLop">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS Hệ lớp</label>
+                                    <input type="number" class="form-control" id="hsHeLop">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <br />
+                                    <input type="checkbox" id="lopDem" onclick="LopDem()">
+                                    <label for="validationDefault01" class="form-label">Lớp đêm</label>
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS lớp đêm</label>
+                                    <input type="number" class="form-control" id="hsLopDem" value="1.0" readonly>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <br />
+                                    <input type="checkbox" id="monMoi" onclick="MonMoi()">
+                                    <label for="validationDefault01" class="form-label">Môn mới</label>
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS môn mới</label>
+                                    <input type="number" class="form-control" id="hsMonMoi"  value="1.0" readonly>
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Đơn giá</label>
+                                    <input type="number" class="form-control" id="donGia">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Sỉ số</label>
+                                    <input type="number" class="form-control" id="siSo">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS lớp đông LT</label>
+                                    <input type="number" class="form-control" id="hsLDLT">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Số nhóm TH</label>
+                                    <input type="number" class="form-control" id="soNhomTH">
+                                </div>
+
+                                <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS nhóm TH</label>
+                                    <input type="number" class="form-control" id="hsNhomTH">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">HS lớp đông TH</label>
+                                    <input type="number" class="form-control" id="hsLDTH">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Tiết LT QĐ</label>
+                                    <input type="number" class="form-control" id="tietLTQD">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Thực dạy</label>
+                                    <input type="number" class="form-control" id="ltTD">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Tiết BT QĐ</label>
+                                    <input type="number" class="form-control" id="tietBTQD">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Thực dạy</label>
+                                    <input type="number" class="form-control" id="btTD">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Tiết TH QĐ</label>
+                                    <input type="number" class="form-control" id="tietTHQD">
+                                </div>
+
+                                 <div class="col-md-2" style="margin-top: 10px;">
+                                    <label for="inputTLC">Thực dạy</label>
+                                    <input type="number" class="form-control" id="thTD">
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="btnCloseLTC">Thoát</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveLTC">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label for="fname" id="titleLTC"></label>
+            <table id="table_LTC" class="display" style="width:100%">
                 <thead>
                     <tr>
+                        <th>Mã LTC</>
                         <th>Tên LTC</th>
                         <th>Môn học</th>
                         <th>Sỉ số</th>
@@ -88,6 +237,8 @@
                         <th>Đơn giá</th>
                         <th>Hệ lớp</th>
                         <th>Bậc</th>
+                        <th>Chỉnh sửa</th>
+                        <th>Xóa</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">

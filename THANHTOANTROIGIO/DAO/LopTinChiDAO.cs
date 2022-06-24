@@ -14,7 +14,7 @@ namespace THANHTOANTROIGIO.DAO
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@MaNKHK", MaNKHK));
                 param.Add(new SqlParameter("@MaGV", MaGV));
-                var list = context.GiangViens.FromSqlRaw("EXEC getLTC", param).ToList();
+                var list = context.LopTinChiViewModels.FromSqlRaw("EXEC [dbo].[getLTC] '" + MaNKHK+"','"+MaGV+"'",param.ToArray()).ToList();
                 return list;
             }
         }

@@ -33,20 +33,21 @@ namespace THANHTOANTROIGIO.Models
     }
     public class LopTinChiViewModel
     {
-        public String MaLTC { get; set; }
+        [Key]
+        public int MaLTC { get; set; }
         public String TenLTC { get; set; }
         public String TenMonHoc { get; set; }
-        public double SiSo { get; set; }
+        public int SiSo { get; set; }
         public double HSLopDongLT { get; set; }
         public int SoNhomTH { get; set; }
-        public double HeSoLopDongTH { get; set; }
+        public double HSLopDongTH { get; set; }
         public double TietLTTD { get; set; }
         public double TietBTTD { get; set; }
         public double TietTHTD { get; set; }
         public double TietLTQD { get; set; }
         public double TietBTQD { get; set; }
         public double TietTHQD { get; set; }
-        public double DonGia { get; set; }
+        public int DonGia { get; set; }
         public String TenHeLop { get; set; }
         public String TenBac { get; set; }
 

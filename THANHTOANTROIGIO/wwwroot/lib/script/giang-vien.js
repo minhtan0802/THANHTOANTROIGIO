@@ -218,9 +218,6 @@ $(document).ready(function () {
                 console.log(response);
             }
         });
-
-
-
     });
     $(document).ready(function () {
         $("#btnSave").click(function (e) {
@@ -308,7 +305,6 @@ function editFunction() {
     $("#checkbox_ChuyenBoMon").prop("checked", false);
     document.getElementById("select_ChuyenBoMon").style.display = "none";
     document.getElementById("label_SelectCBM").style.display = "none";
-
 }
 function clearFormAddGV() {
     $("#maGV").val("");

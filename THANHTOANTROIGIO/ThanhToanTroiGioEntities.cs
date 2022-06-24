@@ -16,6 +16,8 @@ namespace THANHTOANTROIGIO
         public DbSet<ThayDoiHocVi>? ThayDoiHocVis { get; set; }
         public DbSet<ThayDoiLoaiGV>? ThayDoiLoaiGVs { get; set; }
         public DbSet<NienKhoaHocKy>? NienKhoaHocKys { get; set; }
+        public DbSet<MonHoc>? MonHocs { get; set; }
+        public DbSet<LopTinChiViewModel>? LopTinChiViewModels { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
