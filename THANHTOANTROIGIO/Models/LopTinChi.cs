@@ -9,7 +9,7 @@ namespace THANHTOANTROIGIO.Models
         [Key]
         public int MaLTC { get; set; }
         public String TenLTC { get; set; }
-        public double SiSo { get; set; }
+        public int SiSo { get; set; }
         public int SoNhomTH { get; set; }
         public double TietBTQD  { get; set; }
         public double TietBTTD{ get; set; }
@@ -17,17 +17,18 @@ namespace THANHTOANTROIGIO.Models
         public double TietLTTD { get; set; }
         public double TietTHQD { get; set; }
         public double TietTHTD { get; set; }
-        public double DonGia { get; set; }
+        public int DonGia { get; set; }
         public double HSMonMoi { get; set; }
         public double HSNgoaiGio { get; set; }
         public double HSLopDongLT { get; set; }
         public double HSLopDongTH { get; set; }
         public double HSLTC { get; set; }
+        public double HSHocKy { get; set; }
         public String MaMon { get; set; }
-        public double HeSoBac { get; set; }
+        public double HSBac { get; set; }
         public String MaBac { get; set; }
-        public double HeSoHeLop { get; set; }
-        public double MaHeLop { get; set; }
+        public double HSHeLop { get; set; }
+        public String MaHeLop { get; set; }
         public String MaGV { get; set; }
         public String MaNKHK { get; set; }
     }

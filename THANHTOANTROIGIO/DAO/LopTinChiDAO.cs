@@ -18,5 +18,13 @@ namespace THANHTOANTROIGIO.DAO
                 return list;
             }
         }
+        public static LopTinChi getLTC(int maLTC)
+        {
+            using (var context = new ThanhToanTroiGioEntities())
+            {
+                var ltc = context.LopTinChis.Where(x => x.MaLTC == maLTC).FirstOrDefault();
+                return ltc;
+            }
+        }
     }
 }

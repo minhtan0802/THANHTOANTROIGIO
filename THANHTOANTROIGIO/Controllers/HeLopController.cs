@@ -5,26 +5,26 @@ using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [Route("mon-hoc")]
-    public class MonHocController : Controller
+    [Route("he-lop")]
+    public class HeLopController : Controller
     {
         [Route("")]
         public IActionResult Index()
         {
             return View();
         }
-        [Route("ds-mon-hoc")]
+        [Route("ds-he-lop")]
         [HttpPost]
-        public JsonResult getDSMonHoc()
+        public JsonResult getDSHeLop()
         {
-            var data = MonHocDAO.getDSMonHoc();
+            var data = HeLopDAO.getDSHeLop();
             return Json(JsonConvert.SerializeObject(data));
         }
-        [Route("by-ma-mon")]
+        [Route("he-so")]
         [HttpPost]
-        public JsonResult getDSMonHocByMaMon(MonHoc model)
+        public JsonResult getHeSoHeLop(HeLop model)
         {
-            var data = MonHocDAO.getMonHoc(model.MaMonHoc.Trim());
+            var data = HeLopDAO.getHeSoHeLopByMaHeLop(model.MaHeLop);
             return Json(JsonConvert.SerializeObject(data));
         }
     }

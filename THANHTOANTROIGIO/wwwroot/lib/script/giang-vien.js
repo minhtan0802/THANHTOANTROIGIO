@@ -26,10 +26,7 @@ $(document).ready(function () {
     document.getElementById("title").innerHTML = "Nhập dữ liệu - GIẢNG VIÊN";
     $("#select_ChucDanh").prop("selectedIndex", 0);
     table_Khoa = $("#table_Khoa").DataTable();
-    $("#modalLoading").modal('show')
-    setTimeout(function () {
-        $("#modalLoading").modal('hide')
-    }, 2500)
+    loading();
     init_Table_Khoa();
 
     table_GV = $('#table_GV').DataTable({
@@ -254,7 +251,6 @@ $(document).ready(function () {
     });
     $('#table_GV').on('click', 'td.editor-delete', function () {
         maGV = table_GV.cell(this, 0).data();
-        alert(maGV);
         var gv = {
             MaGiangVien: maGV, Ho: "", Ten: "", HocVi: "", ChucDanh: "", GioiTinh: true, NgaySinh: "1970-1-1",
             DiaChi: "", Sdt: "", GVCoHuu: true, MaBoMon: "", ChucVu: "", TrangThaiXoa: true
@@ -274,7 +270,7 @@ $(document).ready(function () {
                     data: gv,
                     url: '/giangvien/delete',
                     success: function (response) {
-                        if (response.result == true) {
+                        if (response.success == true) {
                             toastr.success(response.data, "Thông báo", { timeOut: 3000 });
                             init_Table_GV();
                         } else {
@@ -630,6 +626,7 @@ function init_Select_HocVi() {
     $.ajax({
         async: true,
         type: 'POST',
+        type: 'POST',
         data: "",
         url: '/hoc-vi/ds-hoc-vi',
         success: function (response) {
@@ -641,6 +638,28 @@ function init_Select_HocVi() {
                 }));
             });
             $("#select_HocVi").prop("selectedIndex", 0);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function loading() {
+    $.ajax({
+        async: true,
+        type: 'GET',
+        data: "",
+        url: '/loading/giang-vien',
+        success: function (response) {
+            response = $.parseJSON(response);
+            if (response == 1) {
+                $("#modalLoading").modal('show');
+                setTimeout(function () {
+                    $("#modalLoading").modal('hide')
+                }, 2500)
+
+            }
+
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

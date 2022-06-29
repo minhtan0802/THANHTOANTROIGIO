@@ -17,7 +17,14 @@ namespace THANHTOANTROIGIO
         public DbSet<ThayDoiLoaiGV>? ThayDoiLoaiGVs { get; set; }
         public DbSet<NienKhoaHocKy>? NienKhoaHocKys { get; set; }
         public DbSet<MonHoc>? MonHocs { get; set; }
+        public DbSet<BacHoc>? BacHocs { get; set; }
+        public DbSet<ThayDoiHSBac>? ThayDoiHSBacs { get; set; }
         public DbSet<LopTinChiViewModel>? LopTinChiViewModels { get; set; }
+        public DbSet<LopTinChi>? LopTinChis { get; set; }
+        public DbSet<HeLop>? HeLops { get; set; }
+        public DbSet<ThayDoiHSHeLop>? ThayDoiHSHeLops { get; set; }
+        public DbSet<LopDongLyThuyet>? LopDongLyThuyets { get; set; }
+        public DbSet<LopDongThucHanh>? LopDongThucHanhs{ get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -35,6 +42,10 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<ThayDoiHocVi>()
                .HasKey(c => new { c.MaGV, c.MaHocVi });
             modelBuilder.Entity<ThayDoiLoaiGV>().HasKey(c => new { c.MaGV, c.MaLoaiGV, c.NgayThayDoi });
+            modelBuilder.Entity<ThayDoiHSBac>().HasKey(c => new { c.MaBac, c.MaGV, c.NgayApDung });
+            modelBuilder.Entity<ThayDoiHSHeLop>().HasKey(c => new { c.MaHeLop, c.MaGV, c.NgayApDung });
+            modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung});
+            modelBuilder.Entity<LopDongThucHanh>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
 
         }
     }

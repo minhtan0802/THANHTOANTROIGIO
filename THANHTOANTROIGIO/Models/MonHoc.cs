@@ -9,7 +9,8 @@ namespace THANHTOANTROIGIO.Models
         [Key]
         public String? MaMonHoc { get; set; }
         public String? TenMonHoc { get; set; }
-        public double TietTL { get; set; }
+        public double TietLT { get; set; }
+        public double TietBT { get; set; }
         public double TietTH { get; set; }
     }
 }

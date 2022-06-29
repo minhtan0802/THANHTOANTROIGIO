@@ -245,7 +245,7 @@ namespace THANHTOANTROIGIO.Controllers
                         context.Entry(model).State = EntityState.Modified;
                         context.SaveChanges();
                         List<SqlParameter> parameters = new List<SqlParameter>();
-                        context.Database.ExecuteSqlRaw("EXEC [dbo].[updateMaGV] '"+maGV+"','"+maGVEdit+"'",parameters);
+                        context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '"+maGV+"','"+maGVEdit+"','GiangVien'",parameters);
                         transaction.Commit();
                  
                     }

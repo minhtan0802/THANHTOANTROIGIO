@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="~/lib/sweet-alert/sweet_alert.js"></script>
+<script src="~/lib/script/bo-mon.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .column {
+        float: left;
+        width: 50%;
+        padding: 5px;
+    }
+
+    /* Clearfix (clear floats) */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    label {
+        font-weight: bold;
+    }
+</style>
+<div class=".container-fluid">
+    <div class="row" style="height:600px">
+        <div class="column" style="width: 30%; margin-left: 20px">
+            <div><label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;height: 100%;">DANH SÁCH KHOA</label></div>
+            <label for="fname">Mã khoa </label>
+            <input type="text" id="MaKhoa" name="fname" readonly="" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; margin-left: 3.5px"><br /><br />
+            <label for="fname">Tên khoa</label>
+            <input type="text" id="TenKhoa" name="fname" readonly="" style="border: 1px solid #aaa;border-radius: 3px;padding: 5px; background-color: transparent;"><br /><br />
+
+            <table id="table_Khoa" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Mã khoa</th>
+                        <th>Tên khoa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="column" style="width:67%">
+            <button type="button" class="btn btn-primary" id="btnAddBoMon">
+                Thêm
+            </button>
+
+            <!-- Modal -->
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade modal-sm" id="modalAddBoMon" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="titleAddBoMon"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-3" id="formAddBoMon" style="margin-bottom:20px">
+                                <div class="row-cols-2">
+                                    <label for="validationDefault01" class="form-label">Mã Bộ Môn</label>
+                                    <input type="text" class="form-control" id="maBoMon">
+                                </div>
+                                <div class="row-cols-2">
+                                    <label for="validationDefault01" class="form-label">Tên Bộ Môn</label>
+                                    <input type="text" class="form-control" id="tenBoMon">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="btnCloseBoMon">Thoát</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveBoMon">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalLoadingBoMon" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content" style="background-color:transparent !important; border:none !important">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />  <br />
+            <table id="table_BoMon" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Mã Bộ Môn</th>
+                        <th>Tên Bộ Môn</th>
+                        <th>Chỉnh sửa</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
