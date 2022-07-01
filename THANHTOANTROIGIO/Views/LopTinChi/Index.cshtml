@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/bootstrap-treeview.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
-<script src="~/lib/script/lop-tin-chi.js"></script>
+<script src="~/lib/script/lop-tin-chi3.js"></script>
 <style>
     * {
         box-sizing: border-box;
@@ -232,7 +232,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btnCloseLTC">Thoát</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveLTC" onclick="saveLTC()">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveLTC" onclick="saveLTC(false)">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveCloseLTC" onclick="saveLTC(true)">Lưu và thoát</button>
                         </div>
                     </div>
                 </div>

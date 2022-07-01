@@ -7,16 +7,38 @@ var nodeTree = null;
 var table_LTC;
 var maGV = "";
 var hocViLTC = "";
-var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc;
+var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc = "x";
 var maHocKyInt;
 var flag_Focus_Bac = 0;
 var flag_Focus_HeLop = 0;
 var table_LTC_rowIndex = 0;
-var maLTC = "";
+var maLTC = 0;
 var ltcAdd = null;
 var flagEdit = "";
 $(document).ready(function () {
     loading();
+    table_LTC = $("#table_LTC").DataTable({
+        'columnDefs': [
+            {
+                'targets': 16,
+                'className': "dt-center editor-edit",
+                'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
+                'orderable': false,
+                'searchable': false
+            },
+            {
+                'targets': 17,
+                'className': "dt-center editor-delete",
+                'defaultContent': '<button><i class="fa fa-trash"/></button>',
+                'orderable': false,
+                'searchable': false
+            },
+            {
+                'targets': 13,
+                'type': 'currency'
+            }
+        ]
+    });
     $('#btnAddLTC').attr('disabled', 'disabled');
     $('#hsNhomTH').val(0.5);
     flag_Focus_Bac++;
@@ -37,19 +59,13 @@ $(document).ready(function () {
     $(document).on('shown.bs.modal', '#modalAddLTC', function () {
         $('#tenLTC').focus();
     })
-    init_Select_MonHoc_LTC();
-    init_Select_HeLop();
-    init_Select_BacHoc();
-    if (maHocKyInt % 10 == 3) {
-        $('#hsHocKy').val(1.5);
-    }
-    else {
-        $('#hsHocKy').val(1.0);
-    }
+    initFormAdd();
     $("#btnAddLTC").click(function (e) {
         flagEdit = "";
         maLTC = 0;
+        initFormAdd();
         $("#modalAddLTC").modal("show");
+        getDonGia();
 
         $("#label_LTC").html("Thêm lớp tín chỉ");
 
@@ -58,23 +74,6 @@ $(document).ready(function () {
     init_Select_NienKhoa();
     init_Select_Khoa();
     init_Tree_GV();
-    table_LTC = $("#table_LTC").DataTable({
-        'columnDefs': [
-            {
-                'targets': 16,
-                'className': "dt-center editor-edit",
-                'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
-                'orderable': false,
-                'searchable': false
-            },
-            {
-                'targets': 17,
-                'className': "dt-center editor-delete",
-                'defaultContent': '<button><i class="fa fa-trash"/></button>',
-                'orderable': false,
-                'searchable': false
-            }]
-    });
     table_LTC.columns(0).visible(false);
     $('#table_LTC tbody').on('click', 'tr', function () {
         var index = table_LTC.row(this).index();
@@ -207,7 +206,9 @@ function onChange_Select_HeLop(event) {
 }
 function onChange_Select_MonHoc(event) {
     maMonHoc = $("#select_MonHoc").val();
+    tenMonHoc = $('#select_MonHoc option:selected').text();
     getSoTietMonHoc();
+    getDonGia();
 }
 
 /////
@@ -381,6 +382,7 @@ function getListLTC() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
+                item.DonGia = item.DonGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
                 table_LTC.row.add([item.MaLTC, item.TenLTC, item.TenMonHoc, item.SiSo, item.HSLopDongLT, item.SoNhomTH, item.HSLopDongTH, item.TietLTTD, item.TietBTTD, item.TietTHTD, item.TietLTQD, item.TietBTQD, item.TietTHQD, item.DonGia, item.TenHeLop, item.TenBac]).draw(false);
             });
         },
@@ -431,7 +433,7 @@ function init_Select_MonHoc_LTC() {
             });
             $("#select_MonHoc").prop("selectedIndex", 0);
             maMonHoc = $("#select_MonHoc").val();
-            tenMonHoc = $("#select_MonHoc").text();
+            tenMonHoc = $("#select_MonHoc option:selected").text();
             getSoTietMonHoc();
         },
         error: function () {
@@ -559,7 +561,7 @@ function getSoTietMonHoc() {
         }
     });
 }
-function saveLTC() {
+function saveLTC(close) {
     var tenLTC = $("#tenLTC").val();
     var hsHocKy = $('#hsHocKy').val();
     var hsLTC = $('#hsLTC').val();
@@ -574,7 +576,8 @@ function saveLTC() {
     if (!monMoi.checked) {
         hsMonMoi = 0;
     }
-    var hsHeLop = $('#hsHeLop').val();  
+    var hsHeLop = $('#hsHeLop').val();
+    var hsNhomTH = $('#hsNhomTH').val();
     var donGia = $('#donGia').val();
     var siSo = $('#siSo').val();
     var hsLDLT = $('#hsLDLT').val();
@@ -707,6 +710,7 @@ function saveLTC() {
         HSLopDongTH: hsLDTH,
         HSLTC: hsLTC,
         HSHocKy: hsHocKy,
+        HSNhomTH: hsNhomTH,
         MaMon: maMonHoc,
         HSBac: hsBac,
         MaBac: maBac,
@@ -715,15 +719,28 @@ function saveLTC() {
         MaGV: maGV,
         MaNKHK: maHocKy
     };
-    if (flagEdit = "") {
+    if (flagEdit == "") {
         $.ajax({
             async: true,
             type: 'POST',
             data: ltcAdd,
             url: '/lop-tin-chi/add',
             success: function (response) {
-                toastr.success('Thông báo', 'Thêm lớp tín chỉ thành công!', { timeOut: 3000 });
-                table_LTC.row.add([ltcAdd.MaLTC, ltcAdd.TenLTC, tenMon, ltcAdd.SiSo, ltcAdd.HSLopDongLT, ltcAdd.SoNhomTH, ltcAdd.HSLopDongTH, ltcAdd.TietLTTD, ltcAdd.TietBTTD, ltcAdd.TietTHTD, ltcAdd.TietLTQD, ltcAdd.TietBTQD, ltcAdd.TietTHQD, ltcAdd.DonGia, tenHeLop, tenBac]).draw(false);
+                console.log(response);
+                if (response.success == true) {
+                    toastr.success('Thông báo', 'Thêm lớp tín chỉ thành công!', { timeOut: 3000 });
+
+                    maLTC = JSON.parse(JSON.stringify(response.data)).maLTC;
+                    var donGia = parseInt(ltcAdd.DonGia.toString());
+                    donGia = donGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+                    table_LTC.row.add([maLTC, ltcAdd.TenLTC, tenMon, ltcAdd.SiSo, ltcAdd.HSLopDongLT, ltcAdd.SoNhomTH, ltcAdd.HSLopDongTH, ltcAdd.TietLTTD, ltcAdd.TietBTTD, ltcAdd.TietTHTD, ltcAdd.TietLTQD, ltcAdd.TietBTQD, ltcAdd.TietTHQD, donGia, tenHeLop, tenBac]).draw(false);
+                    if (close) {
+                        $('#modalAddLTC').modal('hide');
+                    }
+                }
+                else {
+                    toastr.error('Lỗi rồi ' + response.message, 'Error Alert', { timeOut: 3000 });
+                }
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -739,6 +756,12 @@ function saveLTC() {
             success: function (response) {
                 console.log('LTC: ' + JSON.stringify(ltcAdd));
                 toastr.success('Thông báo', 'Chỉnh sửa lớp tín chỉ thành công!', { timeOut: 3000 });
+                if (close) {
+                    $('#modalAddLTC').modal('hide');
+                }
+                var donGia = parseInt(ltcAdd.DonGia.toString());
+                donGia = donGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+
                 table_LTC.cell(this, 1).data(ltcAdd.TenLTC);
                 table_LTC.cell(this, 2).data(tenMon);
                 table_LTC.cell(this, 3).data(ltcAdd.SiSo);
@@ -751,7 +774,7 @@ function saveLTC() {
                 table_LTC.cell(this, 10).data(ltcAdd.TietLTQD);
                 table_LTC.cell(this, 11).data(ltcAdd.TietBTQD);
                 table_LTC.cell(this, 12).data(ltcAdd.TietTHQD);
-                table_LTC.cell(this, 13).data(ltcAdd.DonGia);
+                table_LTC.cell(this, 13).data(donGia);
                 table_LTC.cell(this, 14).data(tenHeLop);
                 table_LTC.cell(this, 15).data(tenBac);
             },
@@ -762,6 +785,7 @@ function saveLTC() {
     }
 }
 function editFunction() {
+    document.getElementById('btnSaveLTC').style.display = "none";
     $("#modalAddLTC").modal("show");
 }
 function onKeyUpSiSo() {
@@ -846,6 +870,41 @@ function loading() {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
+}
+
+function getDonGia() {
+    $.ajax({
+        async: false,//fix khi edit, chỉ chạy khi select môn thay đổi xong mới set giá từ DB
+        type: 'GET',
+        data: { maHocVi: hocViLTC, maGV: maGV, tenMon: tenMonHoc },
+        url: '/lop-tin-chi/don-gia',
+        success: function (response) {
+            response = $.parseJSON(response.data);
+            $('#donGia').val(response);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+}
+function initFormAdd() {
+    $('#tenLTC').val("");
+    $('#lopDem').prop('checked', false);
+    $('#monMoi').prop('checked', false);
+    $('#siSo').val(null);
+    $('#hsLDTH').val(null);
+    $('#soNhomTH').val(null);
+    $('#hsLDTH').val(null);
+
+    init_Select_MonHoc_LTC();
+    init_Select_HeLop();
+    init_Select_BacHoc();
+    if (maHocKyInt % 10 == 3) {
+        $('#hsHocKy').val(1.5);
+    }
+    else {
+        $('#hsHocKy').val('1');
+    }
 }
 
 

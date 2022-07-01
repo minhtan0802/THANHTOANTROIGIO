@@ -41,14 +41,16 @@ namespace THANHTOANTROIGIO.DAO
 
         public static string getChucDanhByMaGV(string maGiangVien)
         {
-            GiangVien gv = new GiangVien();
+            /* GiangVien gv = new GiangVien();
 
-            using (var ctx = new ThanhToanTroiGioEntities())
-            {
-                gv = (GiangVien)ctx.GiangViens
-                              .Where(s => s.MaGiangVien.Equals(maGiangVien.Trim())).FirstOrDefault();
-            }
-            return gv.ChucDanh.Trim();
+             using (var ctx = new ThanhToanTroiGioEntities())
+             {
+                 gv = (GiangVien)ctx.GiangViens
+                               .Where(s => s.MaGiangVien.Equals(maGiangVien.Trim())).FirstOrDefault();
+             }
+             return gv.ChucDanh.Trim();*/
+            var x = new SQLHelper().ExecuteString("SELECT ChucDanh From GiangVien Where MaGiangVien='" + maGiangVien + "'");
+            return x.Rows[0][0].ToString();
         }
         public static IEnumerable<Object> getDSGVByBoMon(string maKhoa)
         {

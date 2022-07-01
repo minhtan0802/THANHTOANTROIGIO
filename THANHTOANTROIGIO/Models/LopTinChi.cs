@@ -24,6 +24,7 @@ namespace THANHTOANTROIGIO.Models
         public double HSLopDongTH { get; set; }
         public double HSLTC { get; set; }
         public double HSHocKy { get; set; }
+        public double HSNhomTH { get; set; }
         public String MaMon { get; set; }
         public double HSBac { get; set; }
         public String MaBac { get; set; }

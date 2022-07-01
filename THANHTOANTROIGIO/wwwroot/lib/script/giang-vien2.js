@@ -31,10 +31,18 @@ $(document).ready(function () {
 
     table_GV = $('#table_GV').DataTable({
         "createdRow": function (row, data, dataIndex) {
+            $(row).attr('id', data[0].trim());
             if (data[10] == true) {
                 $(row).find("input[type='checkbox']")
                     .attr('checked', 'checked');
             }
+        },
+        "rowCallback": function (row, data) {
+            if (data[10] == true) {
+                $(row).find("input[type='checkbox']")
+                    .attr('checked', 'checked');
+            }
+ 
         },
         'columnDefs': [{
             'targets': 10,
@@ -144,11 +152,11 @@ $(document).ready(function () {
         var sdt = table_GV.cell(this, 9).data();
         var gvCoHuu = true;
         if (table_GV.cell(this, 10).data()) {
-            $("#gvCoHuu").attr('checked', 'checked');
+            $("#gvCoHuu").prop('checked', 'checked');
             maLoaiGV = true;
         }
         else {
-            $("#gvCoHuu").attr('checked', false);
+            $("#gvCoHuu").prop('checked', false);
             maLoaiGV = false;
         }
 
@@ -238,6 +246,7 @@ $(document).ready(function () {
         // Open modal on page load
         $("#btnAdd").click(function () {
             clearFormAddGV();
+            maGVEdit = "";
             $("#staticBackdropLabel").html("Thêm giảng viên");
             document.getElementById("checkbox_ChuyenBoMon").style.display = "none";
             document.getElementById("label_ChuyenBoMon").style.display = "none";
@@ -500,7 +509,23 @@ function saveGiangVien() {
         success: function (response) {
             if (response.result == true) {
                 toastr.success("Thêm thành công", "Thông báo", { timeOut: 3000 });
-                init_Table_GV();
+                var gvAdd = JSON.parse(JSON.stringify(response.data));
+              
+                var gioiTinh = "Nữ";
+                var chucDanh = "Giảng viên";
+                if (gvAdd.GioiTinh == 1) {
+                    gioiTinh = "Nam";
+                }
+                if (chucDanh == "GVC") {
+                    chucDanh = "Giảng viên chính";
+                }
+                else {
+                    chucDanh = "Giảng viên cao cấp";
+                }
+
+                table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);
+                /*  init_Table_GV();*/
+                /* table_GV.row.Add([]);*/
                 $('#modalAddGV').modal('hide');
                 //      var Modal = document.getElementsByClassName("modal-backdrop fade in");
                 //      Modal[0].style.display = "none";
@@ -583,11 +608,47 @@ function editGiangVien() {
         url: '/giangvien/edit',
         success: function (response) {
             if (response.result == true) {
-                toastr.success(response.data, "Thông báo", { timeOut: 3000 });
-                init_Table_GV();
+                toastr.success("Chỉnh sửa giảng viên thành công", "Thông báo", { timeOut: 3000 });
+                var gvAdd = JSON.parse(JSON.stringify(response.data));
+                var tenChucDanh = "Giảng viên";
+                var gioiTinh = "Nữ";
+                if (gvAdd.gioiTinh) {
+                    gioiTinh = "Nam";
+                }
+                if (gvAdd.chucDanh == 'GVC') {
+                    tenChucDanh = "Giảng viên chính";
+                }
+                else {
+                    tenChucDanh = "Giảng viên cao cấp";
+                }
+                maGV = gvAdd.maGiangVien;
+                table_GV.cell(this, 0).data(gvAdd.maGiangVien);
+                table_GV.cell(this, 1).data(gvAdd.ho);
+                table_GV.cell(this, 2).data(gvAdd.ten);
+                table_GV.cell(this, 3).data(gvAdd.hocVi);
+                table_GV.cell(this, 4).data(gvAdd.chucVu);
+                table_GV.cell(this, 5).data(tenChucDanh);
+                table_GV.cell(this, 6).data(gioiTinh);
+                table_GV.cell(this, 7).data(gvAdd.ngaySinh.split('T')[0]);
+                table_GV.cell(this, 8).data(gvAdd.diaChi);
+                table_GV.cell(this, 9).data(gvAdd.sdt);
+
+
+                table_GV.cell(this, 10).data(gvAdd.gvCoHuu);
+                if (gvAdd.gvCoHuu) {
+                    var x = $('tr#' + gvAdd.maGiangVien);
+                    $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', 'checked');
+                }
+                else {
+                    $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', false);
+                }
+               /* row.remove().draw();
+                table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);*/
+              
                 $('#modalAddGV').modal('hide');
                 $("#select_ChuyenBoMon").empty();
                 $("#checkbox_ChuyenBoMon").prop("checked", false);
+           /*     $("#gvCoHuu").prop('checked', false);*/
                 document.getElementById("select_ChuyenBoMon").style.display = "none";
                 document.getElementById("label_SelectCBM").style.display = "none";
 
@@ -600,7 +661,7 @@ function editGiangVien() {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
-    if (ma == null || ma == "") {
+    if (maGVEdit == null || maGVEdit == "") {
         $("#maGV").focus();
         return;
     }

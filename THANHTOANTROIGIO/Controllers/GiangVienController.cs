@@ -121,6 +121,7 @@ namespace THANHTOANTROIGIO.Controllers
 
                         context.SaveChanges();
                         transaction.Commit();
+                        return Json(new { result = true, data = model });
                     }
                     catch (Exception ex)
                     {
@@ -129,7 +130,7 @@ namespace THANHTOANTROIGIO.Controllers
                     }
                 }
             }
-            return Json(new { result = true, data = "Thêm giảng viên thành công" });
+          
         }
 
         [HttpPost]
@@ -244,6 +245,7 @@ namespace THANHTOANTROIGIO.Controllers
                         //     context.GiangViens.Add(model);
                         context.Entry(model).State = EntityState.Modified;
                         context.SaveChanges();
+                        model.MaGiangVien = maGVEdit;
                         List<SqlParameter> parameters = new List<SqlParameter>();
                         context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '"+maGV+"','"+maGVEdit+"','GiangVien'",parameters);
                         transaction.Commit();
@@ -256,7 +258,7 @@ namespace THANHTOANTROIGIO.Controllers
                     }
                 }
             }
-            return Json(new { result = true, data = "Chỉnh sửa giảng viên thành công" });
+            return Json(new { result = true, data = model });
         }
 
         [Route("delete")]
@@ -271,11 +273,11 @@ namespace THANHTOANTROIGIO.Controllers
                     gv.TrangThaiXoa = true;
                     context.Entry(gv).State = EntityState.Modified;
                     context.SaveChanges();
-                    return Json(new { result = true, data = "Xóa giảng viên thành công! " });
+                    return Json(new { success = true, data = "Xóa giảng viên thành công! " });
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { result = false, data = "Xóa giảng viên thất bại vì vi phạm khóa ngoại" });
+                    return Json(new { success = false, data = "Xóa giảng viên thất bại vì vi phạm khóa ngoại" });
                 }
 
             }

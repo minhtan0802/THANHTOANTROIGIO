@@ -29,6 +29,14 @@ namespace THANHTOANTROIGIO.Controllers
             var data = LopTinChiDAO.getLTC(maLTC);
             return Json(JsonConvert.SerializeObject(data));
         }
+
+        [Route("don-gia")]
+        [HttpGet]
+        public JsonResult getDonGiaGV(String maHocVi, String maGV, String tenMon)
+        {
+            var data = LopTinChiDAO.getDonGia(maHocVi.Trim(), maGV.Trim(), tenMon.Trim());
+            return Json(new { success = true, data = data });
+        }
         [Route("add")]
         [HttpPost]
         public JsonResult themLTC(LopTinChi model)
@@ -41,8 +49,7 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     context.LopTinChis.Add(model);
                     context.SaveChanges();
-                }
-                
+                } 
                 return Json(new { success = true, data = model });
             }
             catch (Exception ex)

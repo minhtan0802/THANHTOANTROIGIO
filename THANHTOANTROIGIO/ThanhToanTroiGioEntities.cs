@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO
 {
     public class ThanhToanTroiGioEntities : DbContext
     {
+        public static String connectionString;
         public DbSet<GiangVien>? GiangViens { get; set; }
         public DbSet<BoMon>? BoMons { get; set; }
         public DbSet<ChucVu>? ChucVus { get; set; }
@@ -32,6 +34,7 @@ namespace THANHTOANTROIGIO
                 .AddJsonFile("appsettings.json")
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
