@@ -23,7 +23,7 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-giang-vien")]
         public JsonResult AjaxMethod_GV(BoMon model)
         {
-            var data = GiangVienDAO.getListGiangVien(model.MaBoMon);
+            var data = GiangVienDAO.getListGiangVien(model.MaBoMon.Trim());
             return Json(JsonConvert.SerializeObject(data));
         }
 
@@ -241,9 +241,19 @@ namespace THANHTOANTROIGIO.Controllers
                             thayDoiBoMon.MaGV = maGV;
                             context.ThayDoiBoMons.Add(thayDoiBoMon);
                         }
-
+                      
+                        gv.ChucDanh = model.ChucDanh;
+                        gv.ChucVu = model.ChucVu;
+                        gv.GVCoHuu = model.GVCoHuu;
+                        gv.NgaySinh = model.NgaySinh;
+                        gv.HocVi = model.HocVi;
+                        gv.DiaChi = model.DiaChi;
+                        gv.Ho = model.Ho;
+                        gv.MaBoMon = model.MaBoMon;
+                        gv.GioiTinh = model.GioiTinh;
+                        gv.Ten = model.Ten;
                         //     context.GiangViens.Add(model);
-                        context.Entry(model).State = EntityState.Modified;
+                        context.Entry(gv).State = EntityState.Modified;
                         context.SaveChanges();
                         model.MaGiangVien = maGVEdit;
                         List<SqlParameter> parameters = new List<SqlParameter>();

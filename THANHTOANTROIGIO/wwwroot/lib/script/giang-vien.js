@@ -28,52 +28,7 @@ $(document).ready(function () {
     table_Khoa = $("#table_Khoa").DataTable();
     loading();
     init_Table_Khoa();
-
-    table_GV = $('#table_GV').DataTable({
-        "createdRow": function (row, data, dataIndex) {
-            $(row).attr('id', data[0].trim());
-            if (data[10] == true) {
-                $(row).find("input[type='checkbox']")
-                    .attr('checked', 'checked');
-            }
-        },
-        'columnDefs': [{
-            'targets': 10,
-            'searchable': false,
-            'orderable': false,
-            'className': 'dt-body-center',
-            'render': function (data, type, full, meta) {
-                return '<input type="checkbox" name="id[]" onclick="return false;" value=" ' + $('<div/>').text(data).html() + '">';
-            }
-        }, {
-            'targets': 11,
-            'className': "dt-center editor-edit",
-            'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
-            'orderable': false,
-            'searchable': false
-        },
-        {
-            'targets': 12,
-            'className': "dt-center editor-delete",
-            'defaultContent': '<button><i class="fa fa-trash"/></button>',
-            'orderable': false,
-            'searchable': false
-        },
-        {
-            'targets': 7,
-            'width': "20%"
-        },
-        {
-            'targets': 5,
-            'width': "20%"
-        },
-        {
-            'targets': 3,
-            'width': "20%"
-        }
-        ]
-    }
-    );
+    table_GV = $("#table_GV").DataTable();
     document.getElementById('select_BoMon').addEventListener('change', function () {
         maBoMon = this.value;
         tenBoMon = this.text;
@@ -82,7 +37,7 @@ $(document).ready(function () {
     init_Select_HocVi();
     init_Select_ChucVu()
     table_Khoa.columns(0).visible(false);
-    table_GV.columns(0).visible(false);
+    /* table_GV.columns(0).visible(false);*/
 
     $('#table_Khoa tbody').on('click', 'tr', function () {
         var index = table_Khoa.row(this).index();
@@ -98,7 +53,6 @@ $(document).ready(function () {
             //   alert('Row index: ' + table_Khoa.row(this).index());
         }
     });
-    table_GV.clear().draw();
     $('#table_GV tbody').on('click', 'tr', function () {
         var index = table_GV.row(this).index();
         if ($(this).hasClass('selected') && table_GV_rowIndex != index) {
@@ -362,44 +316,209 @@ function onChangeSelect(event) {
     init_Table_GV();
 }
 function init_Table_GV() {
-    table_GV.clear().draw();
+    table_GV.destroy();
     var boMon = {
         MaBoMon: maBoMon, TenBoMon: tenBoMon
     };
     $.ajax({
-        async: true,
+        async: false,
         type: 'POST',
         data: boMon,
         url: '/giangvien/ds-giang-vien',
         success: function (response) {
-            response = $.parseJSON(response);
-            var rowCount = 0;
-            $.each(response, function (i, item) {
-                table_GV.row.add([item.MaGiangVien, item.Ho, item.Ten, item.HocVi, item.ChucVu, item.ChucDanh, item.GioiTinh, item.NgaySinh.split('T')[0], item.DiaChi, item.Sdt, item.GVCoHuu]).draw(false);
-                if (item.GioiTinh == 1) {
-                    table_GV.cell(rowCount, 6).data("Nam");
-                }
-                else {
-                    table_GV.cell(rowCount, 6).data("Nữ");
-                }
-                if (item.ChucDanh.trim() == "GV") {
-                    table_GV.cell(rowCount, 5).data("Giảng viên");
-                }
-                else if (item.ChucDanh.trim() == "GVC") {
-                    table_GV.cell(rowCount, 5).data("Giảng viên chính");
-                }
-                else {
-                    table_GV.cell(rowCount, 5).data("Giảng viên cao cấp");
+            /*      response = $.parseJSON(response);
+                  var rowCount = 0;
+                  $.each(response, function (i, item) {
+                      table_GV.row.add([item.MaGiangVien, item.Ho, item.Ten, item.HocVi, item.ChucVu, item.ChucDanh, item.GioiTinh, item.NgaySinh.split('T')[0], item.DiaChi, item.Sdt, item.GVCoHuu]).draw(false);
+                      if (item.GioiTinh == 1) {
+                          table_GV.cell(rowCount, 6).data("Nam");
+                      }
+                      else {
+                          table_GV.cell(rowCount, 6).data("Nữ");
+                      }
+                      if (item.ChucDanh.trim() == "GV") {
+                          table_GV.cell(rowCount, 5).data("Giảng viên");
+                      }
+                      else if (item.ChucDanh.trim() == "GVC") {
+                          table_GV.cell(rowCount, 5).data("Giảng viên chính");
+                      }
+                      else {
+                          table_GV.cell(rowCount, 5).data("Giảng viên cao cấp");
+      
+                      }
+                      rowCount++;
+                  });*/
+            console.log(response);
+            table_GV = $('#table_GV').DataTable({
+                "data": $.parseJSON(response),
+                "rowId": 'MaGV'.trim(),
+                "createdRow": function (row, data, dataIndex) {
+                    $(row).attr('id', data[0]);
+                    if (data[10] == true) {
+                        $(row).find("input[type='checkbox']")
+                            .attr('checked', 'checked');
+                    }
+                },
+                "rowCallback": function (row, data) {
+                    $(row).attr('id', data[0]);
+                    if (data[10] == true) {
+                        $(row).find("input[type='checkbox']")
+                            .attr('checked', 'checked');
+                    }
 
+                },
+                "columns": [{
+                    'data': 'MaGV',
+                },
+                {
+                    'data': 'Ho',
+                }, {
+                    'data': 'Ten',
+                }, {
+                    'data': 'HocVi',
+                }, {
+                    'data': 'ChucVu',
+                }, {
+                    'data': 'TenChucDanh',
+                }, {
+                    'data': 'GioiTinh',
+                }, {
+                    'data': 'NgaySinh',
+                    'render': function (data, type, row) {
+                        var date = data.split('T')[0];
+                        var dateOfBirth = date.split("-");
+                        var ret = dateOfBirth[2] + "/" + dateOfBirth[1] + "/" + dateOfBirth[0];
+                        return ret;
+                    }
+                }, {
+                    'data': 'DiaChi',
+                }, {
+                    'data': 'Sdt',
+                }, {
+                    'data': 'GVCoHuu',
                 }
-                rowCount++;
-            });
+                ]
+                , 'columnDefs': [{
+                    'targets': 10,
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta) {
+                        if (data == true) {
+                            return '<input type="checkbox" name="id[]" checked onclick="return false;" value=" ' + $('<div/>').text(data).html() + '">';
+                        }
+                        else {
+                            return '<input type="checkbox" name="id[]" onclick="return false;" value=" ' + $('<div/>').text(data).html() + '">';
+                        }
+
+                    }
+                }, {
+                    'targets': 11,
+                    'className': "dt-center editor-edit",
+                    'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
+                    'orderable': false,
+                    'searchable': false
+                },
+                {
+                    'targets': 12,
+                    'className': "dt-center editor-delete",
+                    'defaultContent': '<button><i class="fa fa-trash"/></button>',
+                    'orderable': false,
+                    'searchable': false
+                },
+                {
+                    'targets': 7,
+                    'width': "20%"
+                },
+                {
+                    'targets': 5,
+                    'width': "20%"
+                },
+                {
+                    'targets': 3,
+                    'width': "20%"
+                }
+                ]
+            }
+            );
 
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
+    /*table_GV = $('#table_GV').DataTable({
+        "ajax": {
+            "url": "giangvien/ds-giang-vien",
+            "type": "POST",
+            "data": boMon
+        },
+        "rowCallback": function (row, data) {
+            $(row).attr('id', data[0]);
+
+        },
+        "columns": [{
+            'data': 'MaGiangVien',
+        },
+        {
+            'data': 'Ho',
+        }, {
+            'data': 'Ten',
+        }, {
+            'data': 'HocVi',
+        }, {
+            'data': 'ChucVu',
+        }, {
+            'data': 'TenChucDanh',
+        }, {
+            'data': 'GioiTinh',
+        }, {
+            'data': 'NgaySinh'
+        }, {
+            'data': 'DiaChi',
+        }, {
+            'data': 'Sdt',
+        }, {
+            'data': 'GVCoHuu',
+        }
+        ]
+        , 'columnDefs': [{
+            'targets': 10,
+            'searchable': false,
+            'orderable': false,
+            'className': 'dt-body-center',
+            'render': function (data, type, full, meta) {
+                return '<input type="checkbox" name="id[]" onclick="return false;" value=" ' + $('<div/>').text(data).html() + '">';
+            }
+        }, {
+            'targets': 11,
+            'className': "dt-center editor-edit",
+            'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
+            'orderable': false,
+            'searchable': false
+        },
+        {
+            'targets': 12,
+            'className': "dt-center editor-delete",
+            'defaultContent': '<button><i class="fa fa-trash"/></button>',
+            'orderable': false,
+            'searchable': false
+        },
+        {
+            'targets': 7,
+            'width': "20%"
+        },
+        {
+            'targets': 5,
+            'width': "20%"
+        },
+        {
+            'targets': 3,
+            'width': "20%"
+        }
+        ]
+    }
+    );*/
 }
 function init_Select_ChucVu() {
     $("#select_ChucVu").empty();
@@ -503,7 +622,7 @@ function saveGiangVien() {
             if (response.result == true) {
                 toastr.success("Thêm thành công", "Thông báo", { timeOut: 3000 });
                 var gvAdd = JSON.parse(JSON.stringify(response.data));
-              
+
                 var gioiTinh = "Nữ";
                 var chucDanh = "Giảng viên";
                 if (gvAdd.GioiTinh == 1) {
@@ -635,13 +754,13 @@ function editGiangVien() {
                 else {
                     $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', false);
                 }
-               /* row.remove().draw();
-                table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);*/
-              
+                /* row.remove().draw();
+                 table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);*/
+
                 $('#modalAddGV').modal('hide');
                 $("#select_ChuyenBoMon").empty();
                 $("#checkbox_ChuyenBoMon").prop("checked", false);
-           /*     $("#gvCoHuu").prop('checked', false);*/
+                /*     $("#gvCoHuu").prop('checked', false);*/
                 document.getElementById("select_ChuyenBoMon").style.display = "none";
                 document.getElementById("label_SelectCBM").style.display = "none";
 

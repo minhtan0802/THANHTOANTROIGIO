@@ -6,18 +6,18 @@ using System.Linq;
 using System.Web;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
+using Microsoft.Data.SqlClient;
 
 namespace THANHTOANTROIGIO.DAO
 {
     public class GiangVienDAO
     {
-        public static List<GiangVien> getListGiangVien(String maBoMon)
+        public static DataTable getListGiangVien(String maBoMon)
         {
-            using (var context = new ThanhToanTroiGioEntities())
-            {
-                var list = context.GiangViens.Where(gv => gv.MaBoMon == maBoMon && gv.TrangThaiXoa == false).ToList();
-                return list;
-            }
+            List<SqlParameter> param= new List<SqlParameter>();
+            param.Add(new SqlParameter("@maBoMon", maBoMon));
+            var data = new SQLHelper().ExecuteQuery("get_DS_GV", param);
+            return data;
         }
         public static string getLoaiGVByMaGV(string maGiangVien)
         {

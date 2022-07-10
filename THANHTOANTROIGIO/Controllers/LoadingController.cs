@@ -29,5 +29,19 @@ namespace THANHTOANTROIGIO.Controllers
             Loading.flagBoMon++;
             return Json(JsonConvert.SerializeObject(Loading.flagBoMon));
         }
+        [Route("thuc-tap-tot-nghiep")]
+        [HttpGet]
+        public JsonResult getLoadingTTTN()
+        {
+            Loading.flagTTTN++;
+            return Json(JsonConvert.SerializeObject(Loading.flagTTTN));
+        }
+        [Route("thuc-tap-tot-nghiep/import")]
+        [HttpGet]
+        public JsonResult getLoadingTTTNImport()
+        {
+            Loading.flagTTTNImport++;
+            return Json(JsonConvert.SerializeObject(Loading.flagTTTNImport));
+        }
     }
 }
