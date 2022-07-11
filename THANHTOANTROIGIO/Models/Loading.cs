@@ -7,5 +7,6 @@
         public static int flagBoMon = 0;
         public static int flagTTTN = 0;
         public static int flagTTTNImport = 0;
+        public static int flagMonHoc = 0;
     }
 }

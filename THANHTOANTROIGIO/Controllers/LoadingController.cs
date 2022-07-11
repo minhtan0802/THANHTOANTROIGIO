@@ -43,5 +43,12 @@ namespace THANHTOANTROIGIO.Controllers
             Loading.flagTTTNImport++;
             return Json(JsonConvert.SerializeObject(Loading.flagTTTNImport));
         }
+        [Route("mon-hoc")]
+        [HttpGet]
+        public JsonResult getLoadingMonHoc()
+        {
+            Loading.flagMonHoc++;
+            return Json(JsonConvert.SerializeObject(Loading.flagMonHoc));
+        }
     }
 }

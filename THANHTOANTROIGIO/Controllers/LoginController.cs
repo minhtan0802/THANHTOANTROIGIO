@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace THANHTOANTROIGIO.Controllers
 {
@@ -23,7 +24,29 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 return Json(new { success = false, message = "Không được để trống mật khẩu" });
             }
-            return Json(new { success = true, data = "" });
+            try
+            {
+                using (var context = new ThanhToanTroiGioEntities())
+                {
+                    context.Database.GetDbConnection().ConnectionString = "Server=LAPTOP-V0HI7R3V\\SERVER;Database=THANHTOANTROIGIO;User Id=" + username + ";Password=" + password + ";";
+                    try
+                    {
+                        context.Database.OpenConnection();
+                    }
+                    catch(Exception ex)
+                    {
+                        return Json(new { success = false, message = "Mời bạn xem lại username hoặc mật khẩu!" });
+                    }
+                    ThanhToanTroiGioEntities.connectionString ="Server=LAPTOP-V0HI7R3V\\SERVER;Database=THANHTOANTROIGIO;User Id=" + username + ";Password=" + password + ";";
+                    return Json(new { success = true, data = "" });
+                }
+            }
+            catch(Exception e)
+            {
+                return Json(new { success = false, data = "Lỗi: "+e.InnerException.Message });
+            }
+          
+           
 
         }
     }

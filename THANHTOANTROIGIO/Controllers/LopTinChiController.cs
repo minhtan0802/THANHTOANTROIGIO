@@ -15,6 +15,12 @@ namespace THANHTOANTROIGIO.Controllers
         {
             return View();
         }
+        [Route("import")]
+        [HttpGet]
+        public IActionResult IndexImport()
+        {
+            return View();
+        }
         [Route("")]
         [HttpPost]
         public JsonResult getLTC(LTCGetModel model)

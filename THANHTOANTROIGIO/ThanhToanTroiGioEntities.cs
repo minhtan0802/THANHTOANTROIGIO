@@ -6,6 +6,8 @@ namespace THANHTOANTROIGIO
 {
     public class ThanhToanTroiGioEntities : DbContext
     {
+        private IConfigurationRoot _config;
+        private HttpContext _httpContext;
         public static String connectionString;
         public DbSet<GiangVien>? GiangViens { get; set; }
         public DbSet<BoMon>? BoMons { get; set; }
@@ -26,7 +28,7 @@ namespace THANHTOANTROIGIO
         public DbSet<HeLop>? HeLops { get; set; }
         public DbSet<ThayDoiHSHeLop>? ThayDoiHSHeLops { get; set; }
         public DbSet<LopDongLyThuyet>? LopDongLyThuyets { get; set; }
-        public DbSet<LopDongThucHanh>? LopDongThucHanhs{ get; set; }
+        public DbSet<LopDongThucHanh>? LopDongThucHanhs { get; set; }
         public DbSet<HuongDanTTTN>? HuongDanTTTNs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,7 +37,6 @@ namespace THANHTOANTROIGIO
                 .AddJsonFile("appsettings.json")
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,7 +49,7 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<ThayDoiLoaiGV>().HasKey(c => new { c.MaGV, c.MaLoaiGV, c.NgayThayDoi });
             modelBuilder.Entity<ThayDoiHSBac>().HasKey(c => new { c.MaBac, c.MaGV, c.NgayApDung });
             modelBuilder.Entity<ThayDoiHSHeLop>().HasKey(c => new { c.MaHeLop, c.MaGV, c.NgayApDung });
-            modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung});
+            modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<LopDongThucHanh>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<HuongDanTTTN>().HasKey(c => new { c.MaGV, c.MaNKHK, c.Lop });
 
