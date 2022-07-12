@@ -5,7 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
-<script src="~/lib/script/mon-hoc2.js"></script>
+<script src="~/lib/script/chuc-vu.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -54,56 +54,49 @@
 <div class=".container-fluid">
     <div class="row" style="height:600px">
         <div class="column" style="width:100%">
-            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH MÔN HỌC</label>
-            <button type="button" class="btn btn-primary" id="btnAddMonHoc">
+            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH CHỨC VỤ</label>
+            <button type="button" class="btn btn-primary" id="btnAddChucVu">
                 Thêm
             </button>
 
             <!-- Modal -->
             <!-- Button trigger modal -->
             <!-- Modal -->
-            <div class="modal fade modal-lg" id="modalAddMonHoc" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade modal-lg" id="modalAddChucVu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="titleAddBoMon"></h5>
+                            <h5 class="modal-title" id="titleAddChucVu"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" id="formAddBoMon" style="margin-bottom:20px">
+                            <form class="row g-3" id="formAddChucVu" style="margin-bottom:20px">
                                 <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Mã Môn Học</label>
-                                    <input type="text" class="form-control" id="maMonHoc">
+                                    <label for="validationDefault01" class="form-label">Mã Chức Vụ</label>
+                                    <input type="text" class="form-control" id="maChucVu">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Tên Môn Học</label>
-                                    <input type="text" class="form-control" id="tenMonHoc">
+                                    <label for="validationDefault01" class="form-label">Tên Chức Vụ</label>
+                                    <input type="text" class="form-control" id="tenChucVu">
                                 </div>
                                 
                                 <div class="col-md-3">
-                                    <label for="validationDefault01" class="form-label">Tiết Lý thuyết</label>
-                                    <input type="number" min="0" step="1" class="form-control" id="tietLT">
+                                    <label for="validationDefault01" class="form-label">Định Mức Giảm</label>
+                                    <input type="number" min="0" step="1" class="form-control" id="dinhMucGiam">
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="validationDefault01" class="form-label">Tiết Bài Tập</label>
-                                    <input type="number" min="0" step="1" class="form-control" id="tietBT">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="validationDefault01" class="form-label">Tiết Thực Hành</label>
-                                    <input type="number" min="0" step="1" class="form-control" id="tietTH">
-                                </div>
+   
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="btnCloseMonHoc">Thoát</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveMonHoc" onclick="saveMonHoc(false)">Lưu</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveCloseMonHoc" onclick="saveMonHoc(true)">Lưu và thoát</button>
+                            <button type="button" class="btn btn-secondary" id="btnCloseChucVu">Thoát</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveChucVu" onclick="saveChucVu(false)">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveCloseChucVu" onclick="saveChucVu(true)">Lưu và thoát</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="modalLoadingMonHoc" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="modalLoadingChucVu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-sm">
                     <div class="modal-content" style="background-color:transparent !important; border:none !important">
                         <div class="modal-body">
@@ -118,14 +111,12 @@
             </div>
 
             <br />  <br />
-            <table id="table_MonHoc" class="display" style="width:100%">
+            <table id="table_ChucVu" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Mã Môn Học</th>
-                        <th>Tên Môn Học</th>
-                        <th>Tiết Lý Thuyết</th>
-                        <th>Tiết Bài Tập</th>
-                        <th>Tiết Thực Hành</th>
+                        <th>Mã Chức Vụ</th>
+                        <th>Tên Chức Vụ</th>
+                        <th>Định Mức Giảm</th>
                         <th>Chỉnh sửa</th>
                         <th>Xóa</th>
                     </tr>

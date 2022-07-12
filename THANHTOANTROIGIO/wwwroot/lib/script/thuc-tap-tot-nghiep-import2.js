@@ -216,6 +216,7 @@ function onChangeFile(event) {
     document.getElementById("btnPreview").removeAttribute("disabled");
     document.getElementById("btnImport").setAttribute("disabled", "disabled");
     fileTTTN = event.target.files[0];
+    table_TTTN_Import.clear().draw(false);
     initSelect_Sheet();
 }
 function initSelect_Sheet() {

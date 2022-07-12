@@ -8,5 +8,7 @@
         public static int flagTTTN = 0;
         public static int flagTTTNImport = 0;
         public static int flagMonHoc = 0;
+        public static int flagChucVu = 0;
+        public static int flagBacHoc = 0;
     }
 }

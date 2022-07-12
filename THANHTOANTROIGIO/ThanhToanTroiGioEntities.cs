@@ -37,6 +37,7 @@ namespace THANHTOANTROIGIO
                 .AddJsonFile("appsettings.json")
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

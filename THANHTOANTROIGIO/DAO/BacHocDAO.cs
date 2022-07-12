@@ -1,4 +1,7 @@
-﻿using THANHTOANTROIGIO.Models;
+﻿using Microsoft.Data.SqlClient;
+using System.Data;
+using THANHTOANTROIGIO.Helpers;
+using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.DAO
 {
@@ -11,6 +14,12 @@ namespace THANHTOANTROIGIO.DAO
                 var list = context.BacHocs.ToList();
                 return list;
             }
+        }
+        public static DataTable getDSBacHocFull()
+        {
+            List<SqlParameter> param = new List<SqlParameter>();
+            var data = new SQLHelper().ExecuteQuery("sp_get_Bac_Hoc",param);
+            return data;
         }
         public static float getHeSoBacHocByMaBacHoc(String maBacHoc)
         {

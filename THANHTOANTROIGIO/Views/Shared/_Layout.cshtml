@@ -117,15 +117,15 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDarkDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Quản trị
+                            Nhập dữ liệu
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDarkDropdown">
                             <li><a class="dropdown-item" href="/giangvien">Giảng viên</a></li>
                             <li><a class="dropdown-item" href="/lop-tin-chi">Lớp tín chỉ</a></li>
                             <li><a class="dropdown-item" href="/bo-mon">Bộ môn</a></li>
                             <li><a class="dropdown-item" href="/thuc-tap-tot-nghiep">Thực tập tốt nghiệp</a></li>
-                            <li><a class="dropdown-item" href="#">Bậc học</a></li>
-                            <li><a class="dropdown-item" href="#">Chức vụ</a></li>
+                            <li><a class="dropdown-item" href="#">Định mức giảng</a></li>
+                            <li><a class="dropdown-item" href="/chuc-vu">Chức vụ</a></li>
                             <li><a class="dropdown-item" href="/mon-hoc">Môn học</a></li>
 
                         </ul>
@@ -142,11 +142,21 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDarkDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Hệ số
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDarkDropdown">
+                            <li><a class="dropdown-item" href="/bac-hoc">Bậc Học</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDarkDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             Tùy chọn
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDarkDropdown">
                             <li><a class="dropdown-item" href="/admin/logout">Đăng xuất</a></li>
                             <li><a class="dropdown-item" href="/change-pass">Đổi mật khẩu</a></li>
+                            <li><a class="dropdown-item disabled" role="note" style="color: black; font-weight:bold;" id="user">TMT - GV01</a></li>
                         </ul>
                     </li>
 
@@ -169,6 +179,7 @@
     <script src="~/lib/script/bstreeview.js"></script>
 
     <script src="~/lib/script/bootstrap-treeview.js"></script>
+    <script src="~/lib/script/navbar.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

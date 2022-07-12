@@ -50,5 +50,19 @@ namespace THANHTOANTROIGIO.Controllers
             Loading.flagMonHoc++;
             return Json(JsonConvert.SerializeObject(Loading.flagMonHoc));
         }
+        [Route("chuc-vu")]
+        [HttpGet]
+        public JsonResult getLoadingChucVu()
+        {
+            Loading.flagChucVu++;
+            return Json(JsonConvert.SerializeObject(Loading.flagChucVu));
+        }
+        [Route("bac-hoc")]
+        [HttpGet]
+        public JsonResult getLoadingBacHoc()
+        {
+            Loading.flagChucVu++;
+            return Json(JsonConvert.SerializeObject(Loading.flagChucVu));
+        }
     }
 }
