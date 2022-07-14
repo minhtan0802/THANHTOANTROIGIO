@@ -8,9 +8,11 @@ using System.Data;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("thuc-tap-tot-nghiep")]
     public class ThucTapTotNghiepController : Controller
     {
@@ -71,7 +73,7 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("edit")]
         [HttpPost]
-        public JsonResult addTTTN(String lop, HuongDanTTTN model)
+        public JsonResult editTTTN(String lop, HuongDanTTTN model)
         {
             try
             {

@@ -1,5 +1,5 @@
 var u;
-$(document).ready(function () { $("#btnLogin").click(function () { login(); }); });
+$(document).ready(function () { $("#btnLogin").click(function () {login(); }); });
 function login() {
     var username = $("#username").val();
     var password = $("#password").val();

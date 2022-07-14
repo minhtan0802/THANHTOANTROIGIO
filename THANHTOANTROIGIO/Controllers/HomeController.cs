@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

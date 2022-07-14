@@ -4,9 +4,11 @@ using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("chuc-vu")]
     public class ChucVuController : Controller
     {

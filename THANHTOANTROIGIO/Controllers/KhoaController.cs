@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("khoa")]
     public class KhoaController : Controller
     {

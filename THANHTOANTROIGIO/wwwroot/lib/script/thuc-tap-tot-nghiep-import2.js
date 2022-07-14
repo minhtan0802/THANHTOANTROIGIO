@@ -197,15 +197,6 @@ function previewTTTN() {
                 }]
             }
             );
-            /*flag++;
-        }*/
-            /*            else {
-                            table_TTTN_Import.clear().draw();
-                            $.each($.parseJSON(response).data, function (i, item) {
-                                table_TTTN_Import.row.add(item).draw(false);
-                            });
-                        }*/
-
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -254,10 +245,9 @@ function importTTTN() {
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
             table_TTTN_Import.clear().draw(false);
-            $("#fileTTTN").val(null);
-           
+     /*       $("#fileTTTN").val(null);    
             $('#select_Sheet').empty();
-            document.getElementById("btnPreview").setAttribute("disabled", "disabled");
+            document.getElementById("btnPreview").setAttribute("disabled", "disabled");*/
             document.getElementById("btnImport").setAttribute("disabled", "disabled");
         },
         error: function () {

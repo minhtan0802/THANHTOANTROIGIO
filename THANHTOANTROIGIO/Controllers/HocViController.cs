@@ -2,9 +2,11 @@
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("hoc-vi")]
     public class HocViController : Controller
     {

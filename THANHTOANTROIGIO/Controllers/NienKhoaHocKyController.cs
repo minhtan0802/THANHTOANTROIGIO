@@ -2,9 +2,11 @@
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("nien-khoa-hoc-ky")]
     public class NienKhoaHocKyController : Controller
     {

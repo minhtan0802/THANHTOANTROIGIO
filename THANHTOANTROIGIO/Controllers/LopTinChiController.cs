@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("lop-tin-chi")]
     public class LopTinChiController : Controller
     {

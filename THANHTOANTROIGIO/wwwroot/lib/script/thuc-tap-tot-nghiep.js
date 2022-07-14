@@ -314,6 +314,7 @@ function initFormAdd() {
     $('#thanhToan').val(null);
 }
 function getListTTTN() {
+    table_TTTN.clear().draw(false);
     table_TTTN.destroy();
     $.ajax({
         async: true,

@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("bac-hoc")]
     public class BacHocController : Controller
     {
@@ -64,7 +67,7 @@ namespace THANHTOANTROIGIO.Controllers
                             thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
                             thayDoiHSBac.NgayApDung = DateTime.Now;
                             thayDoiHSBac.HeSo = heSo;
-                            thayDoiHSBac.MaGV = LoginController.MaGV;
+                            thayDoiHSBac.MaGV = AccountController.MaGV;
 
                             context.BacHocs.Add(bacHoc);
                             context.ThayDoiHSBacs.Add(thayDoiHSBac);
@@ -121,7 +124,7 @@ namespace THANHTOANTROIGIO.Controllers
                             thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
                             thayDoiHSBac.NgayApDung = DateTime.Now;
                             thayDoiHSBac.HeSo = heSo;
-                            thayDoiHSBac.MaGV = LoginController.MaGV;
+                            thayDoiHSBac.MaGV = AccountController.MaGV;
                             context.ThayDoiHSBacs.Add(thayDoiHSBac);
 
                             context.Entry(bacHoc).State = EntityState.Modified;
@@ -131,7 +134,7 @@ namespace THANHTOANTROIGIO.Controllers
                             {
                                 var x = new SQLHelper().ExecuteString("EXEC [dbo].[updatePK] '" + maBacHoc + "','" + model.MaBac.Trim() + "','BacHoc'");
                             }
-                            return Json(new { success = true, data = bacHoc });
+                            return Json(JsonConvert.SerializeObject(new { success = true, data = thayDoiHSBac.NgayApDung }));
                         }
                         catch (Exception e)
                         {

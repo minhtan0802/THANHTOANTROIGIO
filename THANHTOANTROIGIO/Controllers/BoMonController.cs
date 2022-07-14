@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("bo-mon")]
     public class BoMonController : Controller
     {

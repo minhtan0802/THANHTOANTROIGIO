@@ -5,15 +5,14 @@ var maBacHocEdit = "";
 var table_BacHoc;
 var row;
 $(document).ready(function () {
-    table_BacHoc = $("#table_BacHoc").DataTable();
-    init_table_BacHoc();
     loading();
+    init_table_BacHoc();
     $(document).on('shown.bs.modal', '#modalAddBacHoc', function () {
         $('#maBacHoc').focus();
     })
-     document.getElementById("title").innerHTML = "bậc học";
-   
-    
+    document.getElementById("title").innerHTML = "bậc học";
+
+
     $('#table_BacHoc tbody').on('click', 'tr', function () {
         var index = table_BacHoc.row(this).index();
         if ($(this).hasClass('selected') && table_BacHoc_rowIndex != index) {
@@ -85,7 +84,7 @@ $(document).ready(function () {
         $("#modalAddBacHoc").modal('hide');
     });
 
-  
+
 });
 function saveBacHoc(close) {
     var maBacHocAdd = $("#maBacHoc").val().trim();
@@ -115,7 +114,7 @@ function saveBacHoc(close) {
         $.ajax({
             async: true,
             type: 'POST',
-            data: { bacHoc: bacHoc,heSo:heSo },
+            data: { bacHoc: bacHoc, heSo: heSo },
             url: '/bac-hoc/add',
             success: function (response) {
                 if (response.success == true) {
@@ -150,11 +149,12 @@ function saveBacHoc(close) {
         $.ajax({
             async: true,
             type: 'POST',
-            data: { maBacHoc: maBacHoc, model: bacHoc, heSo:heSo },
+            data: { maBacHoc: maBacHoc, model: bacHoc, heSo: heSo },
             url: '/bac-hoc/edit',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
-                    var bacHocFull = { MaBac: maBacHocAdd, TenBac: tenBacHoc, HeSo: heSo };
+                    var bacHocFull = { MaBac: maBacHocAdd, TenBac: tenBacHoc, HeSo: heSo, NgayApDung: response.data };
                     toastr.success("Chỉnh sửa bậc học thành công", "Thông báo", { timeOut: 2500 });
                     row.data(bacHocFull);
                     $('#modalAddBacHoc').modal('hide');
@@ -203,9 +203,10 @@ function loading() {
     });
 }
 function init_table_BacHoc() {
+    table_BacHoc = $("#table_BacHoc").DataTable();
     table_BacHoc.destroy();
     $.ajax({
-        async: false,
+        async: true,
         type: 'POST',
         data: "",
         url: '/bac-hoc/ds-bac-hoc-full',
@@ -219,18 +220,27 @@ function init_table_BacHoc() {
                 },
                 {
                     'data': 'TenBac',
-                    }, {
-                        'data': 'HeSo',
-                    },
-               {
-                    'targets': 3,
+                }, {
+                    'data': 'HeSo',
+                },
+                {
+                    'data': 'NgayApDung',
+                    'render': function (data, type, row) {
+                        var date = data.split('T')[0];
+                        var ngayApDung = date.split("-");
+                        var ret = ngayApDung[2] + "/" + ngayApDung[1] + "/" + ngayApDung[0];
+                        return ret;
+                    }
+                },
+                {
+                    'targets': 4,
                     'className': "dt-center editor-edit",
                     'defaultContent': '<button><i class="fa fa-pencil" aria-hidden="true"/></button>',
                     'orderable': false,
                     'searchable': false
                 },
                 {
-                    'targets': 4,
+                    'targets': 5,
                     'className': "dt-center editor-delete",
                     'defaultContent': '<button><i class="fa fa-trash"/></button>',
                     'orderable': false,
