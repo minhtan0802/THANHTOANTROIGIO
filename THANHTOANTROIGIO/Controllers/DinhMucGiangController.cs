@@ -2,18 +2,22 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Data;
 using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
+    [AuthorizeUser]
     [Route("dinh-muc-giang")]
     public class DinhMucGiangController : Controller
     {
+        [HttpGet]
+        [Route("")]
         public IActionResult Index()
         {
+ 
             return View();
         }
         [Route("ds")]
@@ -23,8 +27,8 @@ namespace THANHTOANTROIGIO.Controllers
             var data = DinhMucGiangDAO.getDinhMucGiang(MaKhoa, MaNKHK);
             return Json(JsonConvert.SerializeObject(new { success = true, data = data, count = data.Rows.Count }));
         }
-        [HttpPost]
         [Route("add")]
+        [HttpPost]
         public JsonResult addDinhMucGiang(DinhMucGiang model)
         {
             try
@@ -38,17 +42,16 @@ namespace THANHTOANTROIGIO.Controllers
                     }
                     context.Add(model);
                     context.SaveChanges();
-                    return Json(new { success = true, data = "" });
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = "" }));
                 }
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = e.InnerException.Message }));
             }
         }
-
-        [HttpPost]
         [Route("edit")]
+        [HttpPost]
         public JsonResult editDinhMucGiang(DinhMucGiang model)
         {
             try
@@ -59,7 +62,7 @@ namespace THANHTOANTROIGIO.Controllers
                     exist.DinhMuc = model.DinhMuc;
                     context.Entry(exist).State = EntityState.Modified;
                     context.SaveChanges();
-                    return Json(new { success = true, data = "" });
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = "" }));
                 }
             }
             catch (Exception e)
@@ -72,16 +75,16 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("sao-chep")]
         public JsonResult saoChepDMG(String maNKHK, String maNKHKTo)
         {
-                var dataTable = new SQLHelper().ExecuteString("SELECT * FROM DinhMucGiang WHERE MaNKHK='" + maNKHK + "'");
+            var dataTable = new SQLHelper().ExecuteString("SELECT * FROM DinhMucGiang WHERE MaNKHK='" + maNKHK + "'");
 
-                    for (int j=0;j<dataTable.Rows.Count;j++)
-                    {
-                        dataTable.Rows[j]["MaNKHK"] = maNKHKTo;
-                    }
-                    List<SqlParameter> param = new List<SqlParameter>();
-                    param.Add(new SqlParameter("@DinhMucGiang", dataTable));
-                    var i = new SQLHelper().ExecuteQuery("SaoChep_DinhMucGiang", param);
-                    return Json(JsonConvert.SerializeObject(new { success = true, data = dataTable }));
+            for (int j = 0; j < dataTable.Rows.Count; j++)
+            {
+                dataTable.Rows[j]["MaNKHK"] = maNKHKTo;
+            }
+            List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@DinhMucGiang", dataTable));
+            var i = new SQLHelper().ExecuteQuery("SaoChep_DinhMucGiang", param);
+            return Json(JsonConvert.SerializeObject(new { success = true, data = dataTable }));
 
         }
 

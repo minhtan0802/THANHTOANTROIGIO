@@ -15,5 +15,8 @@ namespace THANHTOANTROIGIO.Models
             MaNKHK = maNKHK;
             DinhMuc = dinhMuc;
         }
+        public DinhMucGiang()
+        {
+        }
     }
 }

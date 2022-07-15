@@ -79,12 +79,12 @@
                                     <label for="validationDefault01" class="form-label">Tên Bậc Học</label>
                                     <input type="text" class="form-control" id="tenBacHoc">
                                 </div>
-                                
+
                                 <div class="col-md-3">
                                     <label for="validationDefault01" class="form-label">Hệ số</label>
                                     <input type="number" min="0" class="form-control" id="heSo">
                                 </div>
-   
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -111,6 +111,8 @@
             </div>
 
             <br />  <br />
+            <input type="checkbox" onchange="showAllBacHoc()" id="showAll">
+            <label for="validationDefault01" class="form-label">Hiển thị tất cả</label>
             <table id="table_BacHoc" class="display" style="width:100%">
                 <thead>
                     <tr>

@@ -13,7 +13,6 @@ var flag_Focus_Bac = 0;
 var flag_Focus_HeLop = 0;
 var table_DMG_rowIndex = 0;
 var lop = "";
-var dinhMucGiangModel = null;
 var flagEdit = "";
 var chucDanh, chucVu;
 var tenNienKhoaCopy, maHocKyCopy;
@@ -48,8 +47,6 @@ $(document).ready(function () {
         $("#select_GV").val(maGV);
         $("#select_GV").trigger('change');
         $("#select_GV").attr("disabled", "disabled");
-      /*  $('#chucVu').val(table_DMG.cell(this, 4).data());
-        $('#chucDanh').val(table_DMG.cell(this, 3).data());*/
         $("#dinhMucGiang").val(table_DMG.cell(this, 5).data());
     });
 
@@ -67,7 +64,7 @@ $(document).ready(function () {
                 $.ajax({
                     async: true,
                     type: 'POST',
-                    data: { maGV: maGV, maNKHK: maHocKy},
+                    data: { maGV: maGV, maNKHK: maHocKy },
                     url: 'dinh-muc-giang/delete',
                     success: function (response) {
                         if (response.success == true) {
@@ -211,13 +208,13 @@ function loading() {
         async: true,
         type: 'GET',
         data: "",
-        url: '/loading/thuc-tap-tot-nghiep',
+        url: '/loading/dinh-muc-giang',
         success: function (response) {
             response = $.parseJSON(response);
             if (response == 1) {
-                $("#modalLoadingTTTN").modal('show');
+                $("#modalLoadingDMG").modal('show');
                 setTimeout(function () {
-                    $("#modalLoadingTTTN").modal('hide')
+                    $("#modalLoadingDMG").modal('hide')
                 }, 2500)
             }
         },
@@ -237,7 +234,7 @@ function getListDMG() {
         async: false,
         type: 'GET',
         data: { MaKhoa: maKhoa, MaNKHK: maHocKy },
-        url: '/dinh-muc-giang/ds',
+        url: 'dinh-muc-giang/ds',
         success: function (response) {
             if ($.parseJSON(response).count > 0) {
                 $("#btnCopyDMG").attr("disabled", "disabled");
@@ -294,16 +291,17 @@ function saveDMG(close) {
         toastr.error("Vui lòng nhập định mức giảng", "Lỗi", { timeOut: 3000 });
         return;
     }
-    dinhMucGiangModel = {
+    var dinhMucGiangModelAdd = {
         MaGV: maGV,
         MaNKHK: maHocKy,
         DinhMuc: dinhMucGiang
     };
+    console.log("model: " + JSON.stringify(dinhMucGiangModelAdd));
     if (flagEdit == "") {
         $.ajax({
-            async: true,
+            async: false,
             type: 'POST',
-            data: dinhMucGiangModel,
+            data: { model: dinhMucGiangModelAdd },
             url: '/dinh-muc-giang/add',
             success: function (response) {
                 if (response.success == true) {
@@ -313,7 +311,7 @@ function saveDMG(close) {
                         MaNKHK: maHocKy,
                         HoTen: tenGV,
                         ChucDanh: chucDanh,
-                        ChucVu:chucVu,
+                        ChucVu: chucVu,
                         DinhMuc: dinhMucGiang
                     };
                     table_DMG.row.add(model).draw(false);
@@ -332,9 +330,9 @@ function saveDMG(close) {
     }
     else {
         $.ajax({
-            async: true,
+            async: false,
             type: 'POST',
-            data: { model: dinhMucGiangModel },
+            data: { model: dinhMucGiangModelAdd },
             url: '/dinh-muc-giang/edit',
             success: function (response) {
                 toastr.success('Chỉnh sửa định mức giảng thành công!', 'Thông báo', { timeOut: 3000 });
@@ -363,7 +361,7 @@ function editFunction() {
 function init_Select_GV(maKhoa) {
     $('#select_GV').empty();
     $.ajax({
-        async: true,
+        async: false,
         type: 'GET',
         data: { MaKhoa: maKhoa },
         url: '/giangvien/select_khoa',
@@ -402,7 +400,7 @@ function cancelCopyDMG() {
 function init_Select_NienKhoa_Copy() {
     $("#select_NienKhoa_Copy").empty();
     $.ajax({
-        async: true,
+        async: false,
         type: 'GET',
         url: '/nien-khoa-hoc-ky/nien-khoa',
         success: function (response) {
@@ -425,7 +423,7 @@ function init_Select_NienKhoa_Copy() {
 function init_Select_HocKy_Copy() {
     $("#select_HocKy_Copy").empty();
     var nienKhoa = {
-        MaNKHK: "", TenNienKhoa: tenNienKhoa, TenHocKy: ""
+        MaNKHK: "", TenNienKhoa: tenNienKhoaCopy, TenHocKy: ""
     };
     $.ajax({
         async: false,
@@ -443,7 +441,8 @@ function init_Select_HocKy_Copy() {
                 }
             });
             $("#select_HocKy_Copy").prop("selectedIndex", 0);
-            maHocKyCopy = $("#select_HocKy_Copy").val();
+            $("#select_HocKy_Copy").trigger("change");
+            maHocKyCopy = $("#select_HocKy_Copy option:selected").val();
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -451,8 +450,9 @@ function init_Select_HocKy_Copy() {
     });
 }
 function functionCopyDMG() {
+    maHocKyCopy = $("#select_HocKy_Copy").val();
     $.ajax({
-        async: true,
+        async: false,
         type: 'POST',
         data: { maNKHK: maHocKyCopy, maNKHKTo: maHocKy },
         url: '/dinh-muc-giang/sao-chep',

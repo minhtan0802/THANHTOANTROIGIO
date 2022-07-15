@@ -64,5 +64,12 @@ namespace THANHTOANTROIGIO.Controllers
             Loading.flagChucVu++;
             return Json(JsonConvert.SerializeObject(Loading.flagChucVu));
         }
+        [Route("dinh-muc-giang")]
+        [HttpGet]
+        public JsonResult getLoadingDinhMucGiang()
+        {
+            Loading.flagDinhMucGiang++;
+            return Json(JsonConvert.SerializeObject(Loading.flagDinhMucGiang));
+        }
     }
 }

@@ -202,13 +202,13 @@ function loading() {
         }
     });
 }
-function init_table_BacHoc() {
+function init_table_BacHoc(showAll) {
     table_BacHoc = $("#table_BacHoc").DataTable();
     table_BacHoc.destroy();
     $.ajax({
         async: true,
-        type: 'POST',
-        data: "",
+        type: 'GET',
+        data: {all:showAll},
         url: '/bac-hoc/ds-bac-hoc-full',
         success: function (response) {
             console.log(response);
@@ -259,4 +259,13 @@ function clearForm() {
     $("#maBacHoc").val("");
     $("#tenBacHoc").val("");
     $("#heSo").val(null);
+}
+function showAllBacHoc() {
+    var checkBox = document.getElementById("showAll");
+    if (checkBox.checked == true) {
+        init_table_BacHoc(1);
+    }
+    else {
+        init_table_BacHoc(0);
+    }
 }

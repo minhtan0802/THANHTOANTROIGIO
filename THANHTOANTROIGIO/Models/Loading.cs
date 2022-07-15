@@ -10,5 +10,6 @@
         public static int flagMonHoc = 0;
         public static int flagChucVu = 0;
         public static int flagBacHoc = 0;
+        public static int flagDinhMucGiang = 0;
     }
 }

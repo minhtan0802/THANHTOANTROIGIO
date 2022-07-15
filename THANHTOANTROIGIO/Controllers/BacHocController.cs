@@ -27,10 +27,10 @@ namespace THANHTOANTROIGIO.Controllers
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("ds-bac-hoc-full")]
-        [HttpPost]
-        public JsonResult getDSBacHocFull()
+        [HttpGet]
+        public JsonResult getDSBacHocFull(int all)
         {
-            var data = BacHocDAO.getDSBacHocFull();
+            var data = BacHocDAO.getDSBacHocFull(all);
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("he-so")]

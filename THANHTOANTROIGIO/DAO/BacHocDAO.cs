@@ -15,9 +15,10 @@ namespace THANHTOANTROIGIO.DAO
                 return list;
             }
         }
-        public static DataTable getDSBacHocFull()
+        public static DataTable getDSBacHocFull(int all)
         {
             List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@all", all));
             var data = new SQLHelper().ExecuteQuery("sp_get_Bac_Hoc",param);
             return data;
         }
