@@ -44,10 +44,18 @@ namespace THANHTOANTROIGIO.Controllers
         }
 
         [Route("ds-gv-by-khoa")]
+        [HttpPost]
         public JsonResult AjaxMethod_getDSGVByBoMon(Khoa model)
         {
             var data = GiangVienDAO.getDSGVByBoMon(model.MaKhoa);
             return Json(JsonConvert.SerializeObject(data));
+        }
+        [Route("select_khoa")]
+        [HttpGet]
+        public JsonResult getGVByKhoa(String maKhoa)
+        {
+            var data = GiangVienDAO.getListGiangVienByKhoa(maKhoa);
+            return Json(JsonConvert.SerializeObject(new { success=true,data=data }));
         }
 
         [HttpPost]

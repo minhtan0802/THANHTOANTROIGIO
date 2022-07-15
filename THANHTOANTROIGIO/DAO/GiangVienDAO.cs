@@ -19,6 +19,13 @@ namespace THANHTOANTROIGIO.DAO
             var data = new SQLHelper().ExecuteQuery("get_DS_GV", param);
             return data;
         }
+        public static DataTable getListGiangVienByKhoa(String maKhoa)
+        {
+            List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@MaKhoa", maKhoa));
+            var data = new SQLHelper().ExecuteQuery("sp_Get_GV_Khoa", param);
+            return data;
+        }
         public static string getLoaiGVByMaGV(string maGiangVien)
         {
             ThayDoiLoaiGV loaiGV = new ThayDoiLoaiGV();

@@ -241,7 +241,14 @@ namespace THANHTOANTROIGIO.Controllers
             dataTable.Columns.Add("HSHuongDan", typeof(double));
             foreach (var item in listImport)
             {
-                dataTable.Rows.Add(item.MaGV,item.MaNKHK,item.HSPhanBien,item.SoSinhVienPB,item.Lop,item.SoSinhVienHD,item.SoTuan,item.HSHuongDan);
+                using( var context=new ThanhToanTroiGioEntities())
+                {
+                    if(context.HuongDanTTTNs.Where(x=>x.MaNKHK==item.MaNKHK&& x.Lop==item.Lop && x.MaGV == item.MaGV).FirstOrDefault()==null)
+                    {
+                        dataTable.Rows.Add(item);
+                    }
+                }
+                
             }
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@HuongDanTTTN", dataTable));

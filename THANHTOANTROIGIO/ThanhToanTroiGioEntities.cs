@@ -30,6 +30,7 @@ namespace THANHTOANTROIGIO
         public DbSet<LopDongLyThuyet>? LopDongLyThuyets { get; set; }
         public DbSet<LopDongThucHanh>? LopDongThucHanhs { get; set; }
         public DbSet<HuongDanTTTN>? HuongDanTTTNs { get; set; }
+        public DbSet<DinhMucGiang>? DinhMucGiangs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -53,7 +54,7 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<LopDongThucHanh>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<HuongDanTTTN>().HasKey(c => new { c.MaGV, c.MaNKHK, c.Lop });
-
+            modelBuilder.Entity<DinhMucGiang>().HasKey(c => new { c.MaGV, c.MaNKHK });
         }
     }
 }
