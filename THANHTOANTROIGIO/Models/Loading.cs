@@ -11,5 +11,6 @@
         public static int flagChucVu = 0;
         public static int flagBacHoc = 0;
         public static int flagDinhMucGiang = 0;
+        public static int flagLTCImport = 0;
     }
 }

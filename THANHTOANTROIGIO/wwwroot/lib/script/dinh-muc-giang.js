@@ -16,6 +16,7 @@ var lop = "";
 var flagEdit = "";
 var chucDanh, chucVu;
 var tenNienKhoaCopy, maHocKyCopy;
+var row;
 $(document).ready(function () {
     loading();
     table_DMG = $("#table_DMG").DataTable();
@@ -48,6 +49,7 @@ $(document).ready(function () {
         $("#select_GV").trigger('change');
         $("#select_GV").attr("disabled", "disabled");
         $("#dinhMucGiang").val(table_DMG.cell(this, 5).data());
+        row = table_DMG.row(this);
     });
 
     $('#table_DMG').on('click', 'td.editor-delete', function () {
@@ -346,7 +348,7 @@ function saveDMG(close) {
                     DinhMuc: dinhMucGiang
                 };
                 $('#modalAddDMG').modal('hide');
-                table_DMG.row(this).data(model);
+                row.data(model);
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

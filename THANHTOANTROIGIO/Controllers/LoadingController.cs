@@ -71,5 +71,12 @@ namespace THANHTOANTROIGIO.Controllers
             Loading.flagDinhMucGiang++;
             return Json(JsonConvert.SerializeObject(Loading.flagDinhMucGiang));
         }
+        [Route("lop-tin-chi/import")]
+        [HttpGet]
+        public JsonResult getLoadingLopTinChiImport()
+        {
+            Loading.flagLTCImport++;
+            return Json(JsonConvert.SerializeObject(Loading.flagLTCImport));
+        }
     }
 }
