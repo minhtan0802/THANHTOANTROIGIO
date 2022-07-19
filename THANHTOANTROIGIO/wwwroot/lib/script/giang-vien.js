@@ -326,32 +326,10 @@ function init_Table_GV() {
         data: boMon,
         url: '/giangvien/ds-giang-vien',
         success: function (response) {
-            /*      response = $.parseJSON(response);
-                  var rowCount = 0;
-                  $.each(response, function (i, item) {
-                      table_GV.row.add([item.MaGiangVien, item.Ho, item.Ten, item.HocVi, item.ChucVu, item.ChucDanh, item.GioiTinh, item.NgaySinh.split('T')[0], item.DiaChi, item.Sdt, item.GVCoHuu]).draw(false);
-                      if (item.GioiTinh == 1) {
-                          table_GV.cell(rowCount, 6).data("Nam");
-                      }
-                      else {
-                          table_GV.cell(rowCount, 6).data("Nữ");
-                      }
-                      if (item.ChucDanh.trim() == "GV") {
-                          table_GV.cell(rowCount, 5).data("Giảng viên");
-                      }
-                      else if (item.ChucDanh.trim() == "GVC") {
-                          table_GV.cell(rowCount, 5).data("Giảng viên chính");
-                      }
-                      else {
-                          table_GV.cell(rowCount, 5).data("Giảng viên cao cấp");
-      
-                      }
-                      rowCount++;
-                  });*/
             console.log(response);
             table_GV = $('#table_GV').DataTable({
                 "data": $.parseJSON(response),
-                "rowId": 'MaGV'.trim(),
+                "rowId": 'MaGiangVien'.trim(),
                 "createdRow": function (row, data, dataIndex) {
                     $(row).attr('id', data[0]);
                     if (data[10] == true) {
@@ -359,16 +337,8 @@ function init_Table_GV() {
                             .attr('checked', 'checked');
                     }
                 },
-                "rowCallback": function (row, data) {
-                    $(row).attr('id', data[0]);
-                    if (data[10] == true) {
-                        $(row).find("input[type='checkbox']")
-                            .attr('checked', 'checked');
-                    }
-
-                },
                 "columns": [{
-                    'data': 'MaGV',
+                    'data': 'MaGiangVien',
                 },
                 {
                     'data': 'Ho',
@@ -379,9 +349,17 @@ function init_Table_GV() {
                 }, {
                     'data': 'ChucVu',
                 }, {
-                    'data': 'TenChucDanh',
+                    'data': 'ChucDanh',
                 }, {
                     'data': 'GioiTinh',
+                    'render': function (data, type, row) {
+                        if (data == 1) {
+                            return "Nam";
+                        }
+                        else {
+                            return "Nữ";
+                        }
+                    }
                 }, {
                     'data': 'NgaySinh',
                     'render': function (data, type, row) {
@@ -447,78 +425,6 @@ function init_Table_GV() {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
-    /*table_GV = $('#table_GV').DataTable({
-        "ajax": {
-            "url": "giangvien/ds-giang-vien",
-            "type": "POST",
-            "data": boMon
-        },
-        "rowCallback": function (row, data) {
-            $(row).attr('id', data[0]);
-
-        },
-        "columns": [{
-            'data': 'MaGiangVien',
-        },
-        {
-            'data': 'Ho',
-        }, {
-            'data': 'Ten',
-        }, {
-            'data': 'HocVi',
-        }, {
-            'data': 'ChucVu',
-        }, {
-            'data': 'TenChucDanh',
-        }, {
-            'data': 'GioiTinh',
-        }, {
-            'data': 'NgaySinh'
-        }, {
-            'data': 'DiaChi',
-        }, {
-            'data': 'Sdt',
-        }, {
-            'data': 'GVCoHuu',
-        }
-        ]
-        , 'columnDefs': [{
-            'targets': 10,
-            'searchable': false,
-            'orderable': false,
-            'className': 'dt-body-center',
-            'render': function (data, type, full, meta) {
-                return '<input type="checkbox" name="id[]" onclick="return false;" value=" ' + $('<div/>').text(data).html() + '">';
-            }
-        }, {
-            'targets': 11,
-            'className': "dt-center editor-edit",
-            'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
-            'orderable': false,
-            'searchable': false
-        },
-        {
-            'targets': 12,
-            'className': "dt-center editor-delete",
-            'defaultContent': '<button><i class="fa fa-trash"/></button>',
-            'orderable': false,
-            'searchable': false
-        },
-        {
-            'targets': 7,
-            'width': "20%"
-        },
-        {
-            'targets': 5,
-            'width': "20%"
-        },
-        {
-            'targets': 3,
-            'width': "20%"
-        }
-        ]
-    }
-    );*/
 }
 function init_Select_ChucVu() {
     $("#select_ChucVu").empty();
@@ -619,9 +525,10 @@ function saveGiangVien() {
         data: gv,
         url: '/giangvien/add',
         success: function (response) {
+            response = $.parseJSON(response);
             if (response.result == true) {
                 toastr.success("Thêm thành công", "Thông báo", { timeOut: 3000 });
-                var gvAdd = JSON.parse(JSON.stringify(response.data));
+                var gvAdd = response.data;
 
                 var gioiTinh = "Nữ";
                 var chucDanh = "Giảng viên";
@@ -634,8 +541,8 @@ function saveGiangVien() {
                 else {
                     chucDanh = "Giảng viên cao cấp";
                 }
-
-                table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);
+                console.log(JSON.stringify(gvAdd));
+                table_GV.row.add(gvAdd).draw(false);
                 /*  init_Table_GV();*/
                 /* table_GV.row.Add([]);*/
                 $('#modalAddGV').modal('hide');

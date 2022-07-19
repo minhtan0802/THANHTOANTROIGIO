@@ -175,29 +175,63 @@ function previewLTC() {
         processData: false,
         contentType: false,
         success: function (response) {
-            listHuongDanLTC = JSON.stringify($.parseJSON(response).data);
             table_LTC_Import = $('#table_LTC_Import').DataTable({
                 "data": $.parseJSON(response).data,
                 "columns": [{
-                    'data': 'MaGV',
+                    'data': 'TenLTC',
                 },
                 {
+                    'data': 'MaMon',
+                }, {
+                    'data': 'SiSo',
+                }, {
+                    'data': 'HSLopDongLT',
+                }, {
+                    'data': 'SoNhomTH',
+                }, {
+                    'data': 'HSLopDongTH',
+                }, {
+                    'data': 'TietLTTD',
+                }, {
+                    'data': 'TietBTTD',
+                }, {
+                    'data': 'TietTHTD',
+                }, {
+                    'data': 'TietLTQD',
+                }, {
+                    'data': 'TietBTQD',
+                }, {
+                    'data': 'TietTHQD',
+                }, {
+                    'data': 'DonGia',
+                }, {
+                    'data': 'MaHeLop',
+                }, {
+                    'data': 'MaBac',
+                }, {
+                    'data': 'HSMonMoi',
+                }, {
+                    'data': 'HSNgoaiGio',
+                }, {
+                    'data': 'HSLTC',
+                }, {
+                    'data': 'HSHocKy',
+                }, {
+                    'data': 'HSNhomTH',
+                }, {
+                    'data': 'HSBac',
+                }, {
+                    'data': 'HSHeLop',
+                }, {
+                    'data': 'MaGV',
+                }, {
                     'data': 'MaNKHK',
                 }, {
-                    'data': 'Lop',
-                }, {
-                    'data': 'SoTuan',
-                }, {
-                    'data': 'SoSinhVienHD',
-                }, {
-                    'data': 'HSHuongDan',
-                }, {
-                    'data': 'SoSinhVienPB',
-                }, {
-                    'data': 'HSPhanBien',
+                    'data': 'MaLTC',
                 }]
             }
             );
+            setVisibleColumn(false);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -221,7 +255,7 @@ function initSelect_Sheet() {
         async: true,
         type: 'POST',
         data: formData,
-        url: '/lop-tin-chi/list-sheet',
+        url: '/import/list-sheet',
         processData: false,
         contentType: false,
         success: function (response) {
@@ -271,8 +305,7 @@ function setVisibleColumn(bool) {
     table_LTC_Import.columns(22).visible(bool);
     table_LTC_Import.columns(23).visible(bool);
     table_LTC_Import.columns(24).visible(bool);
-    table_LTC_Import.columns(25).visible(bool);
-} 
+}
 
 
 

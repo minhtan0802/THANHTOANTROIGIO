@@ -12,8 +12,6 @@ namespace THANHTOANTROIGIO.Controllers
     [Route("giangvien")]
     public class GiangVienController : Controller
     {
-
-
         // GET: GiangVien
         [HttpGet]
         [Route("")]
@@ -131,7 +129,7 @@ namespace THANHTOANTROIGIO.Controllers
 
                         context.SaveChanges();
                         transaction.Commit();
-                        return Json(new { result = true, data = model });
+                        return Json(JsonConvert.SerializeObject(new { result = true, data = model }));
                     }
                     catch (Exception ex)
                     {

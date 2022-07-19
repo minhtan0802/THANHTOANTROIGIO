@@ -220,7 +220,7 @@ function initSelect_Sheet() {
         async: true,
         type: 'POST',
         data: formData,
-        url: '/thuc-tap-tot-nghiep/list-sheet',
+        url: '/import/list-sheet',
         processData: false,
         contentType: false,
         success: function (response) {

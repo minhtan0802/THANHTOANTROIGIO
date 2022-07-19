@@ -32,7 +32,40 @@ namespace THANHTOANTROIGIO.Models
         public String MaHeLop { get; set; }
         public String MaGV { get; set; }
         public String MaNKHK { get; set; }
+
+        public LopTinChi(int maLTC, string tenLTC, int siSo, int soNhomTH, double tietBTQD, double tietBTTD, double tietLTQD, double tietLTTD, double tietTHQD, double tietTHTD, int donGia, double hSMonMoi, double hSNgoaiGio, double hSLopDongLT, double hSLopDongTH, double hSLTC, double hSHocKy, double hSNhomTH, string maMon, double hSBac, string maBac, double hSHeLop, string maHeLop, string maGV, string maNKHK)
+        {
+            MaLTC = maLTC;
+            TenLTC = tenLTC;
+            SiSo = siSo;
+            SoNhomTH = soNhomTH;
+            TietBTQD = tietBTQD;
+            TietBTTD = tietBTTD;
+            TietLTQD = tietLTQD;
+            TietLTTD = tietLTTD;
+            TietTHQD = tietTHQD;
+            TietTHTD = tietTHTD;
+            DonGia = donGia;
+            HSMonMoi = hSMonMoi;
+            HSNgoaiGio = hSNgoaiGio;
+            HSLopDongLT = hSLopDongLT;
+            HSLopDongTH = hSLopDongTH;
+            HSLTC = hSLTC;
+            HSHocKy = hSHocKy;
+            HSNhomTH = hSNhomTH;
+            MaMon = maMon;
+            HSBac = hSBac;
+            MaBac = maBac;
+            HSHeLop = hSHeLop;
+            MaHeLop = maHeLop;
+            MaGV = maGV;
+            MaNKHK = maNKHK;
+        }
+        public LopTinChi()
+        {
+        }
     }
+
     public class LopTinChiViewModel
     {
         [Key]
