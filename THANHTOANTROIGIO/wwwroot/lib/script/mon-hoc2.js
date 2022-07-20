@@ -137,7 +137,7 @@ function saveMonHoc(close) {
             success: function (response) {
                 if (response.success == true) {
                     table_MonHoc.row.add(monHoc).draw(false);
-                    toastr.success("Thêm bộ môn thành công", "Thông báo", { timeOut: 2500 });
+                    toastr.success("Thêm môn học thành công", "Thông báo", { timeOut: 2500 });
                     if (close) {
                         $('#modalAddMonHoc').modal('hide');
                     }
@@ -145,15 +145,15 @@ function saveMonHoc(close) {
                 else {
                     if (response.message == "pk") {
                         $("#maMonHoc").focus();
-                        toastr.error("Mã bộ môn đã tồn tại", "Lỗi", { timeOut: 2500 });
+                        toastr.error("Mã môn học đã tồn tại", "Lỗi", { timeOut: 2500 });
                         return;
                     }
                     if (response.message == "name") {
                         $("#tenMonHoc").focus();
-                        toastr.error("Tên bộ môn đã tồn tại", "Lỗi", { timeOut: 2500 });
+                        toastr.error("Tên môn học đã tồn tại", "Lỗi", { timeOut: 2500 });
                         return;
                     }
-                    toastr.error("Thêm bộ môn thất bại: " + response.message, "Lỗi", { timeOut: 2500 });
+                    toastr.error("Thêm môn học thất bại: " + response.message, "Lỗi", { timeOut: 2500 });
                 }
             },
             error: function () {
@@ -188,7 +188,7 @@ function saveMonHoc(close) {
                         toastr.error("Tên môn học đã tồn tại", "Lỗi", { timeOut: 2500 });
                         return;
                     }
-                    toastr.error("Thêm bộ môn thất bại: " + response.message, "Lỗi", { timeOut: 2500 });
+                    toastr.error("Thêm môn học thất bại: " + response.message, "Lỗi", { timeOut: 2500 });
                 }
             },
             error: function () {

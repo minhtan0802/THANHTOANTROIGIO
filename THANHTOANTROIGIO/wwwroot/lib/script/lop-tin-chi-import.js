@@ -18,7 +18,7 @@ var flagEdit = "";
 var fileLTC;
 var select_Sheet;
 var maSheet;
-var listHuongDanLTC;
+var listLTCPreview;
 $(document).ready(function () {
     loading();
     select_Sheet = $('#select_Sheet').select2();
@@ -175,6 +175,7 @@ function previewLTC() {
         processData: false,
         contentType: false,
         success: function (response) {
+            listLTCPreview = $.parseJSON(response).data;
             table_LTC_Import = $('#table_LTC_Import').DataTable({
                 "data": $.parseJSON(response).data,
                 "columns": [{
@@ -272,10 +273,13 @@ function initSelect_Sheet() {
     });
 }
 function importLTC() {
+    console.log(JSON.stringify(listLTCPreview));
     $.ajax({
         async: true,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
         type: 'POST',
-        data: "",
+        data: JSON.stringify(listLTCPreview),
         url: '/lop-tin-chi/import-file',
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
