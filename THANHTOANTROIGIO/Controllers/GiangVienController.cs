@@ -276,7 +276,7 @@ namespace THANHTOANTROIGIO.Controllers
                     }
                 }
             }
-            return Json(new { result = true, data = model });
+            return Json(JsonConvert.SerializeObject(new { result = true, data = model }));
         }
 
         [Route("delete")]

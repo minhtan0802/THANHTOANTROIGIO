@@ -17,7 +17,7 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("")]
         public IActionResult Index()
         {
- 
+
             return View();
         }
         [Route("ds")]
@@ -87,6 +87,33 @@ namespace THANHTOANTROIGIO.Controllers
             return Json(JsonConvert.SerializeObject(new { success = true, data = dataTable }));
 
         }
+
+        [Route("copy")]
+        [HttpPost]
+        public JsonResult canCopy(String maHocKy)
+        {
+            using (var context = new ThanhToanTroiGioEntities())
+            {
+                try
+                {
+                    var list = context.DinhMucGiangs.Where(s => s.MaNKHK == maHocKy).ToList();
+                    if (list.Count == 0)
+                    {
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = false }));
+                    }
+                    else
+                    {
+                        return Json(new { success = true, data = true });
+                    }    
+                }
+                catch (Exception ex)
+                {
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "Xóa định mức giảng thất bại: " + ex.InnerException.Message }));
+                }
+
+            }
+        }
+
 
         [Route("delete")]
         [HttpPost]

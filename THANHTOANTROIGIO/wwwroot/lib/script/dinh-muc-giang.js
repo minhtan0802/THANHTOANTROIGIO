@@ -53,7 +53,7 @@ $(document).ready(function () {
     });
 
     $('#table_DMG').on('click', 'td.editor-delete', function () {
-        lop = table_DMG.cell(this, 2).data();
+        maGV = table_DMG.cell(this, 0).data();
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn muốn xóa định mức giảng này?",
@@ -110,9 +110,14 @@ function onChange_Select_NienKhoa_Copy(event) {
     tenNienKhoaCopy = $("#select_NienKhoa_Copy option:selected").val();
     init_Select_HocKy_Copy();
 }
+function onChange_Select_HocKy_Copy(event) {
+    maHocKyCopy = $("#select_NienKhoa_Copy option:selected").val();
+  //  canCopy();
+}
 function onChange_Select_Khoa(event) {
     maKhoa = $("#select_Khoa option:selected").val();
     getListDMG();
+    init_Select_GV(maKhoa);
 }
 function onChange_Select_HocKy(event) {
     maHocKy = $("#select_HocKy").val();
@@ -445,6 +450,7 @@ function init_Select_HocKy_Copy() {
             $("#select_HocKy_Copy").prop("selectedIndex", 0);
             $("#select_HocKy_Copy").trigger("change");
             maHocKyCopy = $("#select_HocKy_Copy option:selected").val();
+            console.log("Mã học kỳ copy: " + maHocKyCopy);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -468,6 +474,29 @@ function functionCopyDMG() {
     });
 
 
+}
+function canCopy() {
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: { maHocKy: maHocKyCopy },
+        url: '/dinh-muc-giang/copy',
+        success: function (response) {
+            response = response.data;
+            if (response.data) {
+                $("#btnAgreeCopy").attr("disabled", "disabled");
+            }
+            else {
+                $("#btnAgreeCopy").removeAttr("disabled");
+            }
+            $("#select_HocKy_Copy").prop("selectedIndex", 0);
+            $("#select_HocKy_Copy").trigger("change");
+            maHocKyCopy = $("#select_HocKy_Copy option:selected").val();
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
 }
 
 
