@@ -179,6 +179,8 @@ function previewLTC() {
             table_LTC_Import = $('#table_LTC_Import').DataTable({
                 "data": $.parseJSON(response).data,
                 "columns": [{
+                    'data': 'MaLTC',
+                },{
                     'data': 'TenLTC',
                 },
                 {
@@ -227,8 +229,6 @@ function previewLTC() {
                     'data': 'MaGV',
                 }, {
                     'data': 'MaNKHK',
-                }, {
-                    'data': 'MaLTC',
                 }]
             }
             );
@@ -299,7 +299,7 @@ function onChange_Select_Sheet() {
     console.log('Mã sheet: ' + maSheet);
 }
 function setVisibleColumn(bool) {
-    table_LTC_Import.columns(15).visible(bool);
+   // table_LTC_Import.columns(15).visible(bool);
     table_LTC_Import.columns(16).visible(bool);
     table_LTC_Import.columns(17).visible(bool);
     table_LTC_Import.columns(18).visible(bool);

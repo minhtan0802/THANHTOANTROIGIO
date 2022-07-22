@@ -49,6 +49,7 @@ $(document).ready(function () {
         $("#select_GV").trigger('change');
         $("#select_GV").attr("disabled", "disabled");
         $("#dinhMucGiang").val(table_DMG.cell(this, 5).data());
+        $("#moTa").val(table_DMG.cell(this, 6).data());
         row = table_DMG.row(this);
     });
 
@@ -112,7 +113,7 @@ function onChange_Select_NienKhoa_Copy(event) {
 }
 function onChange_Select_HocKy_Copy(event) {
     maHocKyCopy = $("#select_NienKhoa_Copy option:selected").val();
-  //  canCopy();
+    //  canCopy();
 }
 function onChange_Select_Khoa(event) {
     maKhoa = $("#select_Khoa option:selected").val();
@@ -264,17 +265,19 @@ function getListDMG() {
                 }, {
                     'data': 'ChucVu',
                 }, {
-                    'data': 'DinhMuc'
+                    'data': 'DinhMuc',
+                }, {
+                    'data': 'MoTa',
                 }],
                 'columnDefs': [{
-                    'targets': 6,
+                    'targets': 7,
                     'className': "dt-center editor-edit",
                     'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
                     'orderable': false,
                     'searchable': false
                 },
                 {
-                    'targets': 7,
+                    'targets': 8,
                     'className': "dt-center editor-delete",
                     'defaultContent': '<button><i class="fa fa-trash"/></button>',
                     'orderable': false,
@@ -293,6 +296,7 @@ function getListDMG() {
 }
 function saveDMG(close) {
     var dinhMucGiang = $("#dinhMucGiang").val();
+    var moTa = $("#moTa").val();
     if (dinhMucGiang.toString() == "") {
         $("#dinhMucGiang").focus();
         toastr.error("Vui lòng nhập định mức giảng", "Lỗi", { timeOut: 3000 });
@@ -301,7 +305,8 @@ function saveDMG(close) {
     var dinhMucGiangModelAdd = {
         MaGV: maGV,
         MaNKHK: maHocKy,
-        DinhMuc: dinhMucGiang
+        DinhMuc: dinhMucGiang,
+        MoTa:moTa
     };
     console.log("model: " + JSON.stringify(dinhMucGiangModelAdd));
     if (flagEdit == "") {
@@ -319,7 +324,8 @@ function saveDMG(close) {
                         HoTen: tenGV,
                         ChucDanh: chucDanh,
                         ChucVu: chucVu,
-                        DinhMuc: dinhMucGiang
+                        DinhMuc: dinhMucGiang,
+                        MoTa:moTa
                     };
                     table_DMG.row.add(model).draw(false);
                     if (close) {
@@ -350,7 +356,8 @@ function saveDMG(close) {
                     HoTen: tenGV,
                     ChucDanh: chucDanh,
                     ChucVu: chucVu,
-                    DinhMuc: dinhMucGiang
+                    DinhMuc: dinhMucGiang,
+                    MoTa:moTa
                 };
                 $('#modalAddDMG').modal('hide');
                 row.data(model);

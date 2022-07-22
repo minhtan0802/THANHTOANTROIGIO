@@ -200,7 +200,7 @@ namespace THANHTOANTROIGIO.Controllers
                         else
                         {
                             var model = new LopTinChi();
-                            model.MaLTC = 0;
+                            model.MaLTC = row;
                             model.TenLTC = worksheet.Cells[row, 13].Value.ToString();
                             model.SiSo = Int32.Parse(worksheet.Cells[row, 14].Value.ToString());
                             int int_x;

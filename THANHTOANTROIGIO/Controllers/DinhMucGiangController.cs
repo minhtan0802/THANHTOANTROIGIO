@@ -60,9 +60,10 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     var exist = context.DinhMucGiangs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK).FirstOrDefault();
                     exist.DinhMuc = model.DinhMuc;
+                    exist.MoTa = model.MoTa;
                     context.Entry(exist).State = EntityState.Modified;
                     context.SaveChanges();
-                    return Json(JsonConvert.SerializeObject(new { success = true, data = "" }));
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
                 }
             }
             catch (Exception e)
