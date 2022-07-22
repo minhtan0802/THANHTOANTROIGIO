@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 
@@ -8,14 +9,14 @@ namespace THANHTOANTROIGIO.DAO
 {
     public class LopTinChiDAO
     {
-        public static IEnumerable<Object> getListLTC(String MaNKHK, String MaGV)
+        public static DataTable getListLTC(String MaNKHK, String MaGV)
         {
             using (var context = new ThanhToanTroiGioEntities())
             {
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@MaNKHK", MaNKHK));
                 param.Add(new SqlParameter("@MaGV", MaGV));
-                var list = context.LopTinChiViewModels.FromSqlRaw("EXEC [dbo].[getLTC] '" + MaNKHK+"','"+MaGV+"'",param.ToArray()).ToList();
+                var list = new SQLHelper().ExecuteQuery("getLTC", param);
                 return list;
             }
         }

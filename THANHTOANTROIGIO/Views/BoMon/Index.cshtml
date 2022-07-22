@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -101,7 +100,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btnCloseBoMon">Thoát</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveBoMon">Lưu</button>
+                            <button type="button" class="btn btn-secondary" id="btnSaveBoMon" onclick="saveBoMon(false)">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveCloseBoMon" onclick="saveBoMon(true)">Lưu và Thoát</button>
                         </div>
                     </div>
                 </div>

@@ -19,11 +19,12 @@ var fileLTC;
 var select_Sheet;
 var maSheet;
 var listLTCPreview;
+var listLTCImport;
 $(document).ready(function () {
     loading();
     select_Sheet = $('#select_Sheet').select2();
     table_LTC_Import = $("#table_LTC_Import").DataTable();
-    setVisibleColumn(false);
+   /* setVisibleColumn(false);*/
     init_Select_NienKhoa();
     $('#table_LTC_Import tbody').on('click', 'tr', function () {
         var index = table_LTC_Import.row(this).index();
@@ -175,60 +176,66 @@ function previewLTC() {
         processData: false,
         contentType: false,
         success: function (response) {
-            listLTCPreview = $.parseJSON(response).data;
+            listLTCPreview = $.parseJSON(response).dataView;
+            listLTCImport = $.parseJSON(response).data;
+            console.log(JSON.stringify(listLTCImport));
             table_LTC_Import = $('#table_LTC_Import').DataTable({
-                "data": $.parseJSON(response).data,
+                "data":listLTCPreview,
                 "columns": [{
-                    'data': 'MaLTC',
-                },{
-                    'data': 'TenLTC',
-                },
+                    'data': 'Stt',
+            },
                 {
-                    'data': 'MaMon',
-                }, {
-                    'data': 'SiSo',
-                }, {
-                    'data': 'HSLopDongLT',
-                }, {
-                    'data': 'SoNhomTH',
-                }, {
-                    'data': 'HSLopDongTH',
-                }, {
-                    'data': 'TietLTTD',
-                }, {
-                    'data': 'TietBTTD',
-                }, {
-                    'data': 'TietTHTD',
-                }, {
-                    'data': 'TietLTQD',
-                }, {
-                    'data': 'TietBTQD',
-                }, {
-                    'data': 'TietTHQD',
-                }, {
-                    'data': 'DonGia',
-                }, {
-                    'data': 'MaHeLop',
-                }, {
-                    'data': 'MaBac',
-                }, {
-                    'data': 'HSMonMoi',
-                }, {
-                    'data': 'HSNgoaiGio',
-                }, {
-                    'data': 'HSLTC',
-                }, {
-                    'data': 'HSHocKy',
-                }, {
-                    'data': 'HSNhomTH',
-                }, {
-                    'data': 'HSBac',
-                }, {
-                    'data': 'HSHeLop',
-                }, {
                     'data': 'MaGV',
                 }, {
-                    'data': 'MaNKHK',
+                'data': 'TenGiangVien',
+            }, {
+                'data': 'ChucDanh',
+            }, {
+                'data': 'TenMonHoc',
+            }, {
+                'data': 'MaMonHoc',
+            }, {
+                'data': 'MaHeLop',
+            }, {
+                'data': 'TenLTC',
+            }, {
+                'data': 'SiSo',
+            },
+                {
+                    'data': 'SoNhomTH',
+                },
+                {
+                    'data': 'TietLTQD',
+                },
+                {
+                    'data': 'TietBTQD',
+                },
+                {
+                    'data': 'TietTHQD',
+                },
+                {
+                    'data': 'HSLopDongLT',
+                },
+                {
+                    'data': 'HSNgoaiGio',
+                },
+                {
+                    'data': 'HSMonMoi',
+                },
+                {
+                    'data': 'HSLopDongTH',
+                },
+                {
+                    'data': 'HSLTC',
+                },
+                {
+                    'data': 'TietLTTD',
+                },
+                {
+                    'data': 'TietBTTD',
+                },
+                {
+                    'data': 'TietTHTD',
                 }]
             }
             );
@@ -273,13 +280,13 @@ function initSelect_Sheet() {
     });
 }
 function importLTC() {
-    console.log(JSON.stringify(listLTCPreview));
+    console.log(JSON.stringify(listLTCImport));
     $.ajax({
         async: true,
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         type: 'POST',
-        data: JSON.stringify(listLTCPreview),
+        data: JSON.stringify(listLTCImport),
         url: '/lop-tin-chi/import-file',
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
@@ -298,7 +305,7 @@ function onChange_Select_Sheet() {
     maSheet = $('#select_Sheet option:selected').val();
     console.log('Mã sheet: ' + maSheet);
 }
-function setVisibleColumn(bool) {
+/*function setVisibleColumn(bool) {
    // table_LTC_Import.columns(15).visible(bool);
     table_LTC_Import.columns(16).visible(bool);
     table_LTC_Import.columns(17).visible(bool);
@@ -309,7 +316,7 @@ function setVisibleColumn(bool) {
     table_LTC_Import.columns(22).visible(bool);
     table_LTC_Import.columns(23).visible(bool);
     table_LTC_Import.columns(24).visible(bool);
-}
+}*/
 
 
 

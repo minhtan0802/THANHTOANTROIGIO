@@ -25,6 +25,9 @@ var init_Table_GV;
 var table_Khoa, table_GV;
 var row;
 $(document).ready(function () {
+    $(document).on('shown.bs.modal', '#modalAddGV', function () {
+        $('#maGV').focus();
+    })
     document.getElementById("title").innerHTML = "Nhập dữ liệu - GIẢNG VIÊN";
     $("#select_ChucDanh").prop("selectedIndex", 0);
     table_Khoa = $("#table_Khoa").DataTable();
