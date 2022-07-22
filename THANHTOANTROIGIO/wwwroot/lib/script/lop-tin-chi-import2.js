@@ -24,7 +24,7 @@ $(document).ready(function () {
     loading();
     select_Sheet = $('#select_Sheet').select2();
     table_LTC_Import = $("#table_LTC_Import").DataTable();
-   /* setVisibleColumn(false);*/
+    /* setVisibleColumn(false);*/
     init_Select_NienKhoa();
     $('#table_LTC_Import tbody').on('click', 'tr', function () {
         var index = table_LTC_Import.row(this).index();
@@ -125,7 +125,7 @@ function loading() {
         }
     });
 }
-function getListLTC() {
+/*function getListLTC() {
     table_LTC_Import.destroy();
     $.ajax({
         async: true,
@@ -161,7 +161,7 @@ function getListLTC() {
         }
     });
 }
-function previewLTC() {
+*/function previewLTC() {
     document.getElementById("btnImport").removeAttribute("disabled");
     table_LTC_Import.destroy();
     var formData = new FormData();
@@ -180,27 +180,27 @@ function previewLTC() {
             listLTCImport = $.parseJSON(response).data;
             console.log(JSON.stringify(listLTCImport));
             table_LTC_Import = $('#table_LTC_Import').DataTable({
-                "data":listLTCPreview,
+                "data": listLTCPreview,
                 "columns": [{
                     'data': 'Stt',
-            },
+                },
                 {
                     'data': 'MaGV',
                 }, {
-                'data': 'TenGiangVien',
-            }, {
-                'data': 'ChucDanh',
-            }, {
-                'data': 'TenMonHoc',
-            }, {
-                'data': 'MaMonHoc',
-            }, {
-                'data': 'MaHeLop',
-            }, {
-                'data': 'TenLTC',
-            }, {
-                'data': 'SiSo',
-            },
+                    'data': 'TenGiangVien',
+                }, {
+                    'data': 'ChucDanh',
+                }, {
+                    'data': 'TenMonHoc',
+                }, {
+                    'data': 'MaMonHoc',
+                }, {
+                    'data': 'MaHeLop',
+                }, {
+                    'data': 'TenLTC',
+                }, {
+                    'data': 'SiSo',
+                },
                 {
                     'data': 'SoNhomTH',
                 },
@@ -236,10 +236,17 @@ function previewLTC() {
                 },
                 {
                     'data': 'TietTHTD',
-                }]
+                }],
+                "columnDefs": [{
+                    "targets": 4,
+                    "width": "100px"
+                }, {
+                    "targets": 2,
+                    "width": "100px"
+                }
+                ]
             }
             );
-            setVisibleColumn(false);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
