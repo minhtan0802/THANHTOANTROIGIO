@@ -73,8 +73,10 @@ $(document).ready(function () {
                         if (response.success == true) {
                             toastr.success(response.data, "Thông báo", { timeOut: 3000 });
                             row.remove().draw();
-                            if (!table_DMG.data().count) {
-                                $("btnCopyDMG").removeAttr("disabled");
+                            console.log("So hang: " + table_DMG.data().count());
+                            if (table_DMG.data().count() == 0) {
+                                document.getElementById("btnCopyDMG").removeAttribute("disabled");
+                            //    $("#btnCopyDMG").re removeAttr("disabled");
                             }
                         } else {
                             toastr.error(response.message, "Lỗi", { timeOut: 3000 });
@@ -316,6 +318,7 @@ function saveDMG(close) {
             data: { model: dinhMucGiangModelAdd },
             url: '/dinh-muc-giang/add',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
                     toastr.success('Thông báo', 'Thêm định mức giảng thành công!', { timeOut: 3000 });
                     var model = {
