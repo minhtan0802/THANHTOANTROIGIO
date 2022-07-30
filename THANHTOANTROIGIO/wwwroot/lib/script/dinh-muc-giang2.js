@@ -17,6 +17,8 @@ var flagEdit = "";
 var chucDanh, chucVu;
 var tenNienKhoaCopy, maHocKyCopy;
 var row;
+var maHocKyCurrent;
+var canEdit = true;
 $(document).ready(function () {
     loading();
     table_DMG = $("#table_DMG").DataTable();
@@ -28,6 +30,7 @@ $(document).ready(function () {
     });
 
     init_Select_NienKhoa();
+    maHocKyCurrent = maHocKy;
     init_Select_Khoa();
     $('#table_DMG tbody').on('click', 'tr', function () {
         var index = table_DMG.row(this).index();
@@ -42,6 +45,9 @@ $(document).ready(function () {
         }
     });
     $('#table_DMG').on('click', 'td.editor-edit', function (e) {
+        if (!canEdit) {
+            return;
+        }
         $("#label_DMG").html("Chỉnh sửa định mức giảng");
         maGV = table_DMG.cell(this, 0).data();
         flagEdit = maGV;
@@ -54,6 +60,9 @@ $(document).ready(function () {
     });
 
     $('#table_DMG').on('click', 'td.editor-delete', function () {
+        if (!canEdit) {
+            return;
+        }
         maGV = table_DMG.cell(this, 0).data();
         swal({
             title: "Xác nhận",
@@ -76,7 +85,7 @@ $(document).ready(function () {
                             console.log("So hang: " + table_DMG.data().count());
                             if (table_DMG.data().count() == 0) {
                                 document.getElementById("btnCopyDMG").removeAttribute("disabled");
-                            //    $("#btnCopyDMG").re removeAttr("disabled");
+                                //    $("#btnCopyDMG").re removeAttr("disabled");
                             }
                         } else {
                             toastr.error(response.message, "Lỗi", { timeOut: 3000 });
@@ -148,15 +157,17 @@ function init_Select_HocKy() {
         url: '/nien-khoa-hoc-ky/hoc-ky',
         success: function (response) {
             response = $.parseJSON(response);
+            var count = -1;
             $.each(response, function (i, item) {
                 if (parseInt(item.MaNKHK, 10) % 10 != 3) {
                     $('#select_HocKy').append($('<option>', {
                         value: item.MaNKHK,
                         text: item.TenHocKy
                     }));
-                }
+                };
+                count++;
             });
-            $("#select_HocKy").prop("selectedIndex", 0);
+            $("#select_HocKy").prop("selectedIndex", count);
             maHocKy = $("#select_HocKy").val();
             $('#select_HocKy').trigger('change');
         },
@@ -193,16 +204,18 @@ function init_Select_Khoa() {
 function init_Select_NienKhoa() {
     $("#select_NienKhoa").empty();
     $.ajax({
-        async: true,
+        async: false,
         type: 'GET',
         url: '/nien-khoa-hoc-ky/nien-khoa',
         success: function (response) {
             response = $.parseJSON(response);
+
             $.each(response, function (i, item) {
                 $('#select_NienKhoa').append($('<option>', {
                     value: item.TenNienKhoa,
                     text: item.TenNienKhoa
                 }));
+
             });
             $("#select_NienKhoa").prop("selectedIndex", 0);
             tenNienKhoa = $("#select_NienKhoa option:selected").val();
@@ -221,7 +234,9 @@ function loading() {
         url: '/loading/dinh-muc-giang',
         success: function (response) {
             response = $.parseJSON(response);
+            flagDisableUpdate = response;
             if (response == 1) {
+
                 $("#modalLoadingDMG").modal('show');
                 setTimeout(function () {
                     $("#modalLoadingDMG").modal('hide')
@@ -274,20 +289,34 @@ function getListDMG() {
                 'columnDefs': [{
                     'targets': 7,
                     'className': "dt-center editor-edit",
-                    'defaultContent': '<button><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
+                    'defaultContent': '<button class="edit"><i class="fa fa-pencil" onclick="editFunction()" aria-hidden="true"/></button>',
                     'orderable': false,
                     'searchable': false
                 },
                 {
                     'targets': 8,
                     'className': "dt-center editor-delete",
-                    'defaultContent': '<button><i class="fa fa-trash"/></button>',
+                    'defaultContent': '<button class="edit"><i class="fa fa-trash"/></button>',
                     'orderable': false,
                     'searchable': false
                 }
                 ]
             }
             );
+            var listBtnEditDelete = document.getElementsByClassName("edit");
+            console.log(JSON.stringify(listBtnEditDelete));
+            if (maHocKy != maHocKyCurrent) {
+                $("#btnAddDMG").attr("disabled", "disabled");
+                $("#btnCopyDMG").attr("disabled", "disabled");
+                canEdit = false;
+                $.each(listBtnEditDelete, function (i, item) {
+                    item.setAttribute("disabled", "disabled");
+                });
+            }
+            else {
+                $("#btnAddDMG").removeAttr("disabled");
+                canEdit = true;
+            }
             table_DMG.columns(0).visible(false);
             table_DMG.columns(1).visible(false);
         },
@@ -308,7 +337,7 @@ function saveDMG(close) {
         MaGV: maGV,
         MaNKHK: maHocKy,
         DinhMuc: dinhMucGiang,
-        MoTa:moTa
+        MoTa: moTa
     };
     console.log("model: " + JSON.stringify(dinhMucGiangModelAdd));
     if (flagEdit == "") {
@@ -328,7 +357,7 @@ function saveDMG(close) {
                         ChucDanh: chucDanh,
                         ChucVu: chucVu,
                         DinhMuc: dinhMucGiang,
-                        MoTa:moTa
+                        MoTa: moTa
                     };
                     table_DMG.row.add(model).draw(false);
                     if (close) {
@@ -360,7 +389,7 @@ function saveDMG(close) {
                     ChucDanh: chucDanh,
                     ChucVu: chucVu,
                     DinhMuc: dinhMucGiang,
-                    MoTa:moTa
+                    MoTa: moTa
                 };
                 $('#modalAddDMG').modal('hide');
                 row.data(model);
@@ -372,6 +401,9 @@ function saveDMG(close) {
     }
 }
 function editFunction() {
+    if (!canEdit) {
+        return;
+    }
     document.getElementById('btnSaveDMG').style.display = "none";
     $("#modalAddDMG").modal("show");
 }

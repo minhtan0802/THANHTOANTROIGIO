@@ -547,10 +547,11 @@ function saveGiangVien() {
                 if (chucDanh == "GVC") {
                     chucDanh = "Giảng viên chính";
                 }
-                else {
+                else if (chucDanh=="GVCC"){
                     chucDanh = "Giảng viên cao cấp";
                 }
                 console.log(JSON.stringify(gvAdd));
+                gvAdd.ChucDanh = chucDanh;
                 table_GV.row.add(gvAdd).draw(false);
                 /*  init_Table_GV();*/
                 /* table_GV.row.Add([]);*/

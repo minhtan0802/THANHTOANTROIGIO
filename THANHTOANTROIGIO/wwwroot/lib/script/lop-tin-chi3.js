@@ -116,12 +116,12 @@ $(document).ready(function () {
                 $('#hsBac').val(response.HSBac);
                 $('#siSo').val(response.SiSo);
 
-                if (response.HSNgoaiGio > 0) {
+                if (response.HSNgoaiGio > 1) {
                     $('#lopDem').attr('checked', 'checked');
                     $('#hsLopDem').removeAttr('readonly');
                     $('#hsLopDem').val(response.HSNgoaiGio);
                 }
-                if (response.HSMonMoi > 0) {
+                if (response.HSMonMoi > 1) {
                     $('#monMoi').attr('checked', 'checked');
                     $('#hsMonMoi').removeAttr('readonly');
                 }
@@ -570,11 +570,11 @@ function saveLTC(close) {
     var hsMonMoi = $('#hsMonMoi').val();
     var lopDem = document.getElementById("lopDem");
     if (!lopDem.checked) {
-        hsLopDem = 0;
+        hsLopDem = 1;
     }
     var monMoi = document.getElementById("lopDem");
     if (!monMoi.checked) {
-        hsMonMoi = 0;
+        hsMonMoi = 1;
     }
     var hsHeLop = $('#hsHeLop').val();
     var hsNhomTH = $('#hsNhomTH').val();

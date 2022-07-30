@@ -84,7 +84,7 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 using (var context = new ThanhToanTroiGioEntities())
                 {
-                    context.Entry(ltc).State = EntityState.Modified;
+                    context.Entry(model).State = EntityState.Modified;
                     context.SaveChanges();
                 }
 
