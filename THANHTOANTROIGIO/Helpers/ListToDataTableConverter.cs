@@ -13,6 +13,7 @@ namespace THANHTOANTROIGIO.Helpers
             PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo prop in Props)
             {
+                Console.WriteLine(prop.Name);
                 //Setting column names as Property names
                 dataTable.Columns.Add(prop.Name);
             }

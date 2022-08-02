@@ -200,60 +200,66 @@ namespace THANHTOANTROIGIO.Controllers
                         }
                         else
                         {
-                            var model = new LopTinChi();
-                            var modelView = new LopTinChiImportModel();
-                            modelView.Stt=model.MaLTC = row;
-                            modelView.TenLTC=model.TenLTC = worksheet.Cells[row, 13].Value.ToString();
-                            modelView.SiSo=model.SiSo = Int32.Parse(worksheet.Cells[row, 14].Value.ToString());
-                            int int_x;
-                            double double_x;
-                            modelView.SoNhomTH=model.SoNhomTH = Int32.TryParse(worksheet.Cells[row, 15].Value?.ToString(), out int_x) ? int_x : 0;
-                            modelView.TietLTQD=model.TietLTQD = Math.Round(Double.TryParse(worksheet.Cells[row, 17].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.TietLTTD=model.TietLTTD = Math.Round(Double.TryParse(worksheet.Cells[row, 29].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.TietBTQD=model.TietBTQD = Math.Round(Double.TryParse(worksheet.Cells[row, 18].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.TietBTTD=model.TietBTTD = Math.Round(Double.TryParse(worksheet.Cells[row, 30].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.TietTHQD=model.TietTHQD = Math.Round(Double.TryParse(worksheet.Cells[row, 20].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.TietTHTD=model.TietTHTD = Math.Round(Double.TryParse(worksheet.Cells[row, 32].Value?.ToString(), out double_x) ? double_x : 0, 2);
+                            using (var context = new ThanhToanTroiGioEntities())
+                            {
+                                var model = new LopTinChi();
+                                var modelView = new LopTinChiImportModel();
+                                modelView.Stt = model.MaLTC = row;
+                                modelView.TenLTC = model.TenLTC = worksheet.Cells[row, 13].Value.ToString();
+                                modelView.SiSo = model.SiSo = Int32.Parse(worksheet.Cells[row, 14].Value.ToString());
+                                int int_x;
+                                double double_x;
+                                modelView.SoNhomTH = model.SoNhomTH = Int32.TryParse(worksheet.Cells[row, 15].Value?.ToString(), out int_x) ? int_x : 0;
+                                modelView.TietLTTD = model.TietLTTD = Math.Round(Double.TryParse(worksheet.Cells[row, 17].Value?.ToString(), out double_x) ? double_x : 0, 2);
+                               
+                                modelView.TietBTTD = model.TietBTTD = Math.Round(Double.TryParse(worksheet.Cells[row, 18].Value?.ToString(), out double_x) ? double_x : 0, 2);
 
-                            var maHocVi = worksheet.Cells[row, 2].Value.ToString().Split('.')[0];
-                            var maGV = worksheet.Cells[row, 1].Value.ToString();
-                            var monHoc = worksheet.Cells[row, 8].Value.ToString();
-                            modelView.TenMonHoc = monHoc;
-                            modelView.TenGiangVien= worksheet.Cells[row, 2].Value.ToString();
-                            List<SqlParameter> param = new List<SqlParameter>();
-                            param.Add(new SqlParameter("@maHocVi", maHocVi));
-                            param.Add(new SqlParameter("@maGV", maGV));
-                            param.Add(new SqlParameter("@monHoc", monHoc));
-                            model.DonGia = Int32.Parse(new SQLHelper().ExecuteQuery("getDonGiaGV", param).Rows[0][0].ToString());
+                                modelView.TietTHTD = model.TietTHTD = Math.Round(Double.TryParse(worksheet.Cells[row, 20].Value?.ToString(), out double_x) ? double_x : 0, 2);
 
-                            modelView.HSMonMoi=model.HSMonMoi = Math.Round(Double.TryParse(worksheet.Cells[row, 26].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.HSNgoaiGio=model.HSNgoaiGio = Math.Round(Double.TryParse(worksheet.Cells[row, 25].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.HSLopDongLT= model.HSLopDongLT = Math.Round(Double.TryParse(worksheet.Cells[row, 24].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.HSLopDongTH=model.HSLopDongTH = Math.Round(Double.TryParse(worksheet.Cells[row, 27].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            modelView.HSLTC=model.HSLTC = Math.Round(Double.TryParse(worksheet.Cells[row, 28].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                            model.HSHocKy = 1;
-                            model.HSNhomTH = 0.5;
-                            modelView.MaMonHoc=modelView.MaMonHoc = model.MaMon = worksheet.Cells[row, 9].Value.ToString();
-                            model.MaBac = "DH";
 
-                            param.Clear();
-                            param.Add(new SqlParameter("@maBacHoc", model.MaBac));
-                            model.HSBac = Double.Parse(new SQLHelper().ExecuteQuery("sp_Get_HSBacHoc", param).Rows[0][0].ToString());
+                                var maHocVi = worksheet.Cells[row, 2].Value.ToString().Split('.')[0];
+                                var maGV = worksheet.Cells[row, 1].Value.ToString();
+                                var monHoc = worksheet.Cells[row, 8].Value.ToString();
+                                modelView.TenMonHoc = monHoc;
+                                modelView.TenGiangVien = worksheet.Cells[row, 2].Value.ToString();
+                                List<SqlParameter> param = new List<SqlParameter>();
+                                param.Add(new SqlParameter("@maHocVi", maHocVi));
+                                param.Add(new SqlParameter("@maGV", maGV));
+                                param.Add(new SqlParameter("@monHoc", monHoc));
+                                model.DonGia = Int32.Parse(new SQLHelper().ExecuteQuery("getDonGiaGV", param).Rows[0][0].ToString());
 
-                            modelView.MaHeLop=model.MaHeLop = worksheet.Cells[row, 10].Value.ToString();
-                            param.Clear();
-                            param.Add(new SqlParameter("@maHeLop", model.MaHeLop));
-                            model.HSHeLop = Double.Parse(new SQLHelper().ExecuteQuery("sp_Get_HSHeLop", param).Rows[0][0].ToString());
-                            model.MaGV = maGV;
-                            modelView.MaGV = maGV;
-                            model.MaNKHK = maNKHK;
-                            modelView.ChucDanh= worksheet.Cells[row, 3].Value.ToString();
-                            list.Add(model);
-                            listView.Add(modelView);
+                                modelView.HSMonMoi = model.HSMonMoi = Math.Round(Double.TryParse(worksheet.Cells[row, 26].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                modelView.HSNgoaiGio = model.HSNgoaiGio = Math.Round(Double.TryParse(worksheet.Cells[row, 25].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                modelView.HSLopDongLT = model.HSLopDongLT = Math.Round(Double.TryParse(worksheet.Cells[row, 24].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                modelView.HSLopDongTH = model.HSLopDongTH = Math.Round(Double.TryParse(worksheet.Cells[row, 27].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                modelView.HSLTC = model.HSLTC = Math.Round(Double.TryParse(worksheet.Cells[row, 28].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                model.HSHocKy = 1;
+                                model.HSNhomTH = 0.5;
+                                modelView.MaMonHoc = modelView.MaMonHoc = model.MaMon = worksheet.Cells[row, 9].Value.ToString();
+                                model.MaBac = "DH";
+                                modelView.TietLTQD =model.TietLTQD= context.MonHocs.Where(x => x.MaMonHoc == modelView.MaMonHoc).FirstOrDefault().TietLT;
+                                modelView.TietBTQD = model.TietBTQD = context.MonHocs.Where(x => x.MaMonHoc == modelView.MaMonHoc).FirstOrDefault().TietBT;
+                                modelView.TietTHQD = model.TietTHQD = context.MonHocs.Where(x => x.MaMonHoc == modelView.MaMonHoc).FirstOrDefault().TietTH;
+                                param.Clear();
+                                param.Add(new SqlParameter("@maBacHoc", model.MaBac));
+                                model.HSBac = Double.Parse(new SQLHelper().ExecuteQuery("sp_Get_HSBacHoc", param).Rows[0][0].ToString());
+
+                                modelView.MaHeLop = model.MaHeLop = worksheet.Cells[row, 10].Value.ToString();
+                                param.Clear();
+                                param.Add(new SqlParameter("@maHeLop", model.MaHeLop));
+                                model.HSHeLop = Double.Parse(new SQLHelper().ExecuteQuery("sp_Get_HSHeLop", param).Rows[0][0].ToString());
+                                model.MaGV = maGV;
+                                modelView.MaGV = maGV;
+                                model.MaNKHK = maNKHK;
+                                modelView.ChucDanh = worksheet.Cells[row, 3].Value.ToString();
+                                list.Add(model);
+                                listView.Add(modelView);
+                            }
+
                         }
                     }
                     listImport = list;
-                    return Json(JsonConvert.SerializeObject(new { success = true, data = list,dataView=listView }));
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = list, dataView = listView }));
                 }
             }
             else
@@ -266,39 +272,13 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult import([FromBody] List<LopTinChi> model)
         {
-            /* DataTable dataTable = new DataTable();
-             dataTable.Columns.Add("MaLTC", typeof(int));
-             dataTable.Columns.Add("TenLTC", typeof(string));
-             dataTable.Columns.Add("SiSo", typeof(int));
-             dataTable.Columns.Add("SoNhomTH", typeof(int));
-             dataTable.Columns.Add("TietBTQD", typeof(double));
-             dataTable.Columns.Add("TietBTTD", typeof(double));
-             dataTable.Columns.Add("TietLTQD", typeof(double));
-             dataTable.Columns.Add("TietLTTD", typeof(double));
-             dataTable.Columns.Add("TietTHQD", typeof(double));
-             dataTable.Columns.Add("TietTHTD", typeof(double));
-             dataTable.Columns.Add("DonGia", typeof(int));
-             dataTable.Columns.Add("HSMonMoi", typeof(double));
-             dataTable.Columns.Add("HSNgoaiGio", typeof(double));
-             dataTable.Columns.Add("HSLopDongLT", typeof(double));
-             dataTable.Columns.Add("HSLopDongTH", typeof(double));
-             dataTable.Columns.Add("HSLTC", typeof(double));
-             dataTable.Columns.Add("HSHocKy", typeof(double));
-             dataTable.Columns.Add("HSNhomTH", typeof(double));
-             dataTable.Columns.Add("MaMon", typeof(string));
-             dataTable.Columns.Add("HSBac", typeof(double));
-             dataTable.Columns.Add("MaBac", typeof(string));
-             dataTable.Columns.Add("HSHeLop", typeof(double));
-             dataTable.Columns.Add("MaHeLop", typeof(string));
-             dataTable.Columns.Add("MaGV", typeof(string));
-             dataTable.Columns.Add("MaNKHK", typeof(string));*/
             var convert = new ListToDataTableConverter();
             var dataTable = convert.ToDataTable(model);
-         /*   foreach (var item in model)
-            {
-                item.MaLTC = 0;
-                dataTable.Rows.Add(item);
-            }*/
+            /*   foreach (var item in model)
+               {
+                   item.MaLTC = 0;
+                   dataTable.Rows.Add(item);
+               }*/
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@LopTinChi", dataTable));
             var i = new SQLHelper().ExecuteQuery("Import_LopTinChi", param);
