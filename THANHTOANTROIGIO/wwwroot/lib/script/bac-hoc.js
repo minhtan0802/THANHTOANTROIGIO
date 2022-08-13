@@ -5,7 +5,7 @@ var maBacHocEdit = "";
 var table_BacHoc;
 var row;
 $(document).ready(function () {
-    loading();
+   /* loading();*/
     init_table_BacHoc();
     $(document).on('shown.bs.modal', '#modalAddBacHoc', function () {
         $('#maBacHoc').focus();

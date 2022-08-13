@@ -1,17 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("chuc-vu")]
+    [AuthorizeUser]
     public class ChucVuController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly ThanhToanTroiGioEntities _context;
+        private readonly String _connectionString;
+        private readonly ChucVuService _chucVuService;
+
+        public ChucVuController(IConfiguration configuration, ThanhToanTroiGioEntities context, ChucVuService chucVuService)
+        {
+            _configuration = configuration;
+            _context = context;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _chucVuService = chucVuService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -21,14 +33,14 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-chuc-vu")]
         public JsonResult AjaxMethod_ChucVu()
         {
-            var data = ChucVuDAO.getListChucVu();
+            var data = _chucVuService.getListChucVu();
             return Json(JsonConvert.SerializeObject(data));
         }
         [HttpPost]
         [Route("by-ma-gv")]
         public JsonResult AjaxMethod_getChucVuByMaGV(GiangVien model)
         {
-            var data = ChucVuDAO.getChucVuByMaGV(model.MaGiangVien);
+            var data = _chucVuService.getChucVuByMaGV(model.MaGiangVien);
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("add")]
@@ -37,22 +49,20 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+                var checkMaChucVu = _context.ChucVus.Where(x => x.MaChucVu == chucVu.MaChucVu.Trim()).FirstOrDefault();
+                if (checkMaChucVu != null)
                 {
-                    var checkMaChucVu = context.ChucVus.Where(x => x.MaChucVu == chucVu.MaChucVu.Trim()).FirstOrDefault();
-                    if (checkMaChucVu != null)
-                    {
-                        return Json(new { success = false, message = "pk" });
-                    }
-                    var checkTenChucVu = context.ChucVus.Where(x => x.TenChucVu.ToLower() == chucVu.TenChucVu.ToLower().Trim()).FirstOrDefault();
-                    if (checkTenChucVu != null)
-                    {
-                        return Json(new { success = false, message = "name" });
-                    }
-                    context.ChucVus.Add(chucVu);
-                    context.SaveChanges();
-                    return Json(new { success = true, data = chucVu });
+                    return Json(new { success = false, message = "pk" });
                 }
+                var checkTenChucVu = _context.ChucVus.Where(x => x.TenChucVu.ToLower() == chucVu.TenChucVu.ToLower().Trim()).FirstOrDefault();
+                if (checkTenChucVu != null)
+                {
+                    return Json(new { success = false, message = "name" });
+                }
+                _context.ChucVus.Add(chucVu);
+                _context.SaveChanges();
+                return Json(new { success = true, data = chucVu });
+
             }
             catch (Exception e)
             {
@@ -65,35 +75,33 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+                if (maChucVu != model.MaChucVu)
                 {
-                    if (maChucVu != model.MaChucVu)
-                    {
-                        var checkMaChucVu = context.ChucVus.Where(x => x.MaChucVu == model.MaChucVu.Trim()).FirstOrDefault();
+                    var checkMaChucVu = _context.ChucVus.Where(x => x.MaChucVu == model.MaChucVu.Trim()).FirstOrDefault();
 
-                        if (checkMaChucVu != null)
-                        {
-                            return Json(new { success = false, message = "pk" });
-                        }
-                    }
-
-                    var checkTenMon = context.ChucVus.Where(x => x.TenChucVu.ToLower() == model.TenChucVu.ToLower().Trim() && x.MaChucVu != maChucVu.Trim()).FirstOrDefault();
-                    if (checkTenMon != null)
+                    if (checkMaChucVu != null)
                     {
-                        return Json(new { success = false, message = "name" });
+                        return Json(new { success = false, message = "pk" });
                     }
-                    var chucVu = context.ChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
-                    chucVu.TenChucVu = model.TenChucVu.Trim();
-                    chucVu.DinhMucGiam = model.DinhMucGiam;
-                    context.Entry(chucVu).State = EntityState.Modified;
-                    context.SaveChanges();
-                    if (maChucVu != model.MaChucVu.Trim())
-                    {
-                        var x = new SQLHelper().ExecuteString("EXEC [dbo].[updatePK] '" + maChucVu + "','" + model.MaChucVu.Trim() + "','ChucVu'");
-                    }
-                    return Json(new { success = true, data = chucVu });
-
                 }
+
+                var checkTenMon = _context.ChucVus.Where(x => x.TenChucVu.ToLower() == model.TenChucVu.ToLower().Trim() && x.MaChucVu != maChucVu.Trim()).FirstOrDefault();
+                if (checkTenMon != null)
+                {
+                    return Json(new { success = false, message = "name" });
+                }
+                var chucVu = _context.ChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
+                chucVu.TenChucVu = model.TenChucVu.Trim();
+                chucVu.DinhMucGiam = model.DinhMucGiam;
+                _context.Entry(chucVu).State = EntityState.Modified;
+                _context.SaveChanges();
+                if (maChucVu != model.MaChucVu.Trim())
+                {
+                    var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maChucVu + "','" + model.MaChucVu.Trim() + "','ChucVu'");
+                }
+                return Json(new { success = true, data = chucVu });
+
+
             }
             catch (Exception e)
             {
@@ -106,18 +114,16 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+                var checkPK = _context.ThayDoiChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
+                if (checkPK != null)
                 {
-                    var checkPK = context.ThayDoiChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
-                    if (checkPK != null)
-                    {
-                        return Json(new { success = false, message = "Không thể xóa chức vụ vì đã tồn tại giảng viên thuộc chức vụ này!" });
-                    }
-                    var chucVu = context.ChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
-                    context.Entry(chucVu).State = EntityState.Deleted;
-                    context.SaveChanges();
-                    return Json(new { success = true, data = "Xóa chức vụ thành công!" });
+                    return Json(new { success = false, message = "Không thể xóa chức vụ vì đã tồn tại giảng viên thuộc chức vụ này!" });
                 }
+                var chucVu = _context.ChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
+                _context.Entry(chucVu).State = EntityState.Deleted;
+                _context.SaveChanges();
+                return Json(new { success = true, data = "Xóa chức vụ thành công!" });
+
             }
             catch (Exception e)
             {

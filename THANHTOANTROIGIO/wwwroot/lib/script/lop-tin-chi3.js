@@ -16,7 +16,7 @@ var maLTC = 0;
 var ltcAdd = null;
 var flagEdit = "";
 $(document).ready(function () {
-    loading();
+  /*  loading();*/
     table_LTC = $("#table_LTC").DataTable({
         'columnDefs': [
             {

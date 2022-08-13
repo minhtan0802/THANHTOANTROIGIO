@@ -16,7 +16,7 @@ var lop = "";
 var tttnModel = null;
 var flagEdit = "";
 $(document).ready(function () {
-    loading();
+  /*  loading();*/
     table_TTTN = $("#table_TTTN").DataTable();
     table_TTTN.columns(0).visible(false);
     table_TTTN.columns(1).visible(false);

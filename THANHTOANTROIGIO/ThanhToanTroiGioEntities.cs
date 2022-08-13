@@ -6,8 +6,10 @@ namespace THANHTOANTROIGIO
 {
     public class ThanhToanTroiGioEntities : DbContext
     {
-        private IConfigurationRoot _config;
-        private HttpContext _httpContext;
+        public ThanhToanTroiGioEntities(DbContextOptions<ThanhToanTroiGioEntities> options) : base(options)
+        {
+
+        }
         public static String connectionString;
         public DbSet<GiangVien>? GiangViens { get; set; }
         public DbSet<BoMon>? BoMons { get; set; }
@@ -23,7 +25,6 @@ namespace THANHTOANTROIGIO
         public DbSet<MonHoc>? MonHocs { get; set; }
         public DbSet<BacHoc>? BacHocs { get; set; }
         public DbSet<ThayDoiHSBac>? ThayDoiHSBacs { get; set; }
-        public DbSet<LopTinChiViewModel>? LopTinChiViewModels { get; set; }
         public DbSet<LopTinChi>? LopTinChis { get; set; }
         public DbSet<HeLop>? HeLops { get; set; }
         public DbSet<ThayDoiHSHeLop>? ThayDoiHSHeLops { get; set; }
@@ -33,12 +34,13 @@ namespace THANHTOANTROIGIO
         public DbSet<DinhMucGiang>? DinhMucGiangs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            connectionString = configuration.GetConnectionString("DefaultConnection");
+            /* IConfigurationRoot configuration = new ConfigurationBuilder()
+                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+             connectionString = configuration.GetConnectionString("DefaultConnection");*/
+            base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,7 +51,7 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<ThayDoiHocVi>()
                .HasKey(c => new { c.MaGV, c.MaHocVi });
             modelBuilder.Entity<ThayDoiLoaiGV>().HasKey(c => new { c.MaGV, c.MaLoaiGV, c.NgayThayDoi });
-            modelBuilder.Entity<ThayDoiHSBac>().HasKey(c => new { c.MaBac, c.MaGV, c.NgayApDung });
+            modelBuilder.Entity<ThayDoiHSBac>().HasKey(c => new { c.MaBac, c.MaGVDieuChinh, c.NgayApDung });
             modelBuilder.Entity<ThayDoiHSHeLop>().HasKey(c => new { c.MaHeLop, c.MaGV, c.NgayApDung });
             modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<LopDongThucHanh>().HasKey(c => new { c.MaKhoa, c.NgayApDung });

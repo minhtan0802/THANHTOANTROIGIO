@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
     [Route("import")]
+    [AuthorizeUser]
     public class ImportController : Controller
     {
-       
         public class selectSheet
         {
             public int id { get; set; }

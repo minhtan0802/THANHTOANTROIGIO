@@ -11,11 +11,13 @@ namespace THANHTOANTROIGIO.Controllers
     {
         public static String MaGV, TenGV;
         public static String session;
-        private AccountService accountService = new AccountServiceImpl();
+        private readonly IConfiguration _configuration;
+        private readonly ILoginService accountService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(ILoginService accountService,IConfiguration configuration )
         {
-            accountService = accountService;
+            this.accountService = accountService;
+            _configuration = configuration;
         }
 
         [Route("login")]
@@ -68,7 +70,7 @@ namespace THANHTOANTROIGIO.Controllers
              {
                  return Json(new { success = false, data = "Lỗi: "+e.InnerException.Message });
              }*/
-            var account=accountService.Login(username,password);
+            var account=accountService.Login(username,password,_configuration.GetConnectionString("DefaultConnection"));
             if (account != null)
             {
                 HttpContext.Session.SetString("username", username);

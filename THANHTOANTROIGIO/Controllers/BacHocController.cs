@@ -3,17 +3,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("bac-hoc")]
+    [AuthorizeUser]
     public class BacHocController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly BacHocService _bacHocService;
+        private String _connectionString;
+        private readonly ThanhToanTroiGioEntities _context;
+        private readonly AuthService _authService;
+        public BacHocController(IConfiguration configuration, BacHocService bacHocService, ThanhToanTroiGioEntities context, AuthService authService)
+        {
+            _configuration = configuration;
+            _bacHocService = bacHocService;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _context = context;
+            _authService=authService;
+        }
+
         [Route("")]
         public IActionResult Index()
         {
@@ -23,21 +36,21 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult getDSBacHoc()
         {
-            var data = BacHocDAO.getDSBacHoc();
+            var data = _bacHocService.getDSBacHoc();
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("ds-bac-hoc-full")]
         [HttpGet]
         public JsonResult getDSBacHocFull(int all)
         {
-            var data = BacHocDAO.getDSBacHocFull(all);
+            var data = _bacHocService.getDSBacHocFull(all, _connectionString);
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("he-so")]
         [HttpPost]
         public JsonResult getHeSoBac(BacHoc model)
         {
-            var data = BacHocDAO.getHeSoBacHocByMaBacHoc(model.MaBac);
+            var data = _bacHocService.getHeSoBacHocByMaBacHoc(model.MaBac);
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("add")]
@@ -46,127 +59,125 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    using (var transaction = context.Database.BeginTransaction())
+                    try
                     {
-                        try
+                        var checkMaBacHoc = _context.BacHocs.Where(x => x.MaBac == bacHoc.MaBac.Trim()).FirstOrDefault();
+                        if (checkMaBacHoc != null)
                         {
-                            var checkMaBacHoc = context.BacHocs.Where(x => x.MaBac == bacHoc.MaBac.Trim()).FirstOrDefault();
-                            if (checkMaBacHoc != null)
-                            {
-                                return Json(new { success = false, message = "pk" });
-                            }
-                            var checkTenBacHoc = context.BacHocs.Where(x => x.TenBac.ToLower() == bacHoc.TenBac.ToLower().Trim()).FirstOrDefault();
-                            if (checkTenBacHoc != null)
-                            {
-                                return Json(new { success = false, message = "name" });
-                            }
-
-                            ThayDoiHSBac thayDoiHSBac = new ThayDoiHSBac();
-                            thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
-                            thayDoiHSBac.NgayApDung = DateTime.Now;
-                            thayDoiHSBac.HeSo = heSo;
-                            thayDoiHSBac.MaGV = AccountController.MaGV;
-
-                            context.BacHocs.Add(bacHoc);
-                            context.ThayDoiHSBacs.Add(thayDoiHSBac);
-                            context.SaveChanges();
-
-                            transaction.Commit();
+                            return Json(new { success = false, message = "pk" });
                         }
-                        catch (Exception e)
+                        var checkTenBacHoc = _context.BacHocs.Where(x => x.TenBac.ToLower() == bacHoc.TenBac.ToLower().Trim()).FirstOrDefault();
+                        if (checkTenBacHoc != null)
                         {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                            return Json(new { success = false, message = "name" });
                         }
-                        return Json(new { success = true, data = bacHoc });
+
+                        ThayDoiHSBac thayDoiHSBac = new ThayDoiHSBac();
+                        thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
+                        thayDoiHSBac.NgayApDung = DateTime.Now;
+                        thayDoiHSBac.HeSo = heSo;
+                        thayDoiHSBac.MaGVDieuChinh = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user").ToString()).MaGiangVien;
+
+                        _context.BacHocs.Add(bacHoc);
+                        _context.SaveChanges();
+                        _context.ThayDoiHSBacs.Add(thayDoiHSBac);
+                        _context.SaveChanges();
+                        transaction.Commit();
                     }
 
+
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                    }
+                    return Json(new { success = true, data = bacHoc });
                 }
             }
             catch (Exception e)
             {
-
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(new
+                {
+                    success = false,
+                    message = "Lỗi: " + e.InnerException.Message
+                });
             }
         }
         [Route("edit")]
         [HttpPost]
-        public JsonResult editBacHoc(String maBacHoc, BacHoc model, double heSo)
+        /*public JsonResult editBacHoc(String maBacHoc, BacHoc model, double heSo)
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    using (var transaction = context.Database.BeginTransaction())
+                    try
                     {
-                        try
+                        if (maBacHoc != model.MaBac)
                         {
-                            if (maBacHoc != model.MaBac)
-                            {
-                                var checkmaBacHoc = context.BacHocs.Where(x => x.MaBac == model.MaBac.Trim()).FirstOrDefault();
+                            var checkmaBacHoc = _context.BacHocs.Where(x => x.MaBac == model.MaBac.Trim()).FirstOrDefault();
 
-                                if (checkmaBacHoc != null)
-                                {
-                                    return Json(new { success = false, message = "pk" });
-                                }
-                            }
-                            var checkTenBac = context.BacHocs.Where(x => x.TenBac.ToLower() == model.TenBac.ToLower().Trim() && x.MaBac != maBacHoc.Trim()).FirstOrDefault();
-                            if (checkTenBac != null)
+                            if (checkmaBacHoc != null)
                             {
-                                return Json(new { success = false, message = "name" });
+                                return Json(new { success = false, message = "pk" });
                             }
-
-                            var bacHoc = context.BacHocs.Where(x => x.MaBac == maBacHoc.Trim()).FirstOrDefault();
-                            bacHoc.TenBac = model.TenBac.Trim();
-                            ThayDoiHSBac thayDoiHSBac = new ThayDoiHSBac();
-                            thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
-                            thayDoiHSBac.NgayApDung = DateTime.Now;
-                            thayDoiHSBac.HeSo = heSo;
-                            thayDoiHSBac.MaGV = AccountController.MaGV;
-                            context.ThayDoiHSBacs.Add(thayDoiHSBac);
-
-                            context.Entry(bacHoc).State = EntityState.Modified;
-                            context.SaveChanges();
-                            transaction.Commit();
-                            if (maBacHoc != model.MaBac.Trim())
-                            {
-                                var x = new SQLHelper().ExecuteString("EXEC [dbo].[updatePK] '" + maBacHoc + "','" + model.MaBac.Trim() + "','BacHoc'");
-                            }
-                            return Json(JsonConvert.SerializeObject(new { success = true, data = thayDoiHSBac.NgayApDung }));
                         }
-                        catch (Exception e)
+                        var checkTenBac = _context.BacHocs.Where(x => x.TenBac.ToLower() == model.TenBac.ToLower().Trim() && x.MaBac != maBacHoc.Trim()).FirstOrDefault();
+                        if (checkTenBac != null)
                         {
-                            transaction.Rollback();
-                            return Json(new { success = false, message = "Chỉnh sửa bậc học thất bại " + e.InnerException.Message });
+                            return Json(new { success = false, message = "name" });
                         }
+
+                        var bacHoc = _context.BacHocs.Where(x => x.MaBac == maBacHoc.Trim()).FirstOrDefault();
+                        bacHoc.TenBac = model.TenBac.Trim();
+                        ThayDoiHSBac thayDoiHSBac = new ThayDoiHSBac();
+                        thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
+                        thayDoiHSBac.NgayApDung = DateTime.Now;
+                        thayDoiHSBac.HeSo = heSo;
+                        thayDoiHSBac.MaGVDieuChinh = AccountController.MaGV;
+                        _context.ThayDoiHSBacs.Add(thayDoiHSBac);
+                        _context.SaveChanges();
+                        _context.Entry(bacHoc).State = EntityState.Modified;
+                        _context.SaveChanges();
+                        transaction.Commit();
+                        if (maBacHoc != model.MaBac.Trim())
+                        {
+                            var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maBacHoc + "','" + model.MaBac.Trim() + "','BacHoc'");
+                        }
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = thayDoiHSBac.NgayApDung }));
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Chỉnh sửa bậc học thất bại " + e.InnerException.Message });
                     }
                 }
+
             }
             catch (Exception e)
             {
                 return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
             }
-        }
+        }*/
         [Route("delete")]
         [HttpPost]
         public JsonResult deleteChucVu(String maBac)
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
-                {
-                    var checkPK = context.LopTinChis.Where(x => x.MaBac== maBac.Trim()).FirstOrDefault();
+  
+                    var checkPK = _context.LopTinChis.Where(x => x.MaBac == maBac.Trim()).FirstOrDefault();
                     if (checkPK != null)
                     {
                         return Json(new { success = false, message = "Không thể xóa bậc học vì đã tồn tại lớp tín chỉ thuộc bậc học này!" });
                     }
                     List<SqlParameter> param = new List<SqlParameter>();
                     param.Add(new SqlParameter("@maBac", maBac));
-                    var ret = new SQLHelper().ExecuteQuery("sp_Delete_BacHoc", param);
-                    return Json(new { success = true, data = "Xóa chức vụ thành công!" });
-                }
+                    var ret = new SQLHelper(_connectionString).ExecuteQuery("sp_Delete_BacHoc", param);
+                    return Json(new { success = true, data = "Xóa chức vụ thành công!" });  
             }
             catch (Exception e)
             {

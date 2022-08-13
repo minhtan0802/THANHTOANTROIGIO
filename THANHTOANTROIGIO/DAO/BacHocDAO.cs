@@ -7,13 +7,15 @@ namespace THANHTOANTROIGIO.DAO
 {
     public class BacHocDAO
     {
+        private ThanhToanTroiGioEntities _context;
+        public BacHocDAO(ThanhToanTroiGioEntities context)
+        {
+            _context = context;
+        }
         public static List<BacHoc> getDSBacHoc()
         {
-            using (var context = new ThanhToanTroiGioEntities())
-            {
-                var list = context.BacHocs.ToList();
-                return list;
-            }
+            var list = _context.BacHocs.ToList();
+            return list;
         }
         public static DataTable getDSBacHocFull(int all)
         {

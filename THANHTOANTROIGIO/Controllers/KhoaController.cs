@@ -1,14 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("khoa")]
-    public class KhoaController : Controller
+    [AuthorizeUser]
+    public class KhoaController :Controller
     {
+        private readonly KhoaService _khoaService;
+        private readonly IConfiguration _iconfiguration;    
+        public KhoaController(KhoaService khoaService, IConfiguration iconfiguration, AuthService authService)
+        {
+            _khoaService = khoaService;
+            _iconfiguration = iconfiguration;
+        }
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -17,7 +25,7 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-khoa")]
         public JsonResult AjaxMethod_Khoa()
         {
-            var data = KhoaDAO.getListKhoa();
+            var data = _khoaService.getListKhoa();
             return Json(JsonConvert.SerializeObject(data));
         }
     }

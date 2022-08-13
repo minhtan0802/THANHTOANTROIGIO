@@ -8,7 +8,7 @@ var tenBoMon = "";
 var maBoMonEdit = "";
 var table_Khoa, table_BoMon;
 $(document).ready(function () {
-    loading();
+   /* loading();*/
     $(document).on('shown.bs.modal', '#modalAddBoMon', function () {
         $('#maBoMon').focus();
     })

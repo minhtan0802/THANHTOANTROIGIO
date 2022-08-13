@@ -20,7 +20,7 @@ var row;
 var maHocKyCurrent;
 var canEdit = true;
 $(document).ready(function () {
-    loading();
+ /*   loading();*/
     table_DMG = $("#table_DMG").DataTable();
     table_DMG.columns(0).visible(false);
     table_DMG.columns(1).visible(false);
@@ -250,7 +250,10 @@ function loading() {
 }
 function initFormAdd() {
     $("#select_GV").prop("selectedIndex", 0);
+    $("#select_GV").removeAttr("disabled");
     $("#dinhMucGiang").val(null);
+    $("#moTa").val("");
+
 }
 function getListDMG() {
     table_DMG.clear().draw(false);

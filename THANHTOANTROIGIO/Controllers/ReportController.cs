@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using THANHTOANTROIGIO.Report;
+using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
     [Route("report")]
+    [AuthorizeUser]
     public class ReportController : Controller
     {
         private readonly IConfiguration _configuration;
-        public ReportController(IConfiguration configuration)
+        private readonly ReportService _reportService;
+        private readonly AuthService _authService;
+        public ReportController(IConfiguration configuration, ReportService reportService, AuthService authService)
         {
             _configuration = configuration;
+            _reportService = reportService;
+            _authService = authService;
         }
         [Route("khoi-luong-giang")]
         [HttpGet]
@@ -21,10 +27,26 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public IActionResult ReportKhoiLuongGiang(string hocKy)
         {
-            var report = new Report_KL_GiangDay(_configuration.GetConnectionString("DefaultConnection").ToString(), hocKy);
+            var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
+            var report = new Report_KL_GiangDay(_configuration.GetConnectionString("DefaultConnection").ToString(), hocKy,_reportService,user.Name);
             ViewBag.Report = report;
             return View("Index1");
         }
 
+        [Route("thanh-toan-gio-giang")]
+        [HttpGet]
+        public IActionResult ThanhToanGioGiang()
+        {
+            return View();
+        }
+        [Route("thanh-toan-gio-giang")]
+        [HttpPost]
+        public IActionResult ReportThanhToanGioGiang(string hocKy)
+        {
+            var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
+            var report = new Report_ThanhToanGioGiang(_configuration.GetConnectionString("DefaultConnection").ToString(), hocKy, _reportService, user.Name);
+            ViewBag.Report = report;
+            return View();
+        }
     }
 }

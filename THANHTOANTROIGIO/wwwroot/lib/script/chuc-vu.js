@@ -7,7 +7,7 @@ var row;
 $(document).ready(function () {
     table_ChucVu = $("#table_ChucVu").DataTable();
     init_table_ChucVu();
-    loading();
+ /*   loading();*/
     $(document).on('shown.bs.modal', '#modalAddChucVu', function () {
         $('#maChucVu').focus();
     })

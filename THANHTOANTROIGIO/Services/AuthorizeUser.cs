@@ -10,15 +10,12 @@ namespace THANHTOANTROIGIO.Services
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-
-            if (string.IsNullOrEmpty(AccountController.session))
+            if (string.IsNullOrEmpty(context.HttpContext.Session.GetString("user")))
             {
-          
                 Error.isLogin = -1;
                 var result = new ViewResult();
-                result.ViewName = "~/Views/Account/Error.cshtml";
+                result.ViewName = "~/Views/Auth/Error.cshtml";
                 context.Result = result;
-
             }
 /*            base.OnActionExecuted(context);*/
         }

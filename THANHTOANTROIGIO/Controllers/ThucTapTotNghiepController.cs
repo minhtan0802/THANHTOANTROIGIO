@@ -5,18 +5,29 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using System.Data;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("thuc-tap-tot-nghiep")]
     public class ThucTapTotNghiepController : Controller
     {
-        public static List<HuongDanTTTN> listImport=null;
+        private readonly ThucTapTotNghiepService _thucTapTotNghiepService;
+        private readonly ThanhToanTroiGioEntities _context;
+        private readonly String _connectionString;
+        private readonly IConfiguration _configuration;
+
+        public ThucTapTotNghiepController(ThucTapTotNghiepService thucTapTotNghiepService, ThanhToanTroiGioEntities context, IConfiguration configuration)
+        {
+            _thucTapTotNghiepService = thucTapTotNghiepService;
+            _context = context;
+            _configuration = configuration;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public static List<HuongDanTTTN> listImport = null;
         public class selectSheet
         {
             public int id { get; set; }
@@ -43,7 +54,7 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-tttn")]
         public JsonResult getDSTTTN(String MaNKHK, String MaGV)
         {
-            var data = ThucTapTotNghiepDAO.getDSTTTN(MaNKHK, MaGV);
+            var data = _thucTapTotNghiepService.getDSTTTN(MaNKHK, MaGV,_connectionString);
             return Json(JsonConvert.SerializeObject(new { success = true, data = data }));
         }
         [Route("add")]
@@ -52,17 +63,16 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+
+                var exist = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
+                if (exist != null)
                 {
-                    var exist = context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
-                    if (exist != null)
-                    {
-                        return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
-                    }
-                    context.Add(model);
-                    context.SaveChanges();
-                    return Json(new { success = true, data = model });
+                    return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
                 }
+                _context.Add(model);
+                _context.SaveChanges();
+                return Json(new { success = true, data = model });
+
             }
             catch (Exception e)
             {
@@ -77,66 +87,68 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+
+                var exist = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == lop).FirstOrDefault();
+                if (lop == model.Lop)
                 {
-                    var exist = context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == lop).FirstOrDefault();
-                    if (lop == model.Lop)
+                    exist.HSHuongDan = model.HSHuongDan;
+                    exist.SoSinhVienHD = model.SoSinhVienHD;
+                    exist.SoSinhVienPB = model.SoSinhVienPB;
+                    exist.SoTuan = model.SoTuan;
+                    exist.HSPhanBien = model.HSPhanBien;
+                    _context.Entry(exist).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    return Json(new { success = true, data = model });
+                }
+
+                else
+                {
+                    var checkPK = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
+                    if (checkPK != null)
                     {
-                        exist.HSHuongDan = model.HSHuongDan;
-                        exist.SoSinhVienHD = model.SoSinhVienHD;
-                        exist.SoSinhVienPB = model.SoSinhVienPB;
-                        exist.SoTuan = model.SoTuan;
-                        exist.HSPhanBien = model.HSPhanBien;
-                        context.Entry(exist).State = EntityState.Modified;
-                        context.SaveChanges();
-                        return Json(new { success = true, data = model });
+                        return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
                     }
                     else
                     {
-                        var checkPK = context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
-                        if (checkPK != null)
-                        {
-                            return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
-                        }
-                        else
-                        {
-                            List<SqlParameter> param = new List<SqlParameter>();
-                            param.Add(new SqlParameter("@pk", model.MaGV + " " + model.MaNKHK + " " + lop));
-                            param.Add(new SqlParameter("@pkUpdate", model.Lop));
-                            param.Add(new SqlParameter("@tableName", "HuongDanTTTN"));
-                            new SQLHelper().ExecuteQuery("updatePK", param);
-                            return Json(new { success = true, data = model });
-                        }
+                        List<SqlParameter> param = new List<SqlParameter>();
+                        param.Add(new SqlParameter("@pk", model.MaGV + " " + model.MaNKHK + " " + lop));
+                        param.Add(new SqlParameter("@pkUpdate", model.Lop));
+                        param.Add(new SqlParameter("@tableName", "HuongDanTTTN"));
+                        new SQLHelper(_connectionString).ExecuteQuery("updatePK", param);
+                        return Json(new { success = true, data = model });
                     }
-                    return Json(new { success = true, data = model });
                 }
+                return Json(new { success = true, data = model });
             }
+
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(new
+                {
+                    success = false,
+                    message = "Lỗi: " + e.InnerException.Message
+                });
             }
-
-
         }
+
         [Route("delete")]
         [HttpPost]
         public JsonResult delete(String maGV, String maNKHK, String lop)
         {
-            using (var context = new ThanhToanTroiGioEntities())
-            {
-                try
-                {
-                    var exist = context.HuongDanTTTNs.Where(x => x.MaGV == maGV && x.MaNKHK == maNKHK && x.Lop == lop).FirstOrDefault();
-                    context.Entry(exist).State = EntityState.Deleted;
-                    context.SaveChanges();
-                    return Json(new { success = true, data = "Xóa lớp hướng dẫn thực tập tốt nghiệp thành công! " });
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, message = "Xóa lớp hướng dẫn thực tập tốt nghiệp thất bại: " + ex.InnerException.Message });
-                }
 
+            try
+            {
+                var exist = _context.HuongDanTTTNs.Where(x => x.MaGV == maGV && x.MaNKHK == maNKHK && x.Lop == lop).FirstOrDefault();
+                _context.Entry(exist).State = EntityState.Deleted;
+                _context.SaveChanges();
+                return Json(new { success = true, data = "Xóa lớp hướng dẫn thực tập tốt nghiệp thành công! " });
             }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Xóa lớp hướng dẫn thực tập tốt nghiệp thất bại: " + ex.InnerException.Message });
+            }
+
+
         }
         [Route("list-sheet")]
         [HttpPost]
@@ -217,7 +229,7 @@ namespace THANHTOANTROIGIO.Controllers
                             );
                         list.Add(huongDanTTTN);
                     }
-                    listImport = list;
+                //    listImport = list;
                     return Json(JsonConvert.SerializeObject(new { success = true, data = list }));
                 }
             }
@@ -228,12 +240,12 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("import-file")]
         [HttpPost]
-        public JsonResult import()
+        public JsonResult import([FromBody] List<HuongDanTTTN> listImport)
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("MaGV",typeof(string));
+            dataTable.Columns.Add("MaGV", typeof(string));
             dataTable.Columns.Add("MaNKHK", typeof(string));
-            dataTable.Columns.Add("HSPhanBien",typeof(double));
+            dataTable.Columns.Add("HSPhanBien", typeof(double));
             dataTable.Columns.Add("SoSinhVienPB", typeof(double));
             dataTable.Columns.Add("Lop", typeof(string));
             dataTable.Columns.Add("SoSinhVienHD", typeof(double));
@@ -241,19 +253,15 @@ namespace THANHTOANTROIGIO.Controllers
             dataTable.Columns.Add("HSHuongDan", typeof(double));
             foreach (var item in listImport)
             {
-                using( var context=new ThanhToanTroiGioEntities())
+                if (_context.HuongDanTTTNs.Where(x => x.MaNKHK == item.MaNKHK && x.Lop == item.Lop && x.MaGV == item.MaGV).FirstOrDefault() == null)
                 {
-                    if(context.HuongDanTTTNs.Where(x=>x.MaNKHK==item.MaNKHK&& x.Lop==item.Lop && x.MaGV == item.MaGV).FirstOrDefault()==null)
-                    {
-                        dataTable.Rows.Add(item);
-                    }
+                    dataTable.Rows.Add(item);
                 }
-                
             }
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@HuongDanTTTN", dataTable));
-            var i = new SQLHelper().ExecuteQuery("Import_HuongDanTTTN", param);
-            return Json(JsonConvert.SerializeObject(new {success=true, data=dataTable}));
+            var i = new SQLHelper(_connectionString).ExecuteQuery("Import_HuongDanTTTN", param);
+            return Json(JsonConvert.SerializeObject(new { success = true, data = dataTable }));
         }
     }
 }

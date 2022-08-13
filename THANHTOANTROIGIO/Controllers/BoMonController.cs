@@ -2,16 +2,26 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("bo-mon")]
+    [AuthorizeUser]
     public class BoMonController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly BoMonService _boMonService;
+        private readonly ThanhToanTroiGioEntities _context;
+
+        public BoMonController(IConfiguration configuration, BoMonService boMonService, ThanhToanTroiGioEntities context)
+        {
+            _configuration = configuration;
+            _boMonService = boMonService;
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -21,14 +31,14 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-bo-mon")]
         public JsonResult AjaxMethod_BoMon(Khoa model)
         {
-            var data = BoMonDAO.getListBoMon(model.MaKhoa);
+            var data = _boMonService.getListBoMon(model.MaKhoa);
             return Json(JsonConvert.SerializeObject(data));
         }
         [HttpPost]
         [Route("all-bo-mon")]
         public JsonResult AjaxMethod_AllBoMon(BoMon model)
         {
-            var data = BoMonDAO.getAllBoMon(model.MaBoMon);
+            var data = _boMonService.getAllBoMon(model.MaBoMon);
             return Json(JsonConvert.SerializeObject(data));
         }
         [HttpPost]
@@ -39,19 +49,18 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 BoMon boMon = new BoMon();
                 boMon = model;
-                using (var context = new ThanhToanTroiGioEntities())
+
+                if (_context.BoMons.Where(x => x.MaBoMon == model.MaBoMon).FirstOrDefault() != null)
                 {
-                    if (context.BoMons.Where(x => x.MaBoMon == model.MaBoMon).FirstOrDefault() != null)
-                    {
-                        return Json(new { success = false, message = "pk" });
-                    }
-                    if (context.BoMons.Where(x => x.TenBoMon.ToLower() == model.TenBoMon.ToLower()).FirstOrDefault() != null)
-                    {
-                        return Json(new { success = false, message = "name" });
-                    }
-                    context.BoMons.Add(model);
-                    context.SaveChanges();
+                    return Json(new { success = false, message = "pk" });
                 }
+                if (_context.BoMons.Where(x => x.TenBoMon.ToLower() == model.TenBoMon.ToLower()).FirstOrDefault() != null)
+                {
+                    return Json(new { success = false, message = "name" });
+                }
+                _context.BoMons.Add(model);
+                _context.SaveChanges();
+
                 return Json(new { success = true, data = boMon });
             }
             catch (Exception e)
@@ -65,26 +74,25 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-                using (var context = new ThanhToanTroiGioEntities())
+
+                if (_context.BoMons.Where(x => x.MaBoMon == model.MaBoMon && x.MaBoMon != maBoMon.Trim()).FirstOrDefault() != null)
                 {
-                    if (context.BoMons.Where(x => x.MaBoMon == model.MaBoMon && x.MaBoMon != maBoMon.Trim()).FirstOrDefault() != null)
-                    {
-                        return Json(new { success = false, message = "pk" });
-                    }
-                    if (context.BoMons.Where(x => x.TenBoMon.ToLower() == model.TenBoMon.ToLower() && x.MaBoMon != maBoMon.Trim()).FirstOrDefault() != null)
-                    {
-                        return Json(new { success = false, message = "name" });
-                    }
-                    var boMon = context.BoMons.Where(x => x.MaBoMon == maBoMon.Trim()).FirstOrDefault();
-                    boMon.TenBoMon = model.TenBoMon;
-                    context.Entry(boMon).State = EntityState.Modified;
-                    context.SaveChanges();
-                    if (maBoMon.Trim() != model.MaBoMon.Trim())
-                    {
-                        List<SqlParameter> parameters = new List<SqlParameter>();
-                        context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '" + maBoMon + "','" + model.MaBoMon + "','BoMon'", parameters);
-                    }
+                    return Json(new { success = false, message = "pk" });
                 }
+                if (_context.BoMons.Where(x => x.TenBoMon.ToLower() == model.TenBoMon.ToLower() && x.MaBoMon != maBoMon.Trim()).FirstOrDefault() != null)
+                {
+                    return Json(new { success = false, message = "name" });
+                }
+                var boMon = _context.BoMons.Where(x => x.MaBoMon == maBoMon.Trim()).FirstOrDefault();
+                boMon.TenBoMon = model.TenBoMon;
+                _context.Entry(boMon).State = EntityState.Modified;
+                _context.SaveChanges();
+                if (maBoMon.Trim() != model.MaBoMon.Trim())
+                {
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    _context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '" + maBoMon + "','" + model.MaBoMon + "','BoMon'", parameters);
+                }
+
                 return Json(new { success = true, data = model });
             }
             catch (Exception e)
@@ -96,25 +104,23 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult delete(String maBoMon)
         {
-            using (var context = new ThanhToanTroiGioEntities())
+
+            try
             {
-                try
-                {
-                    if (context.ThayDoiBoMons.Where(x => x.MaBoMon == maBoMon.TrimEnd()).FirstOrDefault() != null)
-                    {
-                        return Json(new { success = false, message = "Xóa bộ môn thất bại vì vi phạm khóa ngoại" });
-                    }
-                    var boMon = context.BoMons.FirstOrDefault(s => s.MaBoMon == maBoMon.Trim());
-                    context.Entry(boMon).State = EntityState.Deleted;
-                    context.SaveChanges();
-                    return Json(new { success = true, data = "Xóa bộ môn thành công! " });
-                }
-                catch (Exception ex)
+                if (_context.ThayDoiBoMons.Where(x => x.MaBoMon == maBoMon.TrimEnd()).FirstOrDefault() != null)
                 {
                     return Json(new { success = false, message = "Xóa bộ môn thất bại vì vi phạm khóa ngoại" });
                 }
-
+                var boMon = _context.BoMons.FirstOrDefault(s => s.MaBoMon == maBoMon.Trim());
+                _context.Entry(boMon).State = EntityState.Deleted;
+                _context.SaveChanges();
+                return Json(new { success = true, data = "Xóa bộ môn thành công! " });
             }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Xóa bộ môn thất bại vì vi phạm khóa ngoại" });
+            }
+
         }
     }
 }

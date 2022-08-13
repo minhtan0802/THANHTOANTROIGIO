@@ -1,17 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using THANHTOANTROIGIO.DAO;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
 namespace THANHTOANTROIGIO.Controllers
 {
-    [AuthorizeUser]
     [Route("giangvien")]
+    [AuthorizeUser]
     public class GiangVienController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly GiangVienService _giangVienService;
+        private String _connectionString;
+        private readonly ThanhToanTroiGioEntities _context;
+        public GiangVienController(IConfiguration configuration, GiangVienService giangVienService, ThanhToanTroiGioEntities context, AuthService authService, IHttpContextAccessor httpContextAccessor)
+        {
+            _configuration = configuration;
+            _giangVienService = giangVienService;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _context = context;
+        }
         // GET: GiangVien
         [HttpGet]
         [Route("")]
@@ -23,21 +35,22 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-giang-vien")]
         public JsonResult AjaxMethod_GV(BoMon model)
         {
-            var data = GiangVienDAO.getListGiangVien(model.MaBoMon.Trim());
+            var data = _giangVienService.getListGiangVien(model.MaBoMon.Trim(), _connectionString);
+            
             return Json(JsonConvert.SerializeObject(data));
         }
 
         [Route("chuc-danh")]
         public JsonResult AjaxMethod_getChucDanhByMaGV(GiangVien model)
         {
-            var data = GiangVienDAO.getChucDanhByMaGV(model.MaGiangVien);
+            var data = _giangVienService.getChucDanhByMaGV(model.MaGiangVien, _connectionString);
             return Json(JsonConvert.SerializeObject(data));
         }
 
         [Route("loai-gv")]
         public JsonResult AjaxMethod_getLoaiGVByMaGV(GiangVien model)
         {
-            var data = GiangVienDAO.getLoaiGVByMaGV(model.MaGiangVien);
+            var data = _giangVienService.getLoaiGVByMaGV(model.MaGiangVien);
             return Json(JsonConvert.SerializeObject(data));
         }
 
@@ -45,17 +58,16 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult AjaxMethod_getDSGVByBoMon(Khoa model)
         {
-            var data = GiangVienDAO.getDSGVByBoMon(model.MaKhoa);
+            var data = _giangVienService.getDSGVByBoMon(model.MaKhoa);
             return Json(JsonConvert.SerializeObject(data));
         }
         [Route("select_khoa")]
         [HttpGet]
         public JsonResult getGVByKhoa(String maKhoa)
         {
-            var data = GiangVienDAO.getListGiangVienByKhoa(maKhoa);
-            return Json(JsonConvert.SerializeObject(new { success=true,data=data }));
+            var data = _giangVienService.getListGiangVienByKhoa(maKhoa, _connectionString);
+            return Json(JsonConvert.SerializeObject(new { success = true, data = data }));
         }
-
         [HttpPost]
         [Route("add")]
         public JsonResult ThemGV(GiangVien model)
@@ -67,11 +79,11 @@ namespace THANHTOANTROIGIO.Controllers
             if (String.IsNullOrEmpty(model.MaGiangVien) || String.IsNullOrEmpty(model.Ho) || String.IsNullOrEmpty(model.Ten))
 
             {
-                return Json(new { result = false, data = "Vui lòng nhập đầy đủ thông tin Mã GV, Họ, Tên" });
+                return Json(JsonConvert.SerializeObject(new { result = false, data = "Vui lòng nhập đầy đủ thông tin Mã GV, Họ, Tên" }));
             }
-            if (Helpers.SQLHelper.checkFK("MaGiangVien", model.MaGiangVien, "GiangVien") == 1)
+            if (_context.GiangViens.Where(x => x.MaGiangVien == model.MaGiangVien).FirstOrDefault() != null)
             {
-                return Json(new { result = false, data = "Mã giảng viên đã tồn tại!" });
+                return Json(JsonConvert.SerializeObject(new { result = false, data = "Mã giảng viên đã tồn tại!" }));
             }
             DateTime ngayThem = DateTime.Now;
 
@@ -112,35 +124,36 @@ namespace THANHTOANTROIGIO.Controllers
             }
             thayDoiLoaiGV.NgayThayDoi = ngayThem;
 
-            model.ChucVu = Helpers.SQLHelper.getNameByID(model.ChucVu.Trim(), "ChucVu");
-            model.HocVi = Helpers.SQLHelper.getNameByID(model.HocVi.Trim(), "HocVi");
+            model.ChucVu = _context.ChucVus.Where(x => x.MaChucVu == model.ChucVu.Trim()).FirstOrDefault().TenChucVu;
+            model.HocVi = _context.HocVis.Where(x => x.MaHocVi == model.HocVi.Trim()).FirstOrDefault().TenHocVi;
 
-            using (var context = new ThanhToanTroiGioEntities())
+
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                try
                 {
-                    try
-                    {
-                        context.GiangViens.Add(model);
-                        context.ThayDoiBoMons.Add(thayDoiBoMon);
-                        context.ThayDoiChucVus.Add(thayDoiChucVu);
-                        context.ThayDoiHocVis.Add(thayDoiHocVi);
-                        context.ThayDoiLoaiGVs.Add(thayDoiLoaiGV);
-
-                        context.SaveChanges();
-                        transaction.Commit();
-                        return Json(JsonConvert.SerializeObject(new { result = true, data = model }));
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { result = false, data = "Thêm giảng viên thất bại " + ex.Message + " " + ex.InnerException.Message });
-                    }
+                    _context.GiangViens.Add(model);
+                    _context.SaveChanges();
+                    _context.ThayDoiBoMons.Add(thayDoiBoMon);
+                    _context.SaveChanges();
+                    _context.ThayDoiChucVus.Add(thayDoiChucVu);
+                    _context.SaveChanges();
+                    _context.ThayDoiHocVis.Add(thayDoiHocVi);
+                    _context.SaveChanges();
+                    _context.ThayDoiLoaiGVs.Add(thayDoiLoaiGV);
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return Json(JsonConvert.SerializeObject(new { result = true, data = model }));
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(JsonConvert.SerializeObject(new { result = false, data = "Thêm giảng viên thất bại " + ex.Message + " " + ex.InnerException.Message }));
                 }
             }
-          
-        }
 
+
+        }
         [HttpPost]
         [Route("edit")]
         public JsonResult ChinhSuaGV(GiangVien model)
@@ -149,7 +162,7 @@ namespace THANHTOANTROIGIO.Controllers
             ThayDoiChucVu thayDoiChucVu = new ThayDoiChucVu();
             ThayDoiHocVi thayDoiHocVi = new ThayDoiHocVi();
             ThayDoiLoaiGV thayDoiLoaiGV = new ThayDoiLoaiGV();
-            if (String.IsNullOrEmpty(model.MaGiangVien.Split(' ')[1])||String.IsNullOrEmpty(model.Ho) || String.IsNullOrEmpty(model.Ten))
+            if (String.IsNullOrEmpty(model.MaGiangVien.Split(' ')[1]) || String.IsNullOrEmpty(model.Ho) || String.IsNullOrEmpty(model.Ten))
 
             {
                 return Json(new { result = false, data = "Vui lòng nhập đầy đủ thông tin Mã GV, Họ, Tên, Chức Danh" });
@@ -160,7 +173,7 @@ namespace THANHTOANTROIGIO.Controllers
             model.MaGiangVien = maGV;
             if (maGV != maGVEdit)
             {
-                if (Helpers.SQLHelper.checkFK("MaGiangVien", maGVEdit, "GiangVien") == 1)
+                if (_context.GiangViens.Where(x => x.MaGiangVien == maGVEdit).FirstOrDefault() != null)
                 {
                     return Json(new { result = false, data = "Mã giảng viên đã tồn tại!" });
                 }
@@ -177,17 +190,17 @@ namespace THANHTOANTROIGIO.Controllers
                 model.Sdt = model.Sdt.Trim();
             }
 
-           /* thayDoiBoMon.MaBoMon = model.MaBoMon.Trim();
-            //  thayDoiBoMon.MaBoMon = "X";
-            thayDoiBoMon.MaGV = model.MaGiangVien.Trim();
-            thayDoiBoMon.NgayThayDoi = ngayThem;*/
+            /* thayDoiBoMon.MaBoMon = model.MaBoMon.Trim();
+             //  thayDoiBoMon.MaBoMon = "X";
+             thayDoiBoMon.MaGV = model.MaGiangVien.Trim();
+             thayDoiBoMon.NgayThayDoi = ngayThem;*/
 
             if (model.ChucVu.Trim() != "false")
             {
                 thayDoiChucVu.MaGV = maGV;
                 thayDoiChucVu.MaChucVu = model.ChucVu.Trim();
                 thayDoiChucVu.NgayThayDoi = ngayThem;
-                model.ChucVu = Helpers.SQLHelper.getNameByID(model.ChucVu.Trim(), "ChucVu");
+                model.ChucVu = _context.ChucVus.Where(x => x.MaChucVu == model.ChucVu.Trim()).FirstOrDefault().TenChucVu;
             }
 
             if (model.HocVi.Trim() != "false")
@@ -195,11 +208,11 @@ namespace THANHTOANTROIGIO.Controllers
                 thayDoiHocVi.MaGV = maGV;
                 thayDoiHocVi.MaHocVi = model.HocVi.Trim();
                 thayDoiHocVi.NgayThayDoi = ngayThem;
-                model.HocVi = Helpers.SQLHelper.getNameByID(model.HocVi.Trim(), "HocVi");
+                model.HocVi = _context.HocVis.Where(x => x.MaHocVi == model.HocVi.Trim()).FirstOrDefault().TenHocVi;
             }
 
 
-            if (model.GVCoHuu != Helpers.SQLHelper.checkGVCoHuu(maGV))
+            if (model.GVCoHuu != Boolean.Parse(_context.GiangViens.Where(gv => gv.MaGiangVien == maGV).FirstOrDefault().GVCoHuu.ToString()))
             {
                 thayDoiLoaiGV.MaGV = maGV;
                 if (model.GVCoHuu)
@@ -212,69 +225,72 @@ namespace THANHTOANTROIGIO.Controllers
                 }
                 thayDoiLoaiGV.NgayThayDoi = ngayThem;
             }
-            using (var context =new ThanhToanTroiGioEntities())
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var gv = _context.GiangViens.FirstOrDefault(s => s.MaGiangVien == maGV);
+                    //context.ThayDoiBoMons.Add(thayDoiBoMon);
+                    if (model.ChucVu != "false")
                     {
-                        var gv = context.GiangViens.FirstOrDefault(s => s.MaGiangVien == maGV);
-                        //context.ThayDoiBoMons.Add(thayDoiBoMon);
-                        if (model.ChucVu != "false")
-                        {
-                            // model.ChucVu = model.ChucVu;
-                            context.ThayDoiChucVus.Add(thayDoiChucVu);
-                        }
-                        else
-                        {
-                            model.ChucVu = gv.ChucVu;
-                        }
-                        if (model.HocVi != "false")
-                        {
-                            context.ThayDoiHocVis.Add(thayDoiHocVi);
-                            //  gv.HocVi = model.HocVi;
-                        }
-                        else
-                        {
-                            model.HocVi = gv.HocVi;
-                        }
-                        if (model.GVCoHuu != Helpers.SQLHelper.checkGVCoHuu(maGV))
-                        {
-                            context.ThayDoiLoaiGVs.Add(thayDoiLoaiGV);
-                        }
-                        if (model.MaBoMon != gv.MaBoMon)
-                        {
-                            thayDoiBoMon.MaBoMon = model.MaBoMon;
-                            thayDoiBoMon.NgayThayDoi = ngayThem;
-                            thayDoiBoMon.MaGV = maGV;
-                            context.ThayDoiBoMons.Add(thayDoiBoMon);
-                        }
-                      
-                        gv.ChucDanh = model.ChucDanh;
-                        gv.ChucVu = model.ChucVu;
-                        gv.GVCoHuu = model.GVCoHuu;
-                        gv.NgaySinh = model.NgaySinh;
-                        gv.HocVi = model.HocVi;
-                        gv.DiaChi = model.DiaChi;
-                        gv.Ho = model.Ho;
-                        gv.MaBoMon = model.MaBoMon;
-                        gv.GioiTinh = model.GioiTinh;
-                        gv.Ten = model.Ten;
-                        //     context.GiangViens.Add(model);
-                        context.Entry(gv).State = EntityState.Modified;
-                        context.SaveChanges();
-                        model.MaGiangVien = maGVEdit;
-                        List<SqlParameter> parameters = new List<SqlParameter>();
-                        context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '"+maGV+"','"+maGVEdit+"','GiangVien'",parameters);
-                        transaction.Commit();
-                 
+                        // model.ChucVu = model.ChucVu;
+                        _context.ThayDoiChucVus.Add(thayDoiChucVu);
+                        _context.SaveChanges();
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        transaction.Rollback();
-                        return Json(new { result = false, data = "Chỉnh sửa giảng viên thất bại " + ex.Message + " " + ex.InnerException.Message });
+                        model.ChucVu = gv.ChucVu;
                     }
+                    if (model.HocVi != "false")
+                    {
+                        _context.ThayDoiHocVis.Add(thayDoiHocVi);
+                        _context.SaveChanges();
+                        //  gv.HocVi = model.HocVi;
+                    }
+                    else
+                    {
+                        model.HocVi = gv.HocVi;
+                    }
+                    if (model.GVCoHuu != Boolean.Parse(_context.GiangViens.Where(gv => gv.MaGiangVien == maGV).FirstOrDefault().GVCoHuu.ToString()))
+                    {
+                        _context.ThayDoiLoaiGVs.Add(thayDoiLoaiGV);
+                        _context.SaveChanges();
+
+                    }
+                    if (model.MaBoMon != gv.MaBoMon)
+                    {
+                        thayDoiBoMon.MaBoMon = model.MaBoMon;
+                        thayDoiBoMon.NgayThayDoi = ngayThem;
+                        thayDoiBoMon.MaGV = maGV;
+                        _context.ThayDoiBoMons.Add(thayDoiBoMon);
+                        _context.SaveChanges();
+                    }
+
+                    gv.ChucDanh = model.ChucDanh;
+                    gv.ChucVu = model.ChucVu;
+                    gv.GVCoHuu = model.GVCoHuu;
+                    gv.NgaySinh = model.NgaySinh;
+                    gv.HocVi = model.HocVi;
+                    gv.DiaChi = model.DiaChi;
+                    gv.Ho = model.Ho;
+                    gv.MaBoMon = model.MaBoMon;
+                    gv.GioiTinh = model.GioiTinh;
+                    gv.Ten = model.Ten;
+                    //     context.GiangViens.Add(model);
+                    _context.Entry(gv).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    model.MaGiangVien = maGVEdit;
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    _context.Database.ExecuteSqlRaw("EXEC [dbo].[updatePK] '" + maGV + "','" + maGVEdit + "','GiangVien'", parameters);
+                    transaction.Commit();
+
                 }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(new { result = false, data = "Chỉnh sửa giảng viên thất bại " + ex.Message + " " + ex.InnerException.Message });
+                }
+
             }
             return Json(JsonConvert.SerializeObject(new { result = true, data = model }));
         }
@@ -283,21 +299,18 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult delete(GiangVien model)
         {
-            using (var context = new ThanhToanTroiGioEntities())
-            {
-                try
-                {
-                    var gv = context.GiangViens.FirstOrDefault(s => s.MaGiangVien == model.MaGiangVien);
-                    gv.TrangThaiXoa = true;
-                    context.Entry(gv).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Json(new { success = true, data = "Xóa giảng viên thành công! " });
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, data = "Xóa giảng viên thất bại vì vi phạm khóa ngoại" });
-                }
 
+            try
+            {
+                var gv = _context.GiangViens.FirstOrDefault(s => s.MaGiangVien == model.MaGiangVien);
+                gv.TrangThaiXoa = true;
+                _context.Entry(gv).State = EntityState.Modified;
+                _context.SaveChanges();
+                return Json(new { success = true, data = "Xóa giảng viên thành công! " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = "Xóa giảng viên thất bại vì vi phạm khóa ngoại" });
             }
         }
     }

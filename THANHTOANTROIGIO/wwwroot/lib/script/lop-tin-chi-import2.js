@@ -21,7 +21,7 @@ var maSheet;
 var listLTCPreview;
 var listLTCImport;
 $(document).ready(function () {
-    loading();
+   /* loading();*/
     select_Sheet = $('#select_Sheet').select2();
     table_LTC_Import = $("#table_LTC_Import").DataTable();
     /* setVisibleColumn(false);*/

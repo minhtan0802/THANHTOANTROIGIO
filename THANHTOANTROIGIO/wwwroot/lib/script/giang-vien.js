@@ -1,6 +1,3 @@
-//   document.getElementById("professor").setAttribute("class", "active");
-
-//   document.getElementById("edu").setAttribute("class", "");
 var modal = document.getElementById("formAddGV");
 var table_Khoa_rowIndex = 0;
 var table_GV_rowIndex = 0;
@@ -31,7 +28,7 @@ $(document).ready(function () {
     document.getElementById("title").innerHTML = "Nhập dữ liệu - GIẢNG VIÊN";
     $("#select_ChucDanh").prop("selectedIndex", 0);
     table_Khoa = $("#table_Khoa").DataTable();
-    loading();
+    /*loading();*/
     init_Table_Khoa();
     table_GV = $("#table_GV").DataTable();
     document.getElementById('select_BoMon').addEventListener('change', function () {
@@ -69,8 +66,6 @@ $(document).ready(function () {
             $(this).addClass('selected');
             table_GV_rowIndex = index;
         }
-
-
     });
     $('#table_Khoa tbody').on('click', 'td', function () {
         var index = table_Khoa.row(this).index();
@@ -81,7 +76,6 @@ $(document).ready(function () {
             maKhoa = table_Khoa.cell(this, 0).data();
             init_Select_BoMon();
         }
-
     });
     $('#table_GV').on('click', 'td.editor-edit', function (e) {
         $("#staticBackdropLabel").html("Chỉnh sửa giảng viên");
@@ -334,7 +328,7 @@ function init_Table_GV() {
         data: boMon,
         url: '/giangvien/ds-giang-vien',
         success: function (response) {
-            console.log(response);
+         
             table_GV = $('#table_GV').DataTable({
                 "data": $.parseJSON(response),
                 "rowId": 'MaGiangVien'.trim(),
@@ -602,8 +596,9 @@ function editGiangVien() {
     if (hocVi.trim() == maHocVi.trim()) {
         hocVi = "false";
     }
-    var chucVu = $("#select_ChucVu").val();
-    if (chucVu.trim() == maChucVu.trim()) {
+    var chucVu = $("#select_ChucVu option:selected").val();
+    console.log("Chuc vu: " + chucVu + " ma cv: " + maChucVu);
+    if (chucVu == maChucVu) {
         chucVu = "false";
     }
     var chucDanh = $("#select_ChucDanh").val();
@@ -737,7 +732,7 @@ function init_Select_HocVi() {
         }
     });
 }
-function loading() {
+/*function loading() {
     $.ajax({
         async: true,
         type: 'GET',
@@ -758,4 +753,4 @@ function loading() {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
-}
+}*/

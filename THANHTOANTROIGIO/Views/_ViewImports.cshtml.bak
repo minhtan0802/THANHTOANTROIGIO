@@ -1,0 +1,3 @@
+﻿@using THANHTOANTROIGIO
+@using THANHTOANTROIGIO.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

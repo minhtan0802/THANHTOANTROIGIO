@@ -20,7 +20,7 @@ var select_Sheet;
 var maSheet;
 var listHuongDanTTTN;
 $(document).ready(function () {
-    loading();
+   /* loading();*/
     select_Sheet = $('#select_Sheet').select2();
     table_TTTN_Import = $("#table_TTTN_Import").DataTable();
     init_Select_NienKhoa();
@@ -174,7 +174,7 @@ function previewTTTN() {
         processData: false,
         contentType: false,
         success: function (response) {
-            listHuongDanTTTN = JSON.stringify($.parseJSON(response).data);
+            listHuongDanTTTN = $.parseJSON(response).data;
             table_TTTN_Import = $('#table_TTTN_Import').DataTable({
                 "data": $.parseJSON(response).data,
                 "columns": [{
@@ -240,7 +240,9 @@ function importTTTN() {
     $.ajax({
         async: true,
         type: 'POST',
-        data: "",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(listHuongDanTTTN),
         url: '/thuc-tap-tot-nghiep/import-file',
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });

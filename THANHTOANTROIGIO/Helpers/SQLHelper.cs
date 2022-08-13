@@ -11,10 +11,14 @@ using Microsoft.Extensions.Options;
 
 namespace THANHTOANTROIGIO.Helpers
 {
-    public class SQLHelper:DbContext
+    public class SQLHelper
     {
-        private String connectionString = ThanhToanTroiGioEntities.connectionString;
-        public static int checkFK(string fk, string id, string obj)
+        private String connectionString;
+        public SQLHelper(String connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+       /* public static int checkFK(string fk, string id, string obj)
         {
             if (obj.Equals("GiangVien"))
             {
@@ -53,7 +57,7 @@ namespace THANHTOANTROIGIO.Helpers
             }
 
         }
-
+*/
         public SqlConnection Connection()
         {
             SqlConnection con = new SqlConnection(connectionString);

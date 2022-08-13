@@ -6,7 +6,7 @@ var table_Khoa, table_MonHoc;
 var row;
 $(document).ready(function () {
     table_MonHoc = $("#table_MonHoc").DataTable();
-    loading();
+   /* loading();*/
     $(document).on('shown.bs.modal', '#modalAddMonHoc', function () {
         $('#maMonHoc').focus();
     })
