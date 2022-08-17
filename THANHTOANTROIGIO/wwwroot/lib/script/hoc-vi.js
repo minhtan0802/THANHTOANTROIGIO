@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(document).on('shown.bs.modal', '#modalAddHocVi', function () {
         $('#maHocVi').focus();
     })
-    document.getElementById("title").innerHTML = "học vị";
+    document.getElementById("title").innerHTML = "HỌC VỊ";
 
 
     $('#table_HocVi tbody').on('click', 'tr', function () {

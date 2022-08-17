@@ -67,12 +67,12 @@ namespace THANHTOANTROIGIO.Controllers
                         var checkMaBacHoc = _context.BacHocs.Where(x => x.MaBac == bacHoc.MaBac.Trim()).FirstOrDefault();
                         if (checkMaBacHoc != null)
                         {
-                            return Json(new { success = false, message = "pk" });
+                            return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                         }
                         var checkTenBacHoc = _context.BacHocs.Where(x => x.TenBac.ToLower() == bacHoc.TenBac.ToLower().Trim()).FirstOrDefault();
                         if (checkTenBacHoc != null)
                         {
-                            return Json(new { success = false, message = "name" });
+                            return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                         }
 
                         ThayDoiHSBac thayDoiHSBac = new ThayDoiHSBac();
@@ -130,13 +130,13 @@ namespace THANHTOANTROIGIO.Controllers
 
                             if (checkmaBacHoc != null)
                             {
-                                return Json(new { success = false, message = "pk" });
+                                return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                             }
                         }
                         var checkTenBac = _context.BacHocs.Where(x => x.TenBac.ToLower() == model.TenBac.ToLower().Trim() && x.MaBac != maBacHoc.Trim()).FirstOrDefault();
                         if (checkTenBac != null)
                         {
-                            return Json(new { success = false, message = "name" });
+                            return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                         }
 
                         var bacHoc = _context.BacHocs.Where(x => x.MaBac == maBacHoc.Trim()).FirstOrDefault();
@@ -166,14 +166,14 @@ namespace THANHTOANTROIGIO.Controllers
                     catch (Exception e)
                     {
                         transaction.Rollback();
-                        return Json(new { success = false, message = "Chỉnh sửa bậc học thất bại " + e.InnerException.Message });
+                        return Json(JsonConvert.SerializeObject(new { success = false, message = "Chỉnh sửa bậc học thất bại " + e.InnerException.Message }));
                     }
                 }
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
         }
         [Route("delete")]
@@ -191,7 +191,7 @@ namespace THANHTOANTROIGIO.Controllers
                     List<SqlParameter> param = new List<SqlParameter>();
                     param.Add(new SqlParameter("@maBac", maBac));
                     var ret = new SQLHelper(_connectionString).ExecuteQuery("sp_Delete_BacHoc", param);
-                    return Json(new { success = true, data = "Xóa chức vụ thành công!" });  
+                    return Json(new { success = true, data = "Xóa bậc học thành công!" });  
             }
             catch (Exception e)
             {

@@ -5,7 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="~/lib/sweet-alert/sweet_alert.js"></script>
-<script src="~/lib/script/bac-hoc.js"></script>
+<script src="~/lib/script/he-lop.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -54,30 +54,30 @@
 <div class=".container-fluid">
     <div class="row" style="height:600px">
         <div class="column" style="width:100%">
-            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH BẬC HỌC</label>
-            <button type="button" class="btn btn-primary" id="btnAddBacHoc">
+            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH HỆ LỚP</label>
+            <button type="button" class="btn btn-primary" id="btnAddHeLop">
                 Thêm
             </button>
 
             <!-- Modal -->
             <!-- Button trigger modal -->
             <!-- Modal -->
-            <div class="modal fade modal-lg" id="modalAddBacHoc" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade modal-lg" id="modalAddHeLop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="titleAddBacHoc"></h5>
+                            <h5 class="modal-title" id="titleAddHeLop"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" id="formAddBacHoc" style="margin-bottom:20px">
+                            <form class="row g-3" id="formAddHeLop" style="margin-bottom:20px">
                                 <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Mã Bậc Học</label>
-                                    <input type="text" class="form-control" id="maBacHoc">
+                                    <label for="validationDefault01" class="form-label">Mã Hệ Lớp</label>
+                                    <input type="text" class="form-control" id="maHeLop">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="validationDefault01" class="form-label">Tên Bậc Học</label>
-                                    <input type="text" class="form-control" id="tenBacHoc">
+                                    <label for="validationDefault01" class="form-label">Tên Hệ Lớp</label>
+                                    <input type="text" class="form-control" id="tenHeLop">
                                 </div>
 
                                 <div class="col-md-3">
@@ -88,15 +88,15 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="btnCloseBacHoc">Thoát</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveBacHoc" onclick="saveBacHoc(false)">Lưu</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveCloseBacHoc" onclick="saveBacHoc(true)">Lưu và thoát</button>
+                            <button type="button" class="btn btn-secondary" id="btnCloseHeLop">Thoát</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveHeLop" onclick="saveHeLop(false)">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveCloseHeLop" onclick="saveHeLop(true)">Lưu và thoát</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="modalLoadingBacHoc" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="modalLoadingHeLop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-sm">
                     <div class="modal-content" style="background-color:transparent !important; border:none !important">
                         <div class="modal-body">
@@ -111,15 +111,15 @@
             </div>
 
             <br />  <br />
-            <input type="checkbox" onchange="showAllBacHoc()" id="showAll">
+            <input type="checkbox" onchange="showAllHeLop()" id="showAll">
             <label for="validationDefault01" class="form-label">Hiển thị tất cả</label>
-             <label id="notify" style="display: none;color: red;font-style: italic;font-size: 10pt;">* Ở chế độ hiển thị tất cả, bạn không thể thêm, chỉnh sửa, xóa bậc học!</label>
-            <table id="table_BacHoc" class="display" style="width:100%">
+             <label id="notify" style="display: none;color: red;font-style: italic;font-size: 10pt;">* Ở chế độ hiển thị tất cả, bạn không thể thêm, chỉnh sửa, xóa hệ lớp!</label>
+            <table id="table_HeLop" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Mã Bậc Học</th>
-                        <th>Tên Bậc Học</th>
-                        <th>Hệ Số Bậc</th>
+                        <th>Mã Hệ Lớp</th>
+                        <th>Tên Hệ Lớp</th>
+                        <th>Hệ Số Hệ Lớp</th>
                         <th>Ngày áp dụng</th>
                         <th>GV cập nhật</th>
                         <th>Chỉnh sửa</th>

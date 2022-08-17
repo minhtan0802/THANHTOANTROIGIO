@@ -10,4 +10,12 @@ namespace THANHTOANTROIGIO.Models
         public String MaHeLop { get; set; }
         public String TenHeLop { get; set; }
     }
+    public class HeLopViewModel
+    {
+        public String MaHeLop { get; set; }
+        public String TenHeLop { get; set; }
+        public double HeSo { get; set; }
+        public DateTime NgayApDung { get; set; }
+        public String GVDieuChinh { get; set; }
+    }
 }

@@ -1,4 +1,7 @@
-﻿using THANHTOANTROIGIO.Models;
+﻿using Microsoft.Data.SqlClient;
+using System.Data;
+using THANHTOANTROIGIO.Helpers;
+using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.Services
 {
@@ -23,6 +26,13 @@ namespace THANHTOANTROIGIO.Services
             heLop = (ThayDoiHSHeLop)_context.ThayDoiHSHeLops
                          .Where(s => s.MaHeLop.Equals(maHeLop.Trim()) && s.NgayApDung == ngayApDung).FirstOrDefault();
             return (float)heLop.HeSo;
+        }
+        public DataTable getDSHeLopFull(int all, string connectionString)
+        {
+            List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@all", all));
+            var data = new SQLHelper(connectionString).ExecuteQuery("sp_get_DS_He_Lop", param);
+            return data;
         }
     }
 }

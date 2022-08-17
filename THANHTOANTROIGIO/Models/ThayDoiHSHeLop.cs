@@ -6,7 +6,7 @@ namespace THANHTOANTROIGIO.Models
     public class ThayDoiHSHeLop
     {
         public String MaHeLop { get; set; }
-        public String MaGV { get; set; }
+        public String MaGVDieuChinh { get; set; }
         public double HeSo { get; set; }
         public DateTime NgayApDung { get; set; }
     }
