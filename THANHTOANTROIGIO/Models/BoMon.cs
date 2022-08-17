@@ -10,5 +10,6 @@ namespace THANHTOANTROIGIO.Models
         public String MaBoMon { get; set; }
         public String TenBoMon { get; set; }
         public String MaKhoa { get; set; } 
+        public String? TipDauNguMonHoc { get; set; }
     }
 }

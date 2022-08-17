@@ -12,7 +12,7 @@
             var tpgv= _context.GiangViens.Where(x => x.ChucDanh == "Trưởng phòng giáo vụ").FirstOrDefault();
             if(tpgv == null)
             {
-                return "";
+                return "NGUYỄN XUÂN KHÁNH";
             }    
             var name = tpgv.Ho + " " + tpgv.Ten;
             return name;

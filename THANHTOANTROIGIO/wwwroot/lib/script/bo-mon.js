@@ -6,6 +6,7 @@ var tenKhoa = "";
 var maBoMon = "";
 var tenBoMon = "";
 var maBoMonEdit = "";
+var row;
 var table_Khoa, table_BoMon;
 $(document).ready(function () {
    /* loading();*/
@@ -16,14 +17,14 @@ $(document).ready(function () {
     table_Khoa = $("#table_Khoa").DataTable();
     table_BoMon = $("#table_BoMon").DataTable({
         'columnDefs': [{
-            'targets': 2,
+            'targets': 3,
             'className': "dt-center editor-edit",
             'defaultContent': '<button><i class="fa fa-pencil" aria-hidden="true"/></button>',
             'orderable': false,
             'searchable': false
         },
         {
-            'targets': 3,
+            'targets': 4,
             'className': "dt-center editor-delete",
             'defaultContent': '<button><i class="fa fa-trash"/></button>',
             'orderable': false,
@@ -87,11 +88,14 @@ $(document).ready(function () {
     $('#table_BoMon').on('click', 'td.editor-edit', function (e) {
         $("#titleAddBoMon").html("Chỉnh sửa bộ môn");
         document.getElementById("btnSaveBoMon").style.display = "none";
-        maBoMon = table_BoMon.cell(this, 0).data().trim();
-        var tenBoMon = table_BoMon.cell(this, 1).data().trim();
+        maBoMon = table_BoMon.cell(this, 0).data();
+        var tenBoMon = table_BoMon.cell(this, 1).data();
+        var tipDauNgu = table_BoMon.cell(this, 2).data();
+        row = this;
         maBoMonEdit = maBoMon;
         $('#maBoMon').val(maBoMon);
         $('#tenBoMon').val(tenBoMon);
+        $('#tipDauNgu').val(tipDauNgu);
         $("#modalAddBoMon").modal("show");
     });
 
@@ -141,6 +145,7 @@ $(document).ready(function () {
 function editBoMon() {
     var maBoMonEdit = $("#maBoMon").val().trim();
     var tenBoMon = $("#tenBoMon").val().trim();
+    var tipDauNgu = $("#tipDauNgu").val().trim();
     if (maBoMonEdit == "") {
         $("#maBoMon").focus();
         toastr.error("Vui lòng nhập mã bộ môn", "Lỗi", { timeOut: 2500 });
@@ -154,7 +159,8 @@ function editBoMon() {
     var boMon = {
         MaBoMon: maBoMonEdit,
         TenBoMon: tenBoMon,
-        MaKhoa: maKhoa
+        MaKhoa: maKhoa,
+        TipDauNguMonHoc: tipDauNgu
     };
     $.ajax({
         async: true,
@@ -165,8 +171,9 @@ function editBoMon() {
             if (response.success == true) {
                 toastr.success("Chỉnh sửa bộ môn thành công", "Thông báo", { timeOut: 2500 });
               //  init_Table_BoMon();
-                table_BoMon.cell(this, 0).data(boMon.MaBoMon);
-                table_BoMon.cell(this, 1).data(boMon.TenBoMon);
+                table_BoMon.cell(row, 0).data(boMon.MaBoMon);
+                table_BoMon.cell(row, 1).data(boMon.TenBoMon);
+                table_BoMon.cell(row, 2).data(boMon.TipDauNguMonHoc);
                 $('#modalAddBoMon').modal('hide');
                 document.getElementById("btnSaveBoMon").style.display = "inline";
                 return;
@@ -245,7 +252,7 @@ function init_Table_BoMon() {
     var khoa = {
         MaKhoa: maKhoa, TenKhoa: ""
     };
-    table_BoMon.clear().draw();
+    table_BoMon.clear().draw(false);
     $.ajax({
         async: true,
         type: 'POST',
@@ -254,7 +261,7 @@ function init_Table_BoMon() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-                table_BoMon.row.add([item.MaBoMon, item.TenBoMon]).draw(false);
+                table_BoMon.row.add([item.MaBoMon, item.TenBoMon,item.TipDauNguMonHoc]).draw(false);
             });
         },
         error: function () {
@@ -269,6 +276,7 @@ function saveBoMon(flag) {
     }
     var maBoMon = $("#maBoMon").val().trim();
     var tenBoMon = $("#tenBoMon").val().trim();
+    var tipDauNgu = $("#tipDauNgu").val().trim();
     if (maBoMon == "") {
         $("#maBoMon").focus();
         toastr.error("Vui lòng nhập mã bộ môn", "Lỗi", { timeOut: 2500 });
@@ -282,7 +290,8 @@ function saveBoMon(flag) {
     var boMon = {
         MaBoMon: maBoMon,
         TenBoMon: tenBoMon,
-        MaKhoa: maKhoa
+        MaKhoa: maKhoa,
+        TipDauNguMonHoc: tipDauNgu
     };
     $.ajax({
         async: true,
@@ -292,7 +301,7 @@ function saveBoMon(flag) {
         success: function (response) {
             if (response.success == true) {
                 console.log("Bộ môn: " + boMon);
-                table_BoMon.row.add([boMon.MaBoMon, boMon.TenBoMon]).draw(false);
+                table_BoMon.row.add([boMon.MaBoMon, boMon.TenBoMon, boMon.TipDauNguMonHoc]).draw(false);
                 toastr.success("Thêm bộ môn thành công", "Thông báo", { timeOut: 2500 });
                 if (flag == true) {
                     $('#modalAddBoMon').modal('hide');
@@ -322,4 +331,5 @@ function saveBoMon(flag) {
 function clearFormAdd() {
     $("#maBoMon").val("");
     $("#tenBoMon").val("");
+    $("#tipDauNgu").val("");
 }

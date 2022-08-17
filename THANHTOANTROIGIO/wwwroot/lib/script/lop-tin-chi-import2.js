@@ -21,7 +21,7 @@ var maSheet;
 var listLTCPreview;
 var listLTCImport;
 $(document).ready(function () {
-   /* loading();*/
+    /* loading();*/
     select_Sheet = $('#select_Sheet').select2();
     table_LTC_Import = $("#table_LTC_Import").DataTable();
     /* setVisibleColumn(false);*/
@@ -163,7 +163,6 @@ function loading() {
 }
 */function previewLTC() {
     document.getElementById("btnImport").removeAttribute("disabled");
-    table_LTC_Import.destroy();
     var formData = new FormData();
     formData.append('file', fileLTC);
     formData.append('maNKHK', maHocKy);
@@ -176,77 +175,85 @@ function loading() {
         processData: false,
         contentType: false,
         success: function (response) {
-            listLTCPreview = $.parseJSON(response).dataView;
-            listLTCImport = $.parseJSON(response).data;
-            console.log(JSON.stringify(listLTCImport));
-            table_LTC_Import = $('#table_LTC_Import').DataTable({
-                "data": listLTCPreview,
-                "columns": [{
-                    'data': 'Stt',
-                },
-                {
-                    'data': 'MaGV',
-                }, {
-                    'data': 'TenGiangVien',
-                }, {
-                    'data': 'ChucDanh',
-                }, {
-                    'data': 'TenMonHoc',
-                }, {
-                    'data': 'MaMonHoc',
-                }, {
-                    'data': 'MaHeLop',
-                }, {
-                    'data': 'TenLTC',
-                }, {
-                    'data': 'SiSo',
-                },
-                {
-                    'data': 'SoNhomTH',
-                },
-                {
-                    'data': 'TietLTQD',
-                },
-                {
-                    'data': 'TietBTQD',
-                },
-                {
-                    'data': 'TietTHQD',
-                },
-                {
-                    'data': 'HSLopDongLT',
-                },
-                {
-                    'data': 'HSNgoaiGio',
-                },
-                {
-                    'data': 'HSMonMoi',
-                },
-                {
-                    'data': 'HSLopDongTH',
-                },
-                {
-                    'data': 'HSLTC',
-                },
-                {
-                    'data': 'TietLTTD',
-                },
-                {
-                    'data': 'TietBTTD',
-                },
-                {
-                    'data': 'TietTHTD',
-                }],
-                "columnDefs": [{
-                    "targets": 4,
-                    "width": "100px"
-                }, {
-                    "targets": 2,
-                    "width": "100px"
+            response = $.parseJSON(response);
+            if (response.success == true) {
+                table_LTC_Import.destroy();
+                listLTCPreview = response.dataView;
+                listLTCImport = response.data;
+                console.log(JSON.stringify(listLTCImport));
+                table_LTC_Import = $('#table_LTC_Import').DataTable({
+                    "data": listLTCPreview,
+                    "columns": [{
+                        'data': 'Stt',
+                    },
+                    {
+                        'data': 'MaGV',
+                    }, {
+                        'data': 'TenGiangVien',
+                    }, {
+                        'data': 'ChucDanh',
+                    }, {
+                        'data': 'TenMonHoc',
+                    }, {
+                        'data': 'MaMonHoc',
+                    }, {
+                        'data': 'MaHeLop',
+                    }, {
+                        'data': 'TenLTC',
+                    }, {
+                        'data': 'SiSo',
+                    },
+                    {
+                        'data': 'SoNhomTH',
+                    },
+                    {
+                        'data': 'TietLTQD',
+                    },
+                    {
+                        'data': 'TietBTQD',
+                    },
+                    {
+                        'data': 'TietTHQD',
+                    },
+                    {
+                        'data': 'HSLopDongLT',
+                    },
+                    {
+                        'data': 'HSNgoaiGio',
+                    },
+                    {
+                        'data': 'HSMonMoi',
+                    },
+                    {
+                        'data': 'HSLopDongTH',
+                    },
+                    {
+                        'data': 'HSLTC',
+                    },
+                    {
+                        'data': 'TietLTTD',
+                    },
+                    {
+                        'data': 'TietBTTD',
+                    },
+                    {
+                        'data': 'TietTHTD',
+                    }],
+                    "columnDefs": [{
+                        "targets": 4,
+                        "width": "100px"
+                    }, {
+                        "targets": 2,
+                        "width": "100px"
+                    }
+                    ]
                 }
-                ]
+                );
             }
-            );
+            else {
+                toastr.error(response.message, 'Lỗi', { timeOut: 3000 });
+            }
+
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

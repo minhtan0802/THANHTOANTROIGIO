@@ -15,6 +15,7 @@ var table_LTC_rowIndex = 0;
 var maLTC = 0;
 var ltcAdd = null;
 var flagEdit = "";
+var tenGV = "";
 $(document).ready(function () {
   /*  loading();*/
     table_LTC = $("#table_LTC").DataTable({
@@ -67,7 +68,7 @@ $(document).ready(function () {
         $("#modalAddLTC").modal("show");
         getDonGia();
 
-        $("#label_LTC").html("Thêm lớp tín chỉ");
+        $("#label_LTC").html("Thêm lớp tín chỉ của GIẢNG VIÊN " + hocViLTC + ". " + tenGV);
 
     });
     $("#select_Khoa").select2();
@@ -90,7 +91,7 @@ $(document).ready(function () {
 
     });
     $('#table_LTC').on('click', 'td.editor-edit', function (e) {
-        $("#label_LTC").html("Chỉnh sửa lớp tín chỉ");
+        $("#label_LTC").html("Chỉnh sửa lớp tín chỉ của GIẢNG VIÊN " + hocViLTC + ". " + tenGV);
         maLTC = table_LTC.cell(this, 0).data();
         flagEdit = maLTC;
         $.ajax({
@@ -341,6 +342,7 @@ function init_Tree_GV() {
                                 response = $.parseJSON(response);
                                 hocViLTC = response;
                                 document.getElementById("titleLTC").innerHTML = "Danh sách lớp tín chỉ của GIẢNG VIÊN: " + hocViLTC + ". " + item.innerHTML;
+                                tenGV = item.innerHTML;
                                 console.log(response);
                             },
                             error: function () {
@@ -876,7 +878,7 @@ function getDonGia() {
     $.ajax({
         async: false,//fix khi edit, chỉ chạy khi select môn thay đổi xong mới set giá từ DB
         type: 'GET',
-        data: { maHocVi: hocViLTC, maGV: maGV, tenMon: tenMonHoc },
+        data: { maGV: maGV, tenMon: tenMonHoc },
         url: '/lop-tin-chi/don-gia',
         success: function (response) {
             response = $.parseJSON(response.data);
@@ -895,7 +897,7 @@ function initFormAdd() {
     $('#hsLDTH').val(null);
     $('#soNhomTH').val(null);
     $('#hsLDTH').val(null);
-
+    document.getElementById("btnSaveLTC").style.display = "inline";
     init_Select_MonHoc_LTC();
     init_Select_HeLop();
     init_Select_BacHoc();

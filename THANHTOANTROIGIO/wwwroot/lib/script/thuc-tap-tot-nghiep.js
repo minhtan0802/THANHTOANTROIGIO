@@ -6,6 +6,7 @@ var listGV;
 var nodeTree = null;
 var table_TTTN;
 var maGV = "";
+var tenGV = "";
 var hocViLTC = "";
 var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc = "x";
 var maHocKyInt;
@@ -37,7 +38,7 @@ $(document).ready(function () {
         }
     });
     $('#table_TTTN').on('click', 'td.editor-edit', function (e) {
-        $("#label_TTTN").html("Chỉnh sửa lớp hướng dẫn TTTN");
+        $("#label_TTTN").html("Chỉnh sửa lớp hướng dẫn TTTN của GIẢNG VIÊN " + hocViLTC + ". " + tenGV);
         lop = table_TTTN.cell(this, 2).data();
         flagEdit = lop;
         tttnModel = {
@@ -63,7 +64,7 @@ $(document).ready(function () {
         lop = table_TTTN.cell(this, 2).data();
         swal({
             title: "Xác nhận",
-            text: "Bạn có chắc chắn muốn xóa lớp tín chỉ này?",
+            text: "Bạn có chắc chắn muốn xóa hướng dẫn thực tập tốt nghiệp này?",
             type: 'warning',
             buttons: true,
             dangerMode: true
@@ -96,7 +97,7 @@ $(document).ready(function () {
         initFormAdd();
         $("#modalAddTTTN").modal("show");
         document.getElementById('btnSaveTTTN').style.display = "inline";
-        $("#label_TTTN").html("Thêm lớp tín chỉ");
+        $("#label_TTTN").html("Thêm hướng dẫn thực tập tốt nghiệp của GIẢNG VIÊN " + hocViLTC + ". " + tenGV);
 
     });
     $("#btnCloseTTTN").click(function (e) {
@@ -252,6 +253,7 @@ function init_Tree_GV() {
                                 response = $.parseJSON(response);
                                 hocViLTC = response;
                                 document.getElementById("titleTTTN").innerHTML = "DANH SÁCH hướng dẫn thực tập tốt nghiệp của GIẢNG VIÊN: " + hocViLTC + ". " + item.innerHTML;
+                                tenGV = item.innerHTML;
                                 console.log(response);
                             },
                             error: function () {

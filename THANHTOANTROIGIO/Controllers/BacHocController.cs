@@ -55,7 +55,7 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("add")]
         [HttpPost]
-        public JsonResult themBacHoc(BacHoc bacHoc, float heSo)
+        public JsonResult themBacHoc(BacHoc bacHoc, double heSo)
         {
             try
             {
@@ -86,6 +86,14 @@ namespace THANHTOANTROIGIO.Controllers
                         _context.ThayDoiHSBacs.Add(thayDoiHSBac);
                         _context.SaveChanges();
                         transaction.Commit();
+                        var view = new BacHocViewModel();
+                        var gv = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user").ToString());
+                        view.MaBac = bacHoc.MaBac;
+                        view.TenBac = bacHoc.TenBac;
+                        view.NgayApDung = thayDoiHSBac.NgayApDung;
+                        view.HeSo = thayDoiHSBac.HeSo;
+                        view.GVDieuChinh = gv.Name;
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = view }));
                     }
 
 
@@ -94,7 +102,7 @@ namespace THANHTOANTROIGIO.Controllers
                         transaction.Rollback();
                         return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
                     }
-                    return Json(new { success = true, data = bacHoc });
+                    
                 }
             }
             catch (Exception e)
@@ -108,7 +116,7 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("edit")]
         [HttpPost]
-        /*public JsonResult editBacHoc(String maBacHoc, BacHoc model, double heSo)
+        public JsonResult editBacHoc(String maBacHoc, BacHoc model, double heSo)
         {
             try
             {
@@ -137,7 +145,7 @@ namespace THANHTOANTROIGIO.Controllers
                         thayDoiHSBac.MaBac = bacHoc.MaBac.Trim();
                         thayDoiHSBac.NgayApDung = DateTime.Now;
                         thayDoiHSBac.HeSo = heSo;
-                        thayDoiHSBac.MaGVDieuChinh = AccountController.MaGV;
+                        thayDoiHSBac.MaGVDieuChinh = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user")).MaGiangVien;
                         _context.ThayDoiHSBacs.Add(thayDoiHSBac);
                         _context.SaveChanges();
                         _context.Entry(bacHoc).State = EntityState.Modified;
@@ -147,7 +155,13 @@ namespace THANHTOANTROIGIO.Controllers
                         {
                             var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maBacHoc + "','" + model.MaBac.Trim() + "','BacHoc'");
                         }
-                        return Json(JsonConvert.SerializeObject(new { success = true, data = thayDoiHSBac.NgayApDung }));
+                        var view = new BacHocViewModel();
+                        view.MaBac = model.MaBac;
+                        view.TenBac = model.TenBac;
+                        view.HeSo = heSo;
+                        view.NgayApDung = thayDoiHSBac.NgayApDung;
+                        view.GVDieuChinh = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user")).Name;
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = view }));
                     }
                     catch (Exception e)
                     {
@@ -161,10 +175,10 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
             }
-        }*/
+        }
         [Route("delete")]
         [HttpPost]
-        public JsonResult deleteChucVu(String maBac)
+        public JsonResult deleteBacHoc(String maBac)
         {
             try
             {

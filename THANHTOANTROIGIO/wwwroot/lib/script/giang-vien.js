@@ -88,8 +88,8 @@ $(document).ready(function () {
         var ho = table_GV.cell(this, 1).data();
         var chucDanh = table_GV.cell(this, 5).data();
         var gender = table_GV.cell(this, 6).data();
-   
-        if (gender==true) {
+
+        if (gender == true) {
             document.getElementById("select_GioiTinh").value = true;
         }
         else {
@@ -328,7 +328,7 @@ function init_Table_GV() {
         data: boMon,
         url: '/giangvien/ds-giang-vien',
         success: function (response) {
-         
+
             table_GV = $('#table_GV').DataTable({
                 "data": $.parseJSON(response),
                 "rowId": 'MaGiangVien'.trim(),
@@ -366,10 +366,13 @@ function init_Table_GV() {
                 }, {
                     'data': 'NgaySinh',
                     'render': function (data, type, row) {
-                        var date = data.split('T')[0];
-                        var dateOfBirth = date.split("-");
-                        var ret = dateOfBirth[2] + "/" + dateOfBirth[1] + "/" + dateOfBirth[0];
-                        return ret;
+                        if (data != null) {
+                            var date = data.split('T')[0];
+                            var dateOfBirth = date.split("-");
+                            var ret = dateOfBirth[2] + "/" + dateOfBirth[1] + "/" + dateOfBirth[0];
+                            return ret;
+                        }
+                        return "";
                     }
                 }, {
                     'data': 'DiaChi',
@@ -541,7 +544,7 @@ function saveGiangVien() {
                 if (chucDanh == "GVC") {
                     chucDanh = "Giảng viên chính";
                 }
-                else if (chucDanh=="GVCC"){
+                else if (chucDanh == "GVCC") {
                     chucDanh = "Giảng viên cao cấp";
                 }
                 console.log(JSON.stringify(gvAdd));
@@ -637,38 +640,38 @@ function editGiangVien() {
                 var gvAdd = JSON.parse(JSON.stringify(response.data));
                 console.log("GV: " + JSON.stringify(gvAdd));
                 row.data(gvAdd);
-               /* var tenChucDanh = "Giảng viên";
-                var gioiTinh = "Nữ";
-                if (gvAdd.gioiTinh) {
-                    gioiTinh = "Nam";
-                }
-                if (gvAdd.chucDanh == 'GVC') {
-                    tenChucDanh = "Giảng viên chính";
-                }
-                else {
-                    tenChucDanh = "Giảng viên cao cấp";
-                }
-                maGV = gvAdd.maGiangVien;
-                table_GV.cell(this, 0).data(gvAdd.maGiangVien);
-                table_GV.cell(this, 1).data(gvAdd.ho);
-                table_GV.cell(this, 2).data(gvAdd.ten);
-                table_GV.cell(this, 3).data(gvAdd.hocVi);
-                table_GV.cell(this, 4).data(gvAdd.chucVu);
-                table_GV.cell(this, 5).data(tenChucDanh);
-                table_GV.cell(this, 6).data(gioiTinh);
-                table_GV.cell(this, 7).data(gvAdd.ngaySinh.split('T')[0]);
-                table_GV.cell(this, 8).data(gvAdd.diaChi);
-                table_GV.cell(this, 9).data(gvAdd.sdt);
-
-
-                table_GV.cell(this, 10).data(gvAdd.gvCoHuu);
-                if (gvAdd.gvCoHuu) {
-                    var x = $('tr#' + gvAdd.maGiangVien);
-                    $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', 'checked');
-                }
-                else {
-                    $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', false);
-                }*/
+                /* var tenChucDanh = "Giảng viên";
+                 var gioiTinh = "Nữ";
+                 if (gvAdd.gioiTinh) {
+                     gioiTinh = "Nam";
+                 }
+                 if (gvAdd.chucDanh == 'GVC') {
+                     tenChucDanh = "Giảng viên chính";
+                 }
+                 else {
+                     tenChucDanh = "Giảng viên cao cấp";
+                 }
+                 maGV = gvAdd.maGiangVien;
+                 table_GV.cell(this, 0).data(gvAdd.maGiangVien);
+                 table_GV.cell(this, 1).data(gvAdd.ho);
+                 table_GV.cell(this, 2).data(gvAdd.ten);
+                 table_GV.cell(this, 3).data(gvAdd.hocVi);
+                 table_GV.cell(this, 4).data(gvAdd.chucVu);
+                 table_GV.cell(this, 5).data(tenChucDanh);
+                 table_GV.cell(this, 6).data(gioiTinh);
+                 table_GV.cell(this, 7).data(gvAdd.ngaySinh.split('T')[0]);
+                 table_GV.cell(this, 8).data(gvAdd.diaChi);
+                 table_GV.cell(this, 9).data(gvAdd.sdt);
+ 
+ 
+                 table_GV.cell(this, 10).data(gvAdd.gvCoHuu);
+                 if (gvAdd.gvCoHuu) {
+                     var x = $('tr#' + gvAdd.maGiangVien);
+                     $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', 'checked');
+                 }
+                 else {
+                     $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', false);
+                 }*/
                 /* row.remove().draw();
                  table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);*/
 

@@ -5,7 +5,7 @@ var maBacHocEdit = "";
 var table_BacHoc;
 var row;
 $(document).ready(function () {
-   /* loading();*/
+    /* loading();*/
     init_table_BacHoc();
     $(document).on('shown.bs.modal', '#modalAddBacHoc', function () {
         $('#maBacHoc').focus();
@@ -27,48 +27,60 @@ $(document).ready(function () {
     });
 
     $('#table_BacHoc').on('click', 'td.editor-edit', function (e) {
-        $("#titleAddMonHoc").html("Chỉnh sửa bậc học");
-        row = table_BacHoc.row(this);
-        maBacHoc = table_BacHoc.cell(this, 0).data().trim();
-        var heSo = table_BacHoc.cell(this, 2).data();
-        var tenBacHoc = table_BacHoc.cell(this, 1).data().trim();
-        maBacHocEdit = maBacHoc;
-        $('#maBacHoc').val(maBacHoc);
-        $('#tenBacHoc').val(tenBacHoc);
-        $('#heSo').val(heSo);
-        $("#modalAddBacHoc").modal("show");
-        $("#titleAddBacHoc").html("Chỉnh sửa bậc học");
-        document.getElementById("btnSaveBacHoc").style.display = "none";
+        if (canEdit) {
+            $("#titleAddMonHoc").html("Chỉnh sửa bậc học");
+            row = table_BacHoc.row(this);
+            maBacHoc = table_BacHoc.cell(this, 0).data().trim();
+            var heSo = table_BacHoc.cell(this, 2).data();
+            var tenBacHoc = table_BacHoc.cell(this, 1).data().trim();
+            maBacHocEdit = maBacHoc;
+            $('#maBacHoc').val(maBacHoc);
+            $('#tenBacHoc').val(tenBacHoc);
+            $('#heSo').val(heSo);
+            $("#modalAddBacHoc").modal("show");
+            $("#titleAddBacHoc").html("Chỉnh sửa bậc học");
+            document.getElementById("btnSaveBacHoc").style.display = "none";
+        }
+        else {
+            return;
+        }
+
     });
 
     $('#table_BacHoc').on('click', 'td.editor-delete', function () {
-        maBacHoc = table_BacHoc.cell(this, 0).data();
-        swal({
-            title: "Xác nhận",
-            text: "Bạn có chắc chắn muốn xóa bậc học này?",
-            type: 'warning',
-            buttons: true,
-            dangerMode: true
-        }).then((willDelete) => {
-            if (willDelete) {
-                var row = table_BacHoc.row(this);
-                $.ajax({
-                    async: true,
-                    type: 'POST',
-                    data: { maBac: maBacHoc },
-                    url: '/bac-hoc/delete',
-                    success: function (response) {
-                        if (response.success == true) {
-                            toastr.success(response.data, "Thông báo", { timeOut: 3000 });
-                            row.remove().draw();
-                        } else {
-                            toastr.error(response.message, "Lỗi", { timeOut: 3000 });
+        if (canEdit) {
+            maBacHoc = table_BacHoc.cell(this, 0).data();
+            swal({
+                title: "Xác nhận",
+                text: "Bạn có chắc chắn muốn xóa bậc học này?",
+                type: 'warning',
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    var row = table_BacHoc.row(this);
+                    $.ajax({
+                        async: true,
+                        type: 'POST',
+                        data: { maBac: maBacHoc },
+                        url: '/bac-hoc/delete',
+                        success: function (response) {
+                            if (response.success == true) {
+                                toastr.success(response.data, "Thông báo", { timeOut: 3000 });
+                                row.remove().draw();
+                            } else {
+                                toastr.error(response.message, "Lỗi", { timeOut: 3000 });
+                            }
                         }
-                    }
-                });
+                    });
 
-            };
-        });
+                };
+            });
+        }
+        else {
+            return;
+        }
+
     });
     // Open modal on page load
     $("#btnAddBacHoc").click(function () {
@@ -117,9 +129,9 @@ function saveBacHoc(close) {
             data: { bacHoc: bacHoc, heSo: heSo },
             url: '/bac-hoc/add',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
-                    var bacHocFull = { MaBac: maBacHocAdd, TenBac: tenBacHoc, HeSo: heSo };
-                    table_BacHoc.row.add(bacHocFull).draw(false);
+                    table_BacHoc.row.add(response.data).draw(false);
                     toastr.success("Thêm bậc học thành công", "Thông báo", { timeOut: 2500 });
                     if (close) {
                         $('#modalAddBacHoc').modal('hide');
@@ -154,9 +166,9 @@ function saveBacHoc(close) {
             success: function (response) {
                 response = $.parseJSON(response);
                 if (response.success == true) {
-                    var bacHocFull = { MaBac: maBacHocAdd, TenBac: tenBacHoc, HeSo: heSo, NgayApDung: response.data };
+                    //   var bacHocFull = { MaBac: maBacHocAdd, TenBac: tenBacHoc, HeSo: heSo, NgayApDung: response.data };
                     toastr.success("Chỉnh sửa bậc học thành công", "Thông báo", { timeOut: 2500 });
-                    row.data(bacHocFull);
+                    row.data(response.data);
                     $('#modalAddBacHoc').modal('hide');
                     return;
                 }
@@ -208,7 +220,7 @@ function init_table_BacHoc(showAll) {
     $.ajax({
         async: true,
         type: 'GET',
-        data: {all:showAll},
+        data: { all: showAll },
         url: '/bac-hoc/ds-bac-hoc-full',
         success: function (response) {
             console.log(response);
@@ -233,22 +245,38 @@ function init_table_BacHoc(showAll) {
                     }
                 },
                 {
-                    'targets': 4,
+                    'data': 'GVDieuChinh'
+                },
+                {
+                    'targets': 5,
                     'className': "dt-center editor-edit",
-                    'defaultContent': '<button><i class="fa fa-pencil" aria-hidden="true"/></button>',
+                    'defaultContent': '<button class="edit"><i class="fa fa-pencil" aria-hidden="true"/></button>',
                     'orderable': false,
                     'searchable': false
                 },
                 {
-                    'targets': 5,
+                    'targets': 6,
                     'className': "dt-center editor-delete",
-                    'defaultContent': '<button><i class="fa fa-trash"/></button>',
+                    'defaultContent': '<button class="edit"><i class="fa fa-trash"/></button>',
                     'orderable': false,
                     'searchable': false
                 }
                 ]
             }
             );
+            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+            if (showAll == 1) {
+                $("#btnAddBacHoc").attr("disabled", "disabled");
+                canEdit = false;
+                $.each(listBtnEditDelete, function (i, item) {
+                    item.setAttribute("disabled", "disabled");
+                });
+            }
+            else {
+                $("#btnAddBacHoc").removeAttr("disabled");
+                canEdit = true;
+            }
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -263,9 +291,11 @@ function clearForm() {
 function showAllBacHoc() {
     var checkBox = document.getElementById("showAll");
     if (checkBox.checked == true) {
+        document.getElementById("notify").style.display = "inline";
         init_table_BacHoc(1);
     }
     else {
+        document.getElementById("notify").style.display = "none";
         init_table_BacHoc(0);
     }
 }

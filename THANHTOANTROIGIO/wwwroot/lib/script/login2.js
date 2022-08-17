@@ -20,13 +20,13 @@ function login() {
         url: '/login/validate',
         success: function (response) {
             if (response.success == true) {
-                toastr.success("Đăng nhập thành công!", "Thông báo", { timeOut: 1000 });
+              //  toastr.success("Đăng nhập thành công!", "Thông báo", { timeOut: 1000 });
                 window.location.href = "/"; //will redirect to product (an ex: blog.html)
 
             };
             if (response.success == false) {
                 console.log("In ra lỗi: " + response.message);
-                toastr.error(response.message, "Lỗi", { timeOut: 3000 });
+                toastr.error(response.message, "Đăng nhập thất bại", { timeOut: 3000 });
             }
         },
         error: function () {

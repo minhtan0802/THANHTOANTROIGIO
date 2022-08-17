@@ -27,11 +27,11 @@ namespace THANHTOANTROIGIO.Services
             return ltc;
         }
 
-        public int getDonGia(string maHocVi, string maGV, string tenMon, String connectionString)
+        public int getDonGia(string maHocVi, string chucDanh, string tenMon, String connectionString)
         {
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@maHocVi", maHocVi));
-            param.Add(new SqlParameter("@maGV", maGV));
+            param.Add(new SqlParameter("@chucDanh", chucDanh));
             param.Add(new SqlParameter("@monHoc", tenMon));
             var data = new SQLHelper(connectionString).ExecuteQuery("getDonGiaGV", param);
             var rountCount = data.Rows.Count;

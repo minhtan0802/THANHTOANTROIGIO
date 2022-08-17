@@ -14,7 +14,7 @@ namespace THANHTOANTROIGIO.Models
         public String ChucVu { get; set; }
         public String ChucDanh { get; set; }
         public Boolean GioiTinh { get; set; }
-        public DateTime NgaySinh { get; set; }
+        public DateTime? NgaySinh { get; set; }
         public String? DiaChi { get; set; }
         public String? Sdt { get; set; }
         public String MaBoMon { get; set; }

@@ -49,7 +49,7 @@ $(document).ready(function () {
         maMonHoc = table_MonHoc.cell(this, 0).data();
         swal({
             title: "Xác nhận",
-            text: "Bạn có chắc chắn muốn xóa chức vụ này?",
+            text: "Bạn có chắc chắn muốn xóa môn học này?",
             type: 'warning',
             buttons: true,
             dangerMode: true

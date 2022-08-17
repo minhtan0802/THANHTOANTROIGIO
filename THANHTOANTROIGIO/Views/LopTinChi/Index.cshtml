@@ -101,22 +101,22 @@
                         <div class="modal-body">
                             <form class="row g-4" id="formAddLTC" style="margin-bottom:20px">
                                 <div class="col-md-3" style="margin-top: 10px;">
-                                    <label for="inputTLC">Tên LTC</label>
+                                    <label for="inputTLC">Tên lớp tín chỉ</label>
                                     <input type="text" class="form-control" id="tenLTC">
                                 </div>
                                 <div class="col-md-3 " style="margin-top: 10px;">
                                     <label for="validationDefault01" class="form-label">Môn học</label>
-                                    <select class="form-control" id="select_MonHoc" onchange="onChange_Select_MonHoc()" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
+                                    <select class="form-control" id="select_MonHoc" onchange="onChange_Select_MonHoc()" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;" ></select>
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
-                                    <label for="inputTLC">HS học kỳ</label>
-                                    <input type="number" class="form-control" id="hsHocKy">
+                                    <label for="inputTLC">Hệ số học kỳ</label>
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsHocKy">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
-                                    <label for="inputTLC">HS LTC</label>
-                                    <input type="number" class="form-control" id="hsLTC">
+                                    <label for="inputTLC">Hệ số LTC</label>
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsLTC">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
@@ -131,7 +131,7 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS bậc</label>
-                                    <input type="number" class="form-control" id="hsBac">
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsBac">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
@@ -141,7 +141,7 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS Hệ lớp</label>
-                                    <input type="number" class="form-control" id="hsHeLop">
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsHeLop">
                                 </div>
 
                                 <div class="col-md-2">
@@ -152,7 +152,7 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS lớp đêm</label>
-                                    <input type="number" class="form-control" id="hsLopDem" value="1.0" readonly>
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsLopDem" value="1.0" readonly>
                                 </div>
 
                                 <div class="col-md-2">
@@ -163,22 +163,22 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS môn mới</label>
-                                    <input type="number" class="form-control" id="hsMonMoi" value="1.0" readonly>
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsMonMoi" value="1.0" readonly>
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Đơn giá</label>
-                                    <input type="number" class="form-control" id="donGia">
+                                    <input type="number" min="0" class="form-control" id="donGia">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Sỉ số</label>
-                                    <input type="number" min="0" step="1" class="form-control" id="siSo" onChange="onKeyUpSiSo()">
+                                    <input type="number" min="1" step="1" class="form-control" id="siSo" onChange="onKeyUpSiSo()">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS lớp đông LT</label>
-                                    <input type="number" class="form-control" id="hsLDLT">
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsLDLT">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
@@ -188,7 +188,7 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">HS nhóm TH</label>
-                                    <input type="number" class="form-control" id="hsNhomTH">
+                                    <input type="number" min="1.0" step="0.1" class="form-control" id="hsNhomTH">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
@@ -198,32 +198,32 @@
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Tiết LT QĐ</label>
-                                    <input type="number" class="form-control" id="tietLTQD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietLTQD">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Thực dạy</label>
-                                    <input type="number" class="form-control" id="tietLTTD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietLTTD">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Tiết BT QĐ</label>
-                                    <input type="number" class="form-control" id="tietBTQD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietBTQD">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Thực dạy</label>
-                                    <input type="number" class="form-control" id="tietBTTD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietBTTD">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Tiết TH QĐ</label>
-                                    <input type="number" class="form-control" id="tietTHQD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietTHQD">
                                 </div>
 
                                 <div class="col-md-2" style="margin-top: 10px;">
                                     <label for="inputTLC">Thực dạy</label>
-                                    <input type="number" class="form-control" id="tietTHTD">
+                                    <input type="number" min="1" step="1" class="form-control" id="tietTHTD">
                                 </div>
 
 

@@ -85,6 +85,7 @@ namespace THANHTOANTROIGIO.Controllers
                 }
                 var boMon = _context.BoMons.Where(x => x.MaBoMon == maBoMon.Trim()).FirstOrDefault();
                 boMon.TenBoMon = model.TenBoMon;
+                boMon.TipDauNguMonHoc = model.TipDauNguMonHoc;
                 _context.Entry(boMon).State = EntityState.Modified;
                 _context.SaveChanges();
                 if (maBoMon.Trim() != model.MaBoMon.Trim())

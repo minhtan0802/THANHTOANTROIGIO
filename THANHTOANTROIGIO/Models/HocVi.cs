@@ -11,4 +11,18 @@ namespace THANHTOANTROIGIO.Models
         public String TenHocVi { get; set; }
         
     }
+    public class HocViAddModel
+    {
+        public String MaHocVi { get; set; }
+        public String TenHocVi { get; set; }
+        public int DonGia { get; set; }
+    }
+    public class HocViViewModel
+    {
+        public String MaHocVi { get; set; }
+        public String TenHocVi { get; set; }
+        public int DonGia { get; set; }
+        public String MaNKHK { get; set; }
+        public String GVDieuChinh { get; set; }
+    }
 }

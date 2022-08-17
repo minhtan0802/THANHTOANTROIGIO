@@ -1,4 +1,7 @@
-﻿using THANHTOANTROIGIO.Models;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
+using THANHTOANTROIGIO.Helpers;
+using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.Services
 {
@@ -9,7 +12,7 @@ namespace THANHTOANTROIGIO.Services
         {
             _context = context;
         }
-        public List<HocVi> getListHocVi()
+        public List<HocVi> getListHocVi()// form giang vien
         {
             List<HocVi> list = new List<HocVi>();
             list = _context.HocVis.ToList();
@@ -22,6 +25,14 @@ namespace THANHTOANTROIGIO.Services
             hocVi = (ThayDoiHocVi)_context.ThayDoiHocVis
                           .Where(s => s.MaGV.Equals(maGV.Trim()) && s.NgayThayDoi == ngayThayDoi).FirstOrDefault();
             return hocVi.MaHocVi;
+        }
+        public DataTable GetDSHocVi(String connectionString, int all)// them, xoa, sua hoc vi
+        {
+            var Sql = new SQLHelper(connectionString);
+            var param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@all", all));
+            var data = Sql.ExecuteQuery("sp_get_Hoc_Vi", param);
+            return data;
         }
     }
 }

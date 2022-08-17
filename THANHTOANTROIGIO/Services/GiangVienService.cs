@@ -74,6 +74,7 @@ namespace THANHTOANTROIGIO.Services
                         gvTree.id = listGV[j].MaGiangVien;
                         listGVTree.Add(gvTree);
                         listGV.RemoveAt(j);
+                        j -= 1;
                     }
                 }
                 treeGV.text = listBoMon[i].TenBoMon;

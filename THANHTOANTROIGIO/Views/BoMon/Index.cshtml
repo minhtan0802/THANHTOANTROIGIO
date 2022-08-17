@@ -96,11 +96,15 @@
                                     <label for="validationDefault01" class="form-label">Tên Bộ Môn</label>
                                     <input type="text" class="form-control" id="tenBoMon">
                                 </div>
+                                <div class="row-cols-1">
+                                    <label for="validationDefault01" class="form-label">Tip đầu ngữ môn học</label>
+                                    <textarea type="text" class="form-control" id="tipDauNgu"></textarea>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btnCloseBoMon">Thoát</button>
-                            <button type="button" class="btn btn-secondary" id="btnSaveBoMon" onclick="saveBoMon(false)">Lưu</button>
+                            <button type="button" class="btn btn-primary" id="btnSaveBoMon" onclick="saveBoMon(false)">Lưu</button>
                             <button type="button" class="btn btn-primary" id="btnSaveCloseBoMon" onclick="saveBoMon(true)">Lưu và Thoát</button>
                         </div>
                     </div>
@@ -127,6 +131,7 @@
                     <tr>
                         <th>Mã Bộ Môn</th>
                         <th>Tên Bộ Môn</th>
+                        <th>Tip đầu ngữ môn học</th>
                         <th>Chỉnh sửa</th>
                         <th>Xóa</th>
                     </tr>

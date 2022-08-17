@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+<script src="~/js/thirdparty.bundle.js"></script>
+<link rel="stylesheet" href="~/css/viewer.part.bundle.css" />
+<link rel="stylesheet" href="~/css/thirdparty.bundle.css" />
+<script src="~/js/viewer.part.bundle.js"></script>
+@using DevExpress.AspNetCore;
+@{
+    ViewBag.Title = "Print Report";
+}
+@Html.DevExpress().WebDocumentViewer("DocumentViewer").Height("1000px").Bind(@ViewBag.Report)

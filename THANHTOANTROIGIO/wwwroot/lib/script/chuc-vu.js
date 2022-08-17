@@ -46,7 +46,7 @@ $(document).ready(function () {
         maChucVu = table_ChucVu.cell(this, 0).data();
         swal({
             title: "Xác nhận",
-            text: "Bạn có chắc chắn muốn xóa môn học này?",
+            text: "Bạn có chắc chắn muốn xóa chức vụ này?",
             type: 'warning',
             buttons: true,
             dangerMode: true

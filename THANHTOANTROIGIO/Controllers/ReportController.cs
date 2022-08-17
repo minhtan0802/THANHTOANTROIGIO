@@ -28,7 +28,7 @@ namespace THANHTOANTROIGIO.Controllers
         public IActionResult ReportKhoiLuongGiang(string hocKy)
         {
             var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
-            var report = new Report_KL_GiangDay(_configuration.GetConnectionString("DefaultConnection").ToString(), hocKy,_reportService,user.Name);
+            var report = new Report_KL_GiangDay(_configuration.GetConnectionString("DefaultConnection"),_configuration.GetConnectionString("ReportConnection"), hocKy,_reportService);
             ViewBag.Report = report;
             return View("Index1");
         }
@@ -44,9 +44,9 @@ namespace THANHTOANTROIGIO.Controllers
         public IActionResult ReportThanhToanGioGiang(string hocKy)
         {
             var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
-            var report = new Report_ThanhToanGioGiang(_configuration.GetConnectionString("DefaultConnection").ToString(), hocKy, _reportService, user.Name);
+            var report = new Report_ThanhToanGioGiang(_configuration.GetConnectionString("DefaultConnection"), _configuration.GetConnectionString("ReportConnection"), hocKy, _reportService);
             ViewBag.Report = report;
-            return View();
+            return View("Report_ThanhToanGioGiang");
         }
     }
 }

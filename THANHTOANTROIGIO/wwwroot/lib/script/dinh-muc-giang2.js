@@ -307,7 +307,7 @@ function getListDMG() {
             }
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
-            console.log(JSON.stringify(listBtnEditDelete));
+            
             if (maHocKy != maHocKyCurrent) {
                 $("#btnAddDMG").attr("disabled", "disabled");
                 $("#btnCopyDMG").attr("disabled", "disabled");
