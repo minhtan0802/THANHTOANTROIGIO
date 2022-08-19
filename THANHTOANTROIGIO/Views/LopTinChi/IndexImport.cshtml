@@ -68,7 +68,7 @@
     </div>
 </div>
 <div class=".container-fluid">
-    <div class="row" style="height:300px">
+    <div class="row" style="height:400px">
         <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">IMPORT DANH SÁCH LỚP TÍN CHỈ</label>
         <div class="column" style="width: 18%; margin-left: 20px">
             <label for="fname">Niên khóa</label>
@@ -79,6 +79,9 @@
             <input type="file" id="fileLTC" name="fileLTC" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="onChangeFile(event)">
             <label for="fname">Tên sheet</label>
             <select onchange="onChange_Select_Sheet(event)" class="form-control" id="select_Sheet" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"></select>
+            <label for="fname">Hệ số học kỳ</label>
+            <input type="number" class="form-control" min="1" step="0.1" id="hsHocKy" style="border: 1px solid #aaa; border-radius: 3px; padding: 5px; background-color: transparent; width: 100%; max-width: 100%;"/>
+              <label id="notify" style="color: red;font-style: italic;font-size: 10pt;">* Vui lòng điều chỉnh hệ số học kỳ (nếu muốn) trước khi Preview!</label>
         </div>
         <div class="column" style="width: 18%; margin-left: 20px">
             <br />

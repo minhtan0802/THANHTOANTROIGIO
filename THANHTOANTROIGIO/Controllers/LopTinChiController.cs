@@ -136,6 +136,7 @@ namespace THANHTOANTROIGIO.Controllers
                 var file = rq.Files.Count() > 0 ? rq.Files[0] : null;
                 var listImport = new List<LopTinChiImport>();
                 var maNKHK = rq["maNKHK"].ToString();
+                var hsHK =double.Parse(rq["hsHocKy"].ToString());
                 string hocKy = "I";
                 if (int.Parse(maNKHK) % 10 == 2)
                 {
@@ -220,7 +221,7 @@ namespace THANHTOANTROIGIO.Controllers
                                     var model = new LopTinChiImport();
                                     var modelView = new LopTinChiImportModel();
                                     modelView.Stt = row;
-
+                                    model.HSHocKy = hsHK;
                                     modelView.TenLTC = model.TenLTC = worksheet.Cells[row, 13].Value.ToString();
                                     modelView.SiSo = model.SiSo = Int32.Parse(worksheet.Cells[row, 14].Value.ToString());
                                     int int_x;

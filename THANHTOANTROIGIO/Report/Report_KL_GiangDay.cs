@@ -15,8 +15,8 @@ namespace THANHTOANTROIGIO.Report
         public Report_KL_GiangDay(String connectionString, String connectionStringReport,string maNKHK, ReportService _reportService)
         {
             InitializeComponent();
-            this.sqlDataSource2.Connection.ConnectionString = connectionStringReport;
-            this.sqlDataSource2.Queries[0].Parameters[0].Value = maNKHK;
+            this.sqlDataSource3.Connection.ConnectionString = connectionStringReport;
+            this.sqlDataSource3.Queries[0].Parameters[0].Value = maNKHK;
             string nguoiLapBang = "";
             string tenHocKy = "";
             string tenNienKhoa = "";
@@ -42,7 +42,7 @@ namespace THANHTOANTROIGIO.Report
             this.label_TPGV.Text = tpgv;
             this.label_PGD.Text = pgd;
             this.label_NguoiLapBang.Text = nguoiLapBang;
-            this.sqlDataSource2.Fill();
+            this.sqlDataSource3.Fill();
         }
     }
 }

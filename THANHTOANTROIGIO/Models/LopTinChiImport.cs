@@ -24,6 +24,7 @@
         public double HSLopDongLT { get; set; }
         public double HSLTC { get; set; }
         public double HSNhomTH { get; set; }
+        public double HSHocKy { get; set; }
         public string MaBac { get; set; }
         public String MaNKHK { get; set; }
         public int MoTa { get; set; }

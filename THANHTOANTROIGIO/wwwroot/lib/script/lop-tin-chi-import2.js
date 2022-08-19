@@ -47,6 +47,12 @@ function onChange_Select_NienKhoa(event) {
 function onChange_Select_HocKy(event) {
     maHocKy = $("#select_HocKy").val();
     maHocKyInt = parseInt(maHocKy, 10);
+    if (maHocKyInt % 10 != 3) {
+        $("#hsHocKy").val(1.0);
+    }
+    else {
+        $("#hsHocKy").val(1.5);
+    }
     if (maGV.toString() != "") {
         getListLTC();
     }
@@ -163,10 +169,13 @@ function loading() {
 }
 */function previewLTC() {
     document.getElementById("btnImport").removeAttribute("disabled");
+    document.getElementById("hsHocKy").setAttribute("readonly", "readonly");
+    var hsHK = $("#hsHocKy").val();
     var formData = new FormData();
     formData.append('file', fileLTC);
     formData.append('maNKHK', maHocKy);
     formData.append('maSheet', maSheet);
+    formData.append('hsHocKy',hsHK);
     $.ajax({
         async: true,
         type: 'POST',
@@ -262,6 +271,7 @@ function loading() {
 }
 function onChangeFile(event) {
     document.getElementById("btnPreview").removeAttribute("disabled");
+    document.getElementById("hsHocKy").removeAttribute("readonly");
     document.getElementById("btnImport").setAttribute("disabled", "disabled");
     fileLTC = event.target.files[0];
     table_LTC_Import.clear().draw(false);
