@@ -226,6 +226,40 @@ function init_table_HocVi(showAll) {
         success: function (response) {
             console.log(response);
             table_HocVi = $('#table_HocVi').DataTable({
+                "drawCallback": function () {
+                    $('.paginate_button.next', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+                            if (showAll == 1) {
+                                $("#btnAddHocVi").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else {
+                                $("#btnAddHocVi").removeAttr("disabled");
+                                canEdit = true;
+                            }
+                        });
+                    $('.paginate_button', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+                            if (showAll == 1) {
+                                $("#btnAddHocVi").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else {
+                                $("#btnAddHocVi").removeAttr("disabled");
+                                canEdit = true;
+                            }
+                        });
+                },
                 "data": $.parseJSON(response).data,
                 "rowId": 'MaHocVi'.trim(),
                 "columns": [{

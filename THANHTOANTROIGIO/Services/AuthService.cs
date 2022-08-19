@@ -73,10 +73,18 @@ namespace THANHTOANTROIGIO.Services
 
         private void SetAuthUserCache(GiangVien dbUser, int id)
         {
-            string authUserKey = $"AuthUser_Key:{id}";
-            this._distributedCache.Remove(authUserKey);
-            AuthUserCache user = new AuthUserCache(dbUser, id);
-            this._distributedCache.SetString(authUserKey, JsonSerializer.Serialize<AuthUserCache>(user), cacheOpts);
+            try
+            {
+                string authUserKey = $"AuthUser_Key:{id}";
+                this._distributedCache.Remove(authUserKey);
+                AuthUserCache user = new AuthUserCache(dbUser, id);
+                this._distributedCache.SetString(authUserKey, JsonSerializer.Serialize<AuthUserCache>(user), cacheOpts);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Failed: " + e.Message);
+            }
+          
         }
 
         private AuthUserCache GetAuthUserCache(int userId)

@@ -1,4 +1,7 @@
-﻿using THANHTOANTROIGIO.Models;
+﻿using Microsoft.Data.SqlClient;
+using System.Data;
+using THANHTOANTROIGIO.Helpers;
+using THANHTOANTROIGIO.Models;
 
 namespace THANHTOANTROIGIO.Services
 {
@@ -9,11 +12,26 @@ namespace THANHTOANTROIGIO.Services
         {
             _context = context;
         }
-        public float getHeSo(String maKhoa, int siSo)
+        public float getHeSo(String connectionString,String maMon, int siSo)
         {
-            var list = _context.LopDongThucHanhs.Where(x => x.MaKhoa == maKhoa && x.SiSoMin <= siSo && x.SiSoMax >= siSo).OrderByDescending(x => x.NgayApDung).ToList();
-            return (float)list[0].HSLopDong;
-
+            var sql = new SQLHelper(connectionString);
+            var param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@MaMon", maMon));
+            param.Add(new SqlParameter("@SiSo", siSo));
+            var heSo = sql.ExecuteQuery("sp_get_HS_LDTH", param).Rows[0][0].ToString();
+            if(heSo !="")
+            {
+                return float.Parse(heSo);
+            }
+            return 0;
+        }
+        public DataTable getDSLopDongThucHanh(String connectionString, int all)
+        {
+            var sql = new SQLHelper(connectionString);
+            var param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@all", all));
+            var data = sql.ExecuteQuery("sp_GetLopDongThucHanh", param);
+            return data;
         }
     }
 }

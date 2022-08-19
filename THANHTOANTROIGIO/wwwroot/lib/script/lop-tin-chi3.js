@@ -825,7 +825,7 @@ function getHeSoLopDongLyThuyet(siSo) {
     $.ajax({
         async: true,
         type: 'GET',
-        data: { maKhoa: maKhoa, siSo: siSo },
+        data: {siSo: siSo },
         url: '/lop-dong-ly-thuyet/he-so',
         success: function (response) {
             response = $.parseJSON(response);

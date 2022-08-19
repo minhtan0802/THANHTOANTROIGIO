@@ -55,8 +55,6 @@ namespace THANHTOANTROIGIO
             modelBuilder.Entity<ThayDoiLoaiGV>().HasKey(c => new { c.MaGV, c.MaLoaiGV, c.NgayThayDoi });
             modelBuilder.Entity<ThayDoiHSBac>().HasKey(c => new { c.MaBac, c.MaGVDieuChinh, c.NgayApDung });
             modelBuilder.Entity<ThayDoiHSHeLop>().HasKey(c => new { c.MaHeLop, c.MaGVDieuChinh, c.NgayApDung });
-            modelBuilder.Entity<LopDongLyThuyet>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
-            modelBuilder.Entity<LopDongThucHanh>().HasKey(c => new { c.MaKhoa, c.NgayApDung });
             modelBuilder.Entity<HuongDanTTTN>().HasKey(c => new { c.MaGV, c.MaNKHK, c.Lop });
             modelBuilder.Entity<DinhMucGiang>().HasKey(c => new { c.MaGV, c.MaNKHK });
             modelBuilder.Entity<ThayDoiGiaHocVi>().HasKey(c => new { c.MaHocVi, c.MaNKHK });

@@ -225,6 +225,40 @@ function init_table_HeLop(showAll) {
         success: function (response) {
             console.log(response);
             table_HeLop = $('#table_HeLop').DataTable({
+                "drawCallback": function () {
+                    $('.paginate_button.next', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+                            if (showAll == 1) {
+                                $("#btnAddHeLop").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else {
+                                $("#btnAddHeLop").removeAttr("disabled");
+                                canEdit = true;
+                            }
+                        });
+                    $('.paginate_button', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+                            if (showAll == 1) {
+                                $("#btnAddHeLop").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else {
+                                $("#btnAddHeLop").removeAttr("disabled");
+                                canEdit = true;
+                            }
+                        });
+                },
                 "data": $.parseJSON(response),
                 "rowId": 'MaHeLop'.trim(),
                 "columns": [{

@@ -7,7 +7,6 @@ namespace THANHTOANTROIGIO.Models
     public class LopDongThucHanh
     {
         [Key]
-        public String MaKhoa { get; set; }
         public DateTime NgayApDung { get; set; }
         public int SiSoMin { get; set; }
         public int SiSoMax { get; set; }
