@@ -19,6 +19,7 @@ var tenNienKhoaCopy, maHocKyCopy;
 var row;
 var maHocKyCurrent;
 var canEdit = true;
+var haveGV = false;
 $(document).ready(function () {
  /*   loading();*/
     table_DMG = $("#table_DMG").DataTable();
@@ -55,7 +56,7 @@ $(document).ready(function () {
         $("#select_GV").trigger('change');
         $("#select_GV").attr("disabled", "disabled");
         $("#dinhMucGiang").val(table_DMG.cell(this, 5).data());
-        $("#moTa").val(table_DMG.cell(this, 6).data());
+        $("#ghiChu").val(table_DMG.cell(this, 6).data());
         row = table_DMG.row(this);
     });
 
@@ -252,7 +253,7 @@ function initFormAdd() {
     $("#select_GV").prop("selectedIndex", 0);
     $("#select_GV").removeAttr("disabled");
     $("#dinhMucGiang").val(null);
-    $("#moTa").val("");
+    $("#ghiChu").val("");
 
 }
 function getListDMG() {
@@ -287,7 +288,7 @@ function getListDMG() {
                 }, {
                     'data': 'DinhMuc',
                 }, {
-                    'data': 'MoTa',
+                    'data': 'GhiChu',
                 }],
                 'columnDefs': [{
                     'targets': 7,
@@ -307,8 +308,8 @@ function getListDMG() {
             }
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
-            
-            if (maHocKy != maHocKyCurrent) {
+
+            if (maHocKy != maHocKyCurrent || !haveGV) {
                 $("#btnAddDMG").attr("disabled", "disabled");
                 $("#btnCopyDMG").attr("disabled", "disabled");
                 canEdit = false;
@@ -330,7 +331,7 @@ function getListDMG() {
 }
 function saveDMG(close) {
     var dinhMucGiang = $("#dinhMucGiang").val();
-    var moTa = $("#moTa").val();
+    var ghiChu = $("#ghiChu").val();
     if (dinhMucGiang.toString() == "") {
         $("#dinhMucGiang").focus();
         toastr.error("Vui lòng nhập định mức giảng", "Lỗi", { timeOut: 3000 });
@@ -340,9 +341,8 @@ function saveDMG(close) {
         MaGV: maGV,
         MaNKHK: maHocKy,
         DinhMuc: dinhMucGiang,
-        MoTa: moTa
+        GhiChu: ghiChu
     };
-    console.log("model: " + JSON.stringify(dinhMucGiangModelAdd));
     if (flagEdit == "") {
         $.ajax({
             async: false,
@@ -360,7 +360,7 @@ function saveDMG(close) {
                         ChucDanh: chucDanh,
                         ChucVu: chucVu,
                         DinhMuc: dinhMucGiang,
-                        MoTa: moTa
+                        GhiChu: ghiChu
                     };
                     table_DMG.row.add(model).draw(false);
                     if (close) {
@@ -392,7 +392,7 @@ function saveDMG(close) {
                     ChucDanh: chucDanh,
                     ChucVu: chucVu,
                     DinhMuc: dinhMucGiang,
-                    MoTa: moTa
+                    GhiChu: ghiChu
                 };
                 $('#modalAddDMG').modal('hide');
                 row.data(model);
@@ -434,7 +434,13 @@ function init_Select_GV(maKhoa) {
             chucVu = $("#select_GV option:selected").attr("chucVu");
             $("#chucDanh").val(chucDanh);
             $("#chucVu").val(chucVu);
-            console.log(chucVu);
+            if (response.count <= 0) {
+                haveGV = false;
+            }
+            else {
+                haveGV = true;
+            }
+            
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

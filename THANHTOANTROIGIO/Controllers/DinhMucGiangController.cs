@@ -47,7 +47,7 @@ namespace THANHTOANTROIGIO.Controllers
                 var checkExist = _context.DinhMucGiangs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK).FirstOrDefault();
                 if (checkExist != null)
                 {
-                    return Json(new { success = false, message = "Đã tồn tại định mức của giảng viên này trong học kỳ này!" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "Đã tồn tại định mức của giảng viên này trong học kỳ này!" }));
                 }
                 _context.Add(model);
                 _context.SaveChanges();
@@ -67,14 +67,14 @@ namespace THANHTOANTROIGIO.Controllers
 
                 var exist = _context.DinhMucGiangs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK).FirstOrDefault();
                 exist.DinhMuc = model.DinhMuc;
-                exist.MoTa = model.MoTa;
+                exist.GhiChu = model.GhiChu;
                 _context.Entry(exist).State = EntityState.Modified;
                 _context.SaveChanges();
                 return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = e.InnerException.Message }));
             }
 
         }
@@ -108,7 +108,7 @@ namespace THANHTOANTROIGIO.Controllers
                 }
                 else
                 {
-                    return Json(new { success = true, data = true });
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = true }));
                 }
             }
             catch (Exception ex)
@@ -130,11 +130,11 @@ namespace THANHTOANTROIGIO.Controllers
                 var model = _context.DinhMucGiangs.Where(s => s.MaGV == maGV && s.MaNKHK == maNKHK).FirstOrDefault();
                 _context.Entry(model).State = EntityState.Deleted;
                 _context.SaveChanges();
-                return Json(new { success = true, data = "Xóa định mức giảng thành công! " });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = "Xóa định mức giảng thành công! " }));
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Xóa định mức giảng thất bại: " + ex.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Xóa định mức giảng thất bại: " + ex.InnerException.Message }));
             }
 
 

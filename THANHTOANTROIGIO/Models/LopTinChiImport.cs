@@ -27,7 +27,7 @@
         public double HSHocKy { get; set; }
         public string MaBac { get; set; }
         public String MaNKHK { get; set; }
-        public int MoTa { get; set; }
+        public double MoTa { get; set; }
         public int MoTaNCKH { get; set; }
     }
 }

@@ -159,7 +159,7 @@ namespace THANHTOANTROIGIO.Controllers
                         var workbook = package.Workbook;
                         var worksheet = workbook.Worksheets[maSheet];
                         int beginCol = 1;
-                        int beginRow = 7;
+                        int beginRow = 1;
                         int colCount = worksheet.Dimension.End.Column;  //get Column Count
                         int rowCount = worksheet.Dimension.End.Row;
 
@@ -187,10 +187,29 @@ namespace THANHTOANTROIGIO.Controllers
                                     {
                                         rowStart = i;
                                         colStart = j;
+                                        flagEnd = false;
+                                        flagChange = false;
+                                        break;
                                     }
                                 }
+                            }
+                        }
 
-
+                        for (int i = rowStart; i <= rowCount; i++)
+                        {
+                            flagChange = false;
+                            for (int j = beginCol; j <= colCount; j++)
+                            {
+                                if (worksheet.Cells[i, j].Value == null)
+                                {
+                                    flagEnd = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    flagEnd = false;
+                                    flagChange = true;
+                                }
                             }
                             if (flagEnd = true && !flagChange)
                             {
@@ -199,6 +218,7 @@ namespace THANHTOANTROIGIO.Controllers
                                 break;
                             }
                         }
+
                         rowStart += 2;
                         List<LopTinChiImport> list = new List<LopTinChiImport>();
                         List<LopTinChiImportModel> listView = new List<LopTinChiImportModel>();
@@ -207,11 +227,12 @@ namespace THANHTOANTROIGIO.Controllers
                             for (int row = rowStart; row < rowEnd; row++)
                             {
 
-                                if (worksheet.Cells[row, 12].Value == null)
+/*                                if (worksheet.Cells[row, 12].Value == null)
                                 {
                                     return Json(JsonConvert.SerializeObject(new { success = false, message = "Mời bạn xem lại sheet đã chọn đúng chưa?" }));
-                                }
-                                if (!worksheet.Cells[row, 12].Value.Equals(hocKy))
+                                }*/
+                                
+                                if (worksheet.Cells[row, 12].Value is null ||!worksheet.Cells[row, 12].Value.Equals(hocKy))
                                 {
                                     continue;
                                 }
@@ -234,7 +255,7 @@ namespace THANHTOANTROIGIO.Controllers
                                     modelView.TietTHTD = model.TietTHQD = Math.Round(Double.TryParse(worksheet.Cells[row, 20].Value?.ToString(), out double_x) ? double_x : 0, 2);
                                     model.DinhMuc = Math.Round(Double.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out double_x) ? double_x : 0, 2);
                                     var dinhMucChucDanh = Math.Round(Double.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                                    model.MoTa = (int)(model.DinhMuc / dinhMucChucDanh) * 100;
+                                    model.MoTa = Math.Round((model.DinhMuc / dinhMucChucDanh) * 100,2);
                                     model.MoTaNCKH = 0;
                                     model.DinhMucNCKH = Math.Round(Double.TryParse(worksheet.Cells[row, 7].Value?.ToString(), out double_x) ? double_x : 0, 2);
                                     model.TenMH = worksheet.Cells[row, 8].Value.ToString();

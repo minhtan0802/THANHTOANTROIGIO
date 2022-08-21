@@ -30,9 +30,9 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("he-so")]
         [HttpGet]
-        public JsonResult getHeSoThucHanhBySiSo(String maKhoa, int siSo)
+        public JsonResult getHeSoThucHanhBySiSo(String maMon, float siSo)
         {
-            float heSo = _lopDongThucHanhService.getHeSo(_connectionString, maKhoa, siSo);
+            float heSo = _lopDongThucHanhService.getHeSo(_connectionString, maMon, (int)siSo);
             return Json(JsonConvert.SerializeObject(heSo));
         }
         [HttpPost]
@@ -42,7 +42,7 @@ namespace THANHTOANTROIGIO.Controllers
             var checkExist = _context.LopDongThucHanhs.Where(x => x.SiSoMin == model.SiSoMin && x.SiSoMax == model.SiSoMax).OrderByDescending(x => x.NgayApDung).FirstOrDefault();
             if (checkExist != null)
             {
-                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lớp đông lý thuyết này đã tồn tại!" }));
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lớp đông thực hành này đã tồn tại!" }));
             }
             model.NgayApDung = DateTime.Now;
             _context.Add(model);

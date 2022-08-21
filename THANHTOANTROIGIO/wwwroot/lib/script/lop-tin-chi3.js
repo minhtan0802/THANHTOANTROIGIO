@@ -101,7 +101,6 @@ $(document).ready(function () {
             url: '/lop-tin-chi/ma-ltc',
             success: function (response) {
                 response = $.parseJSON(response);
-                console.log(response);
                 $('#tenLTC').val(response.TenLTC);
                 $('#select_MonHoc').val(response.MaMon);
                 $('#select_MonHoc').trigger('change');
@@ -141,7 +140,7 @@ $(document).ready(function () {
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                console.log(response);
+                
             }
         });
     });
@@ -218,14 +217,14 @@ function init_Select_HocKy() {
     var nienKhoa = {
         MaNKHK: "", TenNienKhoa: tenNienKhoa, TenHocKy: ""
     };
-    console.log(JSON.stringify(nienKhoa));
+   
     $.ajax({
         async: true,
         type: 'POST',
         data: nienKhoa,
         url: '/nien-khoa-hoc-ky/hoc-ky',
         success: function (response) {
-            console.log(JSON.stringify(response));
+          
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_HocKy').append($('<option>', {
@@ -250,7 +249,7 @@ function init_Select_Khoa() {
         type: 'GET',
         url: '/khoa/ds-khoa',
         success: function (response) {
-            console.log(JSON.stringify(response));
+           
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_Khoa').append($('<option>', {
@@ -275,7 +274,7 @@ function init_Select_NienKhoa() {
         type: 'GET',
         url: '/nien-khoa-hoc-ky/nien-khoa',
         success: function (response) {
-            console.log(JSON.stringify(response));
+           
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_NienKhoa').append($('<option>', {
@@ -304,7 +303,7 @@ function init_Tree_GV() {
         data: khoa,
         url: '/giangvien/ds-gv-by-khoa',
         success: function (response) {
-            console.log(JSON.stringify(response));
+       
             response = $.parseJSON(response);
             $('#tree_GV').bstreeview({
                 data: response,
@@ -315,16 +314,11 @@ function init_Tree_GV() {
                 openNodeLinkOnNewTab: true
             });
             listGV = document.querySelectorAll('[aria-level="2"]');
-            $.each(listGV, function (i, item) {
-                console.log(JSON.stringify(item));
-            });
 
             $.each(listGV, function (i, item) {
                 item.addEventListener('click', function (e) {
                     nodeCurrent = item;
                     $("#btnAddLTC").removeAttr("disabled");
-
-                    //            console.log(item.parentElement.id);
                     if (nodeTree != nodeCurrent) {
 
                         nodeCurrent.style.background = "#ccc";
@@ -343,16 +337,16 @@ function init_Tree_GV() {
                                 hocViLTC = response;
                                 document.getElementById("titleLTC").innerHTML = "Danh sách lớp tín chỉ của GIẢNG VIÊN: " + hocViLTC + ". " + item.innerHTML;
                                 tenGV = item.innerHTML;
-                                console.log(response);
+           
                             },
                             error: function () {
                                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                                console.log(response);
+                  
                             }
                         });
 
                         getListLTC();
-                        console.log('Click happened for: ' + item.id);
+      
                         if (nodeTree != null) {
                             nodeTree.style.background = "#ffffff"
                             nodeTree = item;
@@ -427,7 +421,7 @@ function init_Select_MonHoc_LTC() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-                console.log("Môn học: " + item.TenMonHoc);
+
                 $('#select_MonHoc').append($('<option>', {
                     value: item.MaMonHoc,
                     text: item.TenMonHoc
@@ -453,7 +447,7 @@ function init_Select_HeLop() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-                console.log("Mã hệ lớp: " + JSON.stringify(item.MaHeLop));
+        
                 $('#select_HeLop').append($('<option>', {
                     value: item.MaHeLop.trim(),
                     text: item.TenHeLop.trim()
@@ -478,7 +472,7 @@ function init_Select_BacHoc() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-                console.log(item);
+               
                 $('#select_BacHoc').append($('<option>', {
                     value: item.MaBac.trim(),
                     text: item.TenBac.trim()
@@ -548,7 +542,7 @@ function getSoTietMonHoc() {
         url: '/mon-hoc/by-ma-mon',
         success: function (response) {
             response = $.parseJSON(response);
-            console.log('Tiet LT: ' + response.TietLT);
+       
             $('#tietLTQD').val(response.TietLT);
             $('#tietTHQD').val(response.TietTH);
             $('#tietBTQD').val(response.TietBT);
@@ -728,7 +722,7 @@ function saveLTC(close) {
             data: ltcAdd,
             url: '/lop-tin-chi/add',
             success: function (response) {
-                console.log(response);
+         
                 if (response.success == true) {
                     toastr.success('Thông báo', 'Thêm lớp tín chỉ thành công!', { timeOut: 3000 });
 
@@ -756,7 +750,7 @@ function saveLTC(close) {
             data: ltcAdd,
             url: '/lop-tin-chi/edit',
             success: function (response) {
-                console.log('LTC: ' + JSON.stringify(ltcAdd));
+
                 toastr.success('Thông báo', 'Chỉnh sửa lớp tín chỉ thành công!', { timeOut: 3000 });
                 if (close) {
                     $('#modalAddLTC').modal('hide');
@@ -819,6 +813,7 @@ function onClickHSTH() {
         return;
     }
     var siSoNhomTH = siSo / soNhom;
+    console.log("Si so TH: " + siSoNhomTH);
     getHeSoLopDongThucHanh(siSoNhomTH);
 }
 function getHeSoLopDongLyThuyet(siSo) {
@@ -833,7 +828,7 @@ function getHeSoLopDongLyThuyet(siSo) {
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            console.log(response);
+       
         }
     });
 }
@@ -841,7 +836,7 @@ function getHeSoLopDongThucHanh(siSoNhomTH) {
     $.ajax({
         async: true,
         type: 'GET',
-        data: { maKhoa: maKhoa, siSo: siSoNhomTH },
+        data: { maMon: maMonHoc, siSo: siSoNhomTH },
         url: '/lop-dong-thuc-hanh/he-so',
         success: function (response) {
             response = $.parseJSON(response);
@@ -849,7 +844,7 @@ function getHeSoLopDongThucHanh(siSoNhomTH) {
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            console.log(response);
+    
         }
     });
 }
