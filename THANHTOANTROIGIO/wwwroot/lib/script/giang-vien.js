@@ -95,7 +95,12 @@ $(document).ready(function () {
         else {
             document.getElementById("select_GioiTinh").value = false;
         }
-        var ngaySinh = (table_GV.cell(this, 7).data()).split('T')[0];
+        var ngaySinh;
+        if (table_GV.cell(this, 7).data() != null)
+        {
+            ngaySinh = (table_GV.cell(this, 7).data()).split('T')[0];
+        }
+
         var diaChi = table_GV.cell(this, 8).data();
         var sdt = table_GV.cell(this, 9).data();
         var gvCoHuu = true;
@@ -129,11 +134,9 @@ $(document).ready(function () {
                 document.getElementById("select_HocVi").value = response;
                 $('#select_HocVi').trigger('change');
                 maHocVi = response;
-                console.log(response);
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                console.log(response);
             }
         });
 
@@ -147,11 +150,9 @@ $(document).ready(function () {
                 document.getElementById("select_ChucDanh").value = response;
                 $('#select_ChucDanh').trigger('change');
                 maChucDanh = response;
-                console.log("Chức danh: " + response);
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                console.log(response);
             }
         });
 
@@ -168,7 +169,6 @@ $(document).ready(function () {
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                console.log(response);
             }
         });
     });
@@ -213,7 +213,6 @@ $(document).ready(function () {
             DiaChi: "", Sdt: "", GVCoHuu: true, MaBoMon: "", ChucVu: "", TrangThaiXoa: true
         };
         row = table_GV.row(this);
-        console.log(JSON.stringify(gv));
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn muốn xóa giảng viên này?",
@@ -355,7 +354,6 @@ function init_Table_GV() {
                 }, {
                     'data': 'GioiTinh',
                     'render': function (data, type, row) {
-                        console.log("Gioi tinh: " + data);
                         if (data == true) {
                             return "Nam";
                         }
@@ -547,20 +545,10 @@ function saveGiangVien() {
                 else if (chucDanh == "GVCC") {
                     chucDanh = "Giảng viên cao cấp";
                 }
-                console.log(JSON.stringify(gvAdd));
                 gvAdd.ChucDanh = chucDanh;
                 table_GV.row.add(gvAdd).draw(false);
-                /*  init_Table_GV();*/
-                /* table_GV.row.Add([]);*/
-                $('#modalAddGV').modal('hide');
-                //      var Modal = document.getElementsByClassName("modal-backdrop fade in");
-                //      Modal[0].style.display = "none";
-                //    Modal[1].style.display = "none";
-                //   var form = document.getElementsById("formAddGV");
-                // form.style.display = "none";
-                //       var ModalDialog = document.getElementsByClassName("modal-dialog");
-                //     ModalDialog.style.display = "none !important";
 
+                $('#modalAddGV').modal('hide');
 
 
 
@@ -600,7 +588,6 @@ function editGiangVien() {
         hocVi = "false";
     }
     var chucVu = $("#select_ChucVu option:selected").val();
-    console.log("Chuc vu: " + chucVu + " ma cv: " + maChucVu);
     if (chucVu == maChucVu) {
         chucVu = "false";
     }
@@ -638,50 +625,18 @@ function editGiangVien() {
             if (response.result == true) {
                 toastr.success("Chỉnh sửa giảng viên thành công", "Thông báo", { timeOut: 3000 });
                 var gvAdd = JSON.parse(JSON.stringify(response.data));
-                console.log("GV: " + JSON.stringify(gvAdd));
-                row.data(gvAdd);
-                /* var tenChucDanh = "Giảng viên";
-                 var gioiTinh = "Nữ";
-                 if (gvAdd.gioiTinh) {
-                     gioiTinh = "Nam";
-                 }
-                 if (gvAdd.chucDanh == 'GVC') {
-                     tenChucDanh = "Giảng viên chính";
-                 }
-                 else {
-                     tenChucDanh = "Giảng viên cao cấp";
-                 }
-                 maGV = gvAdd.maGiangVien;
-                 table_GV.cell(this, 0).data(gvAdd.maGiangVien);
-                 table_GV.cell(this, 1).data(gvAdd.ho);
-                 table_GV.cell(this, 2).data(gvAdd.ten);
-                 table_GV.cell(this, 3).data(gvAdd.hocVi);
-                 table_GV.cell(this, 4).data(gvAdd.chucVu);
-                 table_GV.cell(this, 5).data(tenChucDanh);
-                 table_GV.cell(this, 6).data(gioiTinh);
-                 table_GV.cell(this, 7).data(gvAdd.ngaySinh.split('T')[0]);
-                 table_GV.cell(this, 8).data(gvAdd.diaChi);
-                 table_GV.cell(this, 9).data(gvAdd.sdt);
- 
- 
-                 table_GV.cell(this, 10).data(gvAdd.gvCoHuu);
-                 if (gvAdd.gvCoHuu) {
-                     var x = $('tr#' + gvAdd.maGiangVien);
-                     $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', 'checked');
-                 }
-                 else {
-                     $('tr#' + gvAdd.maGiangVien).find("input[type='checkbox']").attr('checked', false);
-                 }*/
-                /* row.remove().draw();
-                 table_GV.row.add([gvAdd.maGiangVien, gvAdd.ho, gvAdd.ten, gvAdd.hocVi, gvAdd.chucVu, chucDanh, gioiTinh, gvAdd.ngaySinh.split('T')[0], gvAdd.diaChi, gvAdd.sdt, gvAdd.gvCoHuu]).draw(false);*/
-
+                if (maBoMon != maBoMonChuyen) {
+                    row.remove().draw();
+                }
+                else {
+                    row.data(gvAdd);
+                }
                 $('#modalAddGV').modal('hide');
                 $("#select_ChuyenBoMon").empty();
                 $("#checkbox_ChuyenBoMon").prop("checked", false);
-                /*     $("#gvCoHuu").prop('checked', false);*/
+                $("#select_ChuyenBoMon").select2("destroy");
                 document.getElementById("select_ChuyenBoMon").style.display = "none";
                 document.getElementById("label_SelectCBM").style.display = "none";
-
             } else {
                 toastr.error(response.data, "Lỗi", { timeOut: 3000 });
                 return;
@@ -735,25 +690,3 @@ function init_Select_HocVi() {
         }
     });
 }
-/*function loading() {
-    $.ajax({
-        async: true,
-        type: 'GET',
-        data: "",
-        url: '/loading/giang-vien',
-        success: function (response) {
-            response = $.parseJSON(response);
-            if (response == 1) {
-                $("#modalLoading").modal('show');
-                setTimeout(function () {
-                    $("#modalLoading").modal('hide')
-                }, 2500)
-
-            }
-
-        },
-        error: function () {
-            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-        }
-    });
-}*/

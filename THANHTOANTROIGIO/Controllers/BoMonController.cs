@@ -110,7 +110,7 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 if (_context.ThayDoiBoMons.Where(x => x.MaBoMon == maBoMon.TrimEnd()).FirstOrDefault() != null)
                 {
-                    return Json(new { success = false, message = "Xóa bộ môn thất bại vì vi phạm khóa ngoại" });
+                    return Json(new { success = false, message = "Xóa bộ môn thất bại vì đã có giảng viên thuộc bộ môn này/ vi phạm khóa ngoại" });
                 }
                 var boMon = _context.BoMons.FirstOrDefault(s => s.MaBoMon == maBoMon.Trim());
                 _context.Entry(boMon).State = EntityState.Deleted;
@@ -119,7 +119,7 @@ namespace THANHTOANTROIGIO.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Xóa bộ môn thất bại vì vi phạm khóa ngoại" });
+                return Json(new { success = false, message = "Xóa bộ môn thất bại vì đã có giảng viên thuộc bộ môn này" });
             }
 
         }

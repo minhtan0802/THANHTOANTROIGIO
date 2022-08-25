@@ -83,7 +83,6 @@ $(document).ready(function () {
                         if (response.success == true) {
                             toastr.success(response.data, "Thông báo", { timeOut: 3000 });
                             row.remove().draw();
-                            console.log("So hang: " + table_DMG.data().count());
                             if (table_DMG.data().count() == 0) {
                                 document.getElementById("btnCopyDMG").removeAttribute("disabled");
                                 //    $("#btnCopyDMG").re removeAttr("disabled");
@@ -501,7 +500,6 @@ function init_Select_HocKy_Copy() {
             $("#select_HocKy_Copy").prop("selectedIndex", 0);
             $("#select_HocKy_Copy").trigger("change");
             maHocKyCopy = $("#select_HocKy_Copy option:selected").val();
-            console.log("Mã học kỳ copy: " + maHocKyCopy);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

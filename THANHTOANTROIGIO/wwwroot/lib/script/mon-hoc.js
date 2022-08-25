@@ -171,8 +171,6 @@ function saveMonHoc(close) {
             success: function (response) {
                 if (response.success == true) {
                     toastr.success("Chỉnh sửa môn học thành công", "Thông báo", { timeOut: 2500 });
-                    //  init_table_MonHoc();
-                    console.log("Mon hoc: " + JSON.stringify(monHoc));
                     row.data(monHoc);
                     $('#modalAddMonHoc').modal('hide');
                     return;
@@ -227,7 +225,6 @@ function init_Table_MonHoc() {
         data: "",
         url: '/mon-hoc/ds-mon-hoc',
         success: function (response) {
-            console.log(response);
             table_MonHoc = $('#table_MonHoc').DataTable({
                 "data": $.parseJSON(response),
                 "rowId": 'MaMonHoc'.trim(),

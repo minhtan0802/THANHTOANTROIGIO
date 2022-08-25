@@ -813,7 +813,6 @@ function onClickHSTH() {
         return;
     }
     var siSoNhomTH = siSo / soNhom;
-    console.log("Si so TH: " + siSoNhomTH);
     getHeSoLopDongThucHanh(siSoNhomTH);
 }
 function getHeSoLopDongLyThuyet(siSo) {

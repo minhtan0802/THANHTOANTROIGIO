@@ -62,7 +62,6 @@ function init_Select_HocKy() {
         data: nienKhoa,
         url: '/nien-khoa-hoc-ky/hoc-ky',
         success: function (response) {
-            console.log(JSON.stringify(response));
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_HocKy').append($('<option>', {
@@ -224,12 +223,10 @@ function initSelect_Sheet() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response.data);
             $("#select_Sheet").select2({
                 data: response.data
             });
             maSheet = 0;
-            console.log("Mã sheet: " + maSheet);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -259,7 +256,6 @@ function importTTTN() {
 }
 function onChange_Select_Sheet() {
     maSheet = $('#select_Sheet option:selected').val();
-    console.log('Mã sheet: ' + maSheet);
 }
 
 

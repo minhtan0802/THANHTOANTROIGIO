@@ -70,7 +70,6 @@ function init_Select_HocKy() {
         data: nienKhoa,
         url: '/nien-khoa-hoc-ky/hoc-ky',
         success: function (response) {
-            console.log(JSON.stringify(response));
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_HocKy').append($('<option>', {
@@ -189,7 +188,6 @@ function loading() {
                 table_LTC_Import.destroy();
                 listLTCPreview = response.dataView;
                 listLTCImport = response.data;
-                console.log(JSON.stringify(listLTCImport));
                 table_LTC_Import = $('#table_LTC_Import').DataTable({
                     "data": listLTCPreview,
                     "columns": [{
@@ -291,12 +289,10 @@ function initSelect_Sheet() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response.data);
             $("#select_Sheet").select2({
                 data: response.data
             });
             maSheet = 0;
-            console.log("Mã sheet: " + maSheet);
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -304,7 +300,6 @@ function initSelect_Sheet() {
     });
 }
 function importLTC() {
-    console.log(JSON.stringify(listLTCImport));
     $.ajax({
         async: true,
         contentType: 'application/json; charset=utf-8',
@@ -315,9 +310,6 @@ function importLTC() {
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
             table_LTC_Import.clear().draw(false);
-            /*       $("#fileLTC").val(null);    
-                   $('#select_Sheet').empty();
-                   document.getElementById("btnPreview").setAttribute("disabled", "disabled");*/
             document.getElementById("btnImport").setAttribute("disabled", "disabled");
         },
         error: function () {
@@ -327,20 +319,6 @@ function importLTC() {
 }
 function onChange_Select_Sheet() {
     maSheet = $('#select_Sheet option:selected').val();
-    console.log('Mã sheet: ' + maSheet);
 }
-/*function setVisibleColumn(bool) {
-   // table_LTC_Import.columns(15).visible(bool);
-    table_LTC_Import.columns(16).visible(bool);
-    table_LTC_Import.columns(17).visible(bool);
-    table_LTC_Import.columns(18).visible(bool);
-    table_LTC_Import.columns(19).visible(bool);
-    table_LTC_Import.columns(20).visible(bool);
-    table_LTC_Import.columns(21).visible(bool);
-    table_LTC_Import.columns(22).visible(bool);
-    table_LTC_Import.columns(23).visible(bool);
-    table_LTC_Import.columns(24).visible(bool);
-}*/
-
 
 

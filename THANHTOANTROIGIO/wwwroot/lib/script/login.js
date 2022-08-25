@@ -25,7 +25,6 @@ function login() {
 
             };
             if (response.success == false) {
-                console.log("In ra lỗi: " + response.message);
                 toastr.error(response.message, "Đăng nhập thất bại", { timeOut: 3000 });
             }
         },
