@@ -20,7 +20,7 @@ var select_Sheet;
 var maSheet;
 var listHuongDanTTTN;
 $(document).ready(function () {
-   /* loading();*/
+    /* loading();*/
     select_Sheet = $('#select_Sheet').select2();
     table_TTTN_Import = $("#table_TTTN_Import").DataTable();
     init_Select_NienKhoa();
@@ -173,32 +173,39 @@ function previewTTTN() {
         processData: false,
         contentType: false,
         success: function (response) {
-            listHuongDanTTTN = $.parseJSON(response).data;
-            table_TTTN_Import = $('#table_TTTN_Import').DataTable({
-                "data": $.parseJSON(response).data,
-                "columns": [{
-                    'data': 'MaGV',
-                },
-                {
-                    'data': 'MaNKHK',
-                }, {
-                    'data': 'Lop',
-                }, {
-                    'data': 'SoTuan',
-                }, {
-                    'data': 'SoSinhVienHD',
-                }, {
-                    'data': 'HSHuongDan',
-                }, {
-                    'data': 'SoSinhVienPB',
-                }, {
-                    'data': 'HSPhanBien',
-                }]
+            response = $.parseJSON(response);
+            if (response.success) {
+                listHuongDanTTTN = response.data;
+                table_TTTN_Import = $('#table_TTTN_Import').DataTable({
+                    "data": response.data,
+                    "columns": [{
+                        'data': 'MaGV',
+                    },
+                    {
+                        'data': 'MaNKHK',
+                    }, {
+                        'data': 'Lop',
+                    }, {
+                        'data': 'SoTuan',
+                    }, {
+                        'data': 'SoSinhVienHD',
+                    }, {
+                        'data': 'HSHuongDan',
+                    }, {
+                        'data': 'SoSinhVienPB',
+                    }, {
+                        'data': 'HSPhanBien',
+                    }]
+                }
+                );
             }
-            );
+            else {
+                toastr.error(response.message, 'Lỗi', { timeOut: 3000 });
+            }
+
         },
         error: function () {
-            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+            toastr.error('Lỗi', 'Lỗi', { timeOut: 3000 });
         }
     });
 }
@@ -216,17 +223,23 @@ function initSelect_Sheet() {
     formData.append('file', fileTTTN);
     formData.append('maNKHK', maHocKy);
     $.ajax({
-        async: true,
+        async: false,
         type: 'POST',
         data: formData,
         url: '/import/list-sheet',
         processData: false,
         contentType: false,
         success: function (response) {
-            $("#select_Sheet").select2({
-                data: response.data
-            });
-            maSheet = 0;
+            response = $.parseJSON(response);
+            if (response.success) {
+                $("#select_Sheet").select2({
+                    data: response.data
+                });
+                maSheet = 0;
+            }
+            else {
+                toastr.error('Lỗi', response.message, { timeOut: 3000 });
+            }
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -244,9 +257,9 @@ function importTTTN() {
         success: function (response) {
             toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
             table_TTTN_Import.clear().draw(false);
-     /*       $("#fileTTTN").val(null);    
-            $('#select_Sheet').empty();
-            document.getElementById("btnPreview").setAttribute("disabled", "disabled");*/
+            /*       $("#fileTTTN").val(null);    
+                   $('#select_Sheet').empty();
+                   document.getElementById("btnPreview").setAttribute("disabled", "disabled");*/
             document.getElementById("btnImport").setAttribute("disabled", "disabled");
         },
         error: function () {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using THANHTOANTROIGIO.Services;
 
@@ -52,12 +53,12 @@ namespace THANHTOANTROIGIO.Controllers
                     {
                         listSheet.Add(new selectSheet(ws.Index, ws.Index, ws.Name));
                     }
-                    return Json(new { success = true, data = listSheet });
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = listSheet }));
                 }
             }
             else
             {
-                return Json(new { success = false, data = "Lỗi" });
+                return Json(JsonConvert.SerializeObject(new { success = false, data = "Lỗi, vui lòng xem lại file Excel" }));
             }
         }
     }

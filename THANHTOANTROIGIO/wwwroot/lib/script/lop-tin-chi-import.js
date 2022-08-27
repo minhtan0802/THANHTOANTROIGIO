@@ -174,7 +174,7 @@ function loading() {
     formData.append('file', fileLTC);
     formData.append('maNKHK', maHocKy);
     formData.append('maSheet', maSheet);
-    formData.append('hsHocKy',hsHK);
+    formData.append('hsHocKy', hsHK);
     $.ajax({
         async: true,
         type: 'POST',
@@ -282,17 +282,24 @@ function initSelect_Sheet() {
     formData.append('file', fileLTC);
     formData.append('maNKHK', maHocKy);
     $.ajax({
-        async: true,
+        async: false,
         type: 'POST',
         data: formData,
         url: '/import/list-sheet',
         processData: false,
         contentType: false,
         success: function (response) {
-            $("#select_Sheet").select2({
-                data: response.data
-            });
-            maSheet = 0;
+            response = $.parseJSON(response);
+            if (response.success) {
+                $("#select_Sheet").select2({
+                    data: response.data
+                });
+                maSheet = 0;
+            }
+            else {
+                toastr.error('Lỗi', response.message, { timeOut: 3000 });
+            }
+
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
