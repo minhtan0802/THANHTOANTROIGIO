@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using THANHTOANTROIGIO.Helpers;
 using THANHTOANTROIGIO.Models;
 using THANHTOANTROIGIO.Services;
 
@@ -66,7 +67,7 @@ namespace THANHTOANTROIGIO.Controllers
         public JsonResult getGVByKhoa(String maKhoa)
         {
             var data = _giangVienService.getListGiangVienByKhoa(maKhoa, _connectionString);
-            return Json(JsonConvert.SerializeObject(new { success = true, data = data }));
+            return Json(JsonConvert.SerializeObject(new { success = true, data = data,count=data.Rows.Count }));
         }
         [HttpPost]
         [Route("add")]
@@ -86,14 +87,14 @@ namespace THANHTOANTROIGIO.Controllers
                 return Json(JsonConvert.SerializeObject(new { result = false, data = "Mã giảng viên đã tồn tại!" }));
             }
             DateTime ngayThem = DateTime.Now;
-
-            model.MaGiangVien = model.MaGiangVien.Trim();
-            model.Ho = model.Ho.Trim();
-            model.Ten = model.Ten.Trim();
+            StringHelper stringHelper= new StringHelper();
+            model.MaGiangVien = stringHelper.ChuanHoa(model.MaGiangVien.Trim(),"up");
+            model.Ho = stringHelper.ChuanHoa(model.Ho.Trim());
+            model.Ten = stringHelper.ChuanHoa(model.Ten.Trim());
             model.ChucDanh = model.ChucDanh.Trim();
             if (!String.IsNullOrEmpty(model.DiaChi))
             {
-                model.DiaChi = model.DiaChi.Trim();
+                model.DiaChi = stringHelper.ChuanHoa(model.DiaChi.Trim());
             }
             if (!String.IsNullOrEmpty(model.Sdt))
             {

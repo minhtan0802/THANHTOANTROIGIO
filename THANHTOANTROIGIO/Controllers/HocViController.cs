@@ -55,6 +55,10 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("add")]
         public JsonResult themHocVi(HocViAddModel model)
         {
+            StringHelper stringHelper = new StringHelper();
+            model.MaHocVi = stringHelper.ChuanHoa(model.MaHocVi, "up");
+            model.TenHocVi = stringHelper.ChuanHoa(model.TenHocVi);
+            
             var existMaHV = _context.HocVis.Where(x => x.MaHocVi == model.MaHocVi.Trim().ToUpper()).FirstOrDefault();
             if (existMaHV != null)
             {
@@ -111,6 +115,9 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     try
                     {
+                        StringHelper stringHelper= new StringHelper();
+                        model.MaHocVi = stringHelper.ChuanHoa(model.MaHocVi, "up");
+                        model.TenHocVi = stringHelper.ChuanHoa(model.TenHocVi);
                         if (maHocVi != model.MaHocVi)
                         {
                             var checkMaHocVi = _context.HocVis.Where(x => x.MaHocVi == model.MaHocVi.Trim()).FirstOrDefault();

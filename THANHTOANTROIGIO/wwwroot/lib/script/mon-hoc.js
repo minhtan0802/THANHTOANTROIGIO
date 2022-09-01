@@ -63,7 +63,7 @@ $(document).ready(function () {
                     url: '/mon-hoc/delete',
                     success: function (response) {
                         if (response.success == true) {
-                            toastr.success(response.data, "Thông báo", { timeOut: 3000 });
+                            toastr.success("Xóa môn học thành công", "Thông báo", { timeOut: 3000 });
                             row.remove().draw();
                         } else {
                             toastr.error(response.message, "Lỗi", { timeOut: 3000 });
@@ -135,8 +135,9 @@ function saveMonHoc(close) {
             data: monHoc,
             url: '/mon-hoc/add',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
-                    table_MonHoc.row.add(monHoc).draw(false);
+                    table_MonHoc.row.add(response.data).draw(false);
                     toastr.success("Thêm môn học thành công", "Thông báo", { timeOut: 2500 });
                     if (close) {
                         $('#modalAddMonHoc').modal('hide');
@@ -169,9 +170,10 @@ function saveMonHoc(close) {
             data: { maMonHoc: maMonHoc, model: monHoc },
             url: '/mon-hoc/edit',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
                     toastr.success("Chỉnh sửa môn học thành công", "Thông báo", { timeOut: 2500 });
-                    row.data(monHoc);
+                    row.data(response.data);
                     $('#modalAddMonHoc').modal('hide');
                     return;
                 }

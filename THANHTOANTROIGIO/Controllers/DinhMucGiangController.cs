@@ -64,7 +64,11 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-
+                StringHelper stringHelper = new StringHelper();
+                if (model.GhiChu != null)
+                {
+                    model.GhiChu = stringHelper.ChuanHoa(model.GhiChu);
+                }
                 var exist = _context.DinhMucGiangs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK).FirstOrDefault();
                 exist.DinhMuc = model.DinhMuc;
                 exist.GhiChu = model.GhiChu;

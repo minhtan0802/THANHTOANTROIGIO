@@ -424,16 +424,16 @@ function saveTTTN(close) {
             data: tttnModel,
             url: '/thuc-tap-tot-nghiep/add',
             success: function (response) {
-                console.log(response);
+                response = $.parseJSON(response);
                 if (response.success == true) {
                     toastr.success('Thông báo', 'Thêm lớp hướng dẫn thực tập tốt nghiệp thành công!', { timeOut: 3000 });
-                    table_TTTN.row.add(tttnModel).draw(false);
+                    table_TTTN.row.add(response.data).draw(false);
                     if (close) {
                         $('#modalAddTTTN').modal('hide');
                     }
                 }
                 else {
-                    toastr.error('Lỗi rồi ' + response.message, 'Error Alert', { timeOut: 5000 });
+                    toastr.error('Lỗi rồi ' + response.message, 'Thêm thất bại', { timeOut: 5000 });
                 }
             },
             error: function () {
@@ -448,9 +448,15 @@ function saveTTTN(close) {
             data: { lop: lop, model: tttnModel },
             url: '/thuc-tap-tot-nghiep/edit',
             success: function (response) {
-                toastr.success('Chỉnh sửa lớp hướng dẫn thực tập tốt nghiệp thành công!', 'Thông báo', { timeOut: 3000 });
-                $('#modalAddTTTN').modal('hide');
-                table_TTTN.row(this).data(tttnModel);
+                response = $.parseJSON(response);
+                if (response.success == true) {
+                    toastr.success('Chỉnh sửa lớp hướng dẫn thực tập tốt nghiệp thành công!', 'Thông báo', { timeOut: 3000 });
+                    $('#modalAddTTTN').modal('hide');
+                    table_TTTN.row(this).data(response.data);
+                }
+                else {
+                    toastr.success('Chỉnh sửa lớp hướng dẫn thực tập tốt nghiệp thất bại!' + response.message, 'Thông báo', { timeOut: 3000 });
+                }   
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

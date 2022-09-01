@@ -63,20 +63,21 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-
+                StringHelper stringHelper = new StringHelper();
+                model.Lop = stringHelper.ChuanHoa(model.Lop, "up");
                 var exist = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
                 if (exist != null)
                 {
-                    return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" }));
                 }
                 _context.Add(model);
                 _context.SaveChanges();
-                return Json(new { success = true, data = model });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
 
 
@@ -87,7 +88,8 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-
+                StringHelper stringHelper = new StringHelper();
+                model.Lop = stringHelper.ChuanHoa(model.Lop, "up");
                 var exist = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == lop).FirstOrDefault();
                 if (lop == model.Lop)
                 {
@@ -98,7 +100,7 @@ namespace THANHTOANTROIGIO.Controllers
                     exist.HSPhanBien = model.HSPhanBien;
                     _context.Entry(exist).State = EntityState.Modified;
                     _context.SaveChanges();
-                    return Json(new { success = true, data = model });
+                    return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
                 }
 
                 else
@@ -106,7 +108,7 @@ namespace THANHTOANTROIGIO.Controllers
                     var checkPK = _context.HuongDanTTTNs.Where(x => x.MaGV == model.MaGV && x.MaNKHK == model.MaNKHK && x.Lop == model.Lop).FirstOrDefault();
                     if (checkPK != null)
                     {
-                        return Json(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" });
+                        return Json(JsonConvert.SerializeObject(new { success = false, message = "Đã tồn tại lớp hướng dẫn thực tập tốt nghiệp của học kỳ này do GV này HD" }));
                     }
                     else
                     {
@@ -115,19 +117,19 @@ namespace THANHTOANTROIGIO.Controllers
                         param.Add(new SqlParameter("@pkUpdate", model.Lop));
                         param.Add(new SqlParameter("@tableName", "HuongDanTTTN"));
                         new SQLHelper(_connectionString).ExecuteQuery("updatePK", param);
-                        return Json(new { success = true, data = model });
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
                     }
                 }
-                return Json(new { success = true, data = model });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
             }
 
             catch (Exception e)
             {
-                return Json(new
+                return Json(JsonConvert.SerializeObject(new
                 {
                     success = false,
                     message = "Lỗi: " + e.InnerException.Message
-                });
+                }));
             }
         }
 

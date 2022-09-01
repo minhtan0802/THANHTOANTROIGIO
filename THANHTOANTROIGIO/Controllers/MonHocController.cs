@@ -49,26 +49,28 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-
+                StringHelper stringHelper = new StringHelper();
+                monHoc.MaMonHoc = stringHelper.ChuanHoa(monHoc.MaMonHoc, "up");
+                monHoc.TenMonHoc = stringHelper.ChuanHoa(monHoc.TenMonHoc);
                 var checkMaMonHoc = _context.MonHocs.Where(x => x.MaMonHoc == monHoc.MaMonHoc.Trim()).FirstOrDefault();
                 if (checkMaMonHoc != null)
                 {
-                    return Json(new { success = false, message = "pk" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                 }
                 var checkTenMon = _context.MonHocs.Where(x => x.TenMonHoc == monHoc.TenMonHoc.Trim()).FirstOrDefault();
                 if (checkTenMon != null)
                 {
-                    return Json(new { success = false, message = "name" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                 }
                 _context.MonHocs.Add(monHoc);
                 _context.SaveChanges();
-                return Json(new { success = true, data = monHoc });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = monHoc }));
 
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
         }
         [Route("edit")]
@@ -77,21 +79,23 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
-
+                StringHelper stringHelper = new StringHelper();
+                model.MaMonHoc = stringHelper.ChuanHoa(model.MaMonHoc, "up");
+                model.TenMonHoc = stringHelper.ChuanHoa(model.TenMonHoc);
                 if (maMonHoc != model.MaMonHoc)
                 {
                     var checkMaMonHoc = _context.MonHocs.Where(x => x.MaMonHoc == model.MaMonHoc.Trim()).FirstOrDefault();
 
                     if (checkMaMonHoc != null)
                     {
-                        return Json(new { success = false, message = "pk" });
+                        return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                     }
                 }
 
                 var checkTenMon = _context.MonHocs.Where(x => x.TenMonHoc == model.TenMonHoc.Trim() && x.MaMonHoc != maMonHoc.Trim()).FirstOrDefault();
                 if (checkTenMon != null)
                 {
-                    return Json(new { success = false, message = "name" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                 }
                 var monHoc = _context.MonHocs.Where(x => x.MaMonHoc == maMonHoc.Trim()).FirstOrDefault();
                 monHoc.TenMonHoc = model.TenMonHoc.Trim();
@@ -104,13 +108,15 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maMonHoc + "','" + model.MaMonHoc.Trim() + "','MonHoc'");
                 }
-                return Json(new { success = true, data = monHoc });
+                monHoc.MaMonHoc = model.MaMonHoc;
+
+                return Json(JsonConvert.SerializeObject(new { success = true, data = monHoc }));
 
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
         }
         [Route("delete")]

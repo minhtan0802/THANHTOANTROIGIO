@@ -17,7 +17,7 @@ var ltcAdd = null;
 var flagEdit = "";
 var tenGV = "";
 $(document).ready(function () {
-  /*  loading();*/
+    /*  loading();*/
     table_LTC = $("#table_LTC").DataTable({
         'columnDefs': [
             {
@@ -140,7 +140,7 @@ $(document).ready(function () {
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                
+
             }
         });
     });
@@ -162,6 +162,7 @@ $(document).ready(function () {
                     data: { maLTC: maLTC },
                     url: '/lop-tin-chi/delete',
                     success: function (response) {
+                        response = $.parseJSON(response);
                         if (response.success == true) {
                             toastr.success(response.data, "Thông báo", { timeOut: 3000 });
                             row.remove().draw();
@@ -217,14 +218,14 @@ function init_Select_HocKy() {
     var nienKhoa = {
         MaNKHK: "", TenNienKhoa: tenNienKhoa, TenHocKy: ""
     };
-   
+
     $.ajax({
         async: true,
         type: 'POST',
         data: nienKhoa,
         url: '/nien-khoa-hoc-ky/hoc-ky',
         success: function (response) {
-          
+
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_HocKy').append($('<option>', {
@@ -249,7 +250,7 @@ function init_Select_Khoa() {
         type: 'GET',
         url: '/khoa/ds-khoa',
         success: function (response) {
-           
+
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_Khoa').append($('<option>', {
@@ -274,7 +275,7 @@ function init_Select_NienKhoa() {
         type: 'GET',
         url: '/nien-khoa-hoc-ky/nien-khoa',
         success: function (response) {
-           
+
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
                 $('#select_NienKhoa').append($('<option>', {
@@ -303,7 +304,7 @@ function init_Tree_GV() {
         data: khoa,
         url: '/giangvien/ds-gv-by-khoa',
         success: function (response) {
-       
+
             response = $.parseJSON(response);
             $('#tree_GV').bstreeview({
                 data: response,
@@ -337,16 +338,16 @@ function init_Tree_GV() {
                                 hocViLTC = response;
                                 document.getElementById("titleLTC").innerHTML = "Danh sách lớp tín chỉ của GIẢNG VIÊN: " + hocViLTC + ". " + item.innerHTML;
                                 tenGV = item.innerHTML;
-           
+
                             },
                             error: function () {
                                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-                  
+
                             }
                         });
 
                         getListLTC();
-      
+
                         if (nodeTree != null) {
                             nodeTree.style.background = "#ffffff"
                             nodeTree = item;
@@ -447,7 +448,7 @@ function init_Select_HeLop() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-        
+
                 $('#select_HeLop').append($('<option>', {
                     value: item.MaHeLop.trim(),
                     text: item.TenHeLop.trim()
@@ -472,7 +473,7 @@ function init_Select_BacHoc() {
         success: function (response) {
             response = $.parseJSON(response);
             $.each(response, function (i, item) {
-               
+
                 $('#select_BacHoc').append($('<option>', {
                     value: item.MaBac.trim(),
                     text: item.TenBac.trim()
@@ -542,7 +543,7 @@ function getSoTietMonHoc() {
         url: '/mon-hoc/by-ma-mon',
         success: function (response) {
             response = $.parseJSON(response);
-       
+
             $('#tietLTQD').val(response.TietLT);
             $('#tietTHQD').val(response.TietTH);
             $('#tietBTQD').val(response.TietBT);
@@ -722,11 +723,12 @@ function saveLTC(close) {
             data: ltcAdd,
             url: '/lop-tin-chi/add',
             success: function (response) {
-         
+                response = $.parseJSON(response);
                 if (response.success == true) {
                     toastr.success('Thông báo', 'Thêm lớp tín chỉ thành công!', { timeOut: 3000 });
 
-                    maLTC = JSON.parse(JSON.stringify(response.data)).maLTC;
+                    maLTC = response.data.MaLTC;
+                    console.log("Ma LTC: " + maLTC);
                     var donGia = parseInt(ltcAdd.DonGia.toString());
                     donGia = donGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
                     table_LTC.row.add([maLTC, ltcAdd.TenLTC, tenMon, ltcAdd.SiSo, ltcAdd.HSLopDongLT, ltcAdd.SoNhomTH, ltcAdd.HSLopDongTH, ltcAdd.TietLTTD, ltcAdd.TietBTTD, ltcAdd.TietTHTD, ltcAdd.TietLTQD, ltcAdd.TietBTQD, ltcAdd.TietTHQD, donGia, tenHeLop, tenBac]).draw(false);
@@ -750,29 +752,34 @@ function saveLTC(close) {
             data: ltcAdd,
             url: '/lop-tin-chi/edit',
             success: function (response) {
+                response = $.parseJSON(response);
+                if (response.success = true) {
+                    toastr.success('Thông báo', 'Chỉnh sửa lớp tín chỉ thành công!', { timeOut: 3000 });
+                    if (close) {
+                        $('#modalAddLTC').modal('hide');
+                    }
+                    var donGia = parseInt(ltcAdd.DonGia.toString());
+                    donGia = donGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 
-                toastr.success('Thông báo', 'Chỉnh sửa lớp tín chỉ thành công!', { timeOut: 3000 });
-                if (close) {
-                    $('#modalAddLTC').modal('hide');
+                    table_LTC.cell(this, 1).data(ltcAdd.TenLTC);
+                    table_LTC.cell(this, 2).data(tenMon);
+                    table_LTC.cell(this, 3).data(ltcAdd.SiSo);
+                    table_LTC.cell(this, 4).data(ltcAdd.HSLopDongLT);
+                    table_LTC.cell(this, 5).data(ltcAdd.SoNhomTH);
+                    table_LTC.cell(this, 6).data(ltcAdd.HSLopDongTH);
+                    table_LTC.cell(this, 7).data(ltcAdd.TietLTTD);
+                    table_LTC.cell(this, 8).data(ltcAdd.TietBTTD);
+                    table_LTC.cell(this, 9).data(ltcAdd.TietTHTD);
+                    table_LTC.cell(this, 10).data(ltcAdd.TietLTQD);
+                    table_LTC.cell(this, 11).data(ltcAdd.TietBTQD);
+                    table_LTC.cell(this, 12).data(ltcAdd.TietTHQD);
+                    table_LTC.cell(this, 13).data(donGia);
+                    table_LTC.cell(this, 14).data(tenHeLop);
+                    table_LTC.cell(this, 15).data(tenBac);
                 }
-                var donGia = parseInt(ltcAdd.DonGia.toString());
-                donGia = donGia.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-
-                table_LTC.cell(this, 1).data(ltcAdd.TenLTC);
-                table_LTC.cell(this, 2).data(tenMon);
-                table_LTC.cell(this, 3).data(ltcAdd.SiSo);
-                table_LTC.cell(this, 4).data(ltcAdd.HSLopDongLT);
-                table_LTC.cell(this, 5).data(ltcAdd.SoNhomTH);
-                table_LTC.cell(this, 6).data(ltcAdd.HSLopDongTH);
-                table_LTC.cell(this, 7).data(ltcAdd.TietLTTD);
-                table_LTC.cell(this, 8).data(ltcAdd.TietBTTD);
-                table_LTC.cell(this, 9).data(ltcAdd.TietTHTD);
-                table_LTC.cell(this, 10).data(ltcAdd.TietLTQD);
-                table_LTC.cell(this, 11).data(ltcAdd.TietBTQD);
-                table_LTC.cell(this, 12).data(ltcAdd.TietTHQD);
-                table_LTC.cell(this, 13).data(donGia);
-                table_LTC.cell(this, 14).data(tenHeLop);
-                table_LTC.cell(this, 15).data(tenBac);
+                else {
+                    toastr.success('Lỗi', 'Chỉnh sửa lớp tín chỉ thất bại ' + response.message, { timeOut: 3000 });
+                }
             },
             error: function () {
                 toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -819,7 +826,7 @@ function getHeSoLopDongLyThuyet(siSo) {
     $.ajax({
         async: true,
         type: 'GET',
-        data: {siSo: siSo },
+        data: { siSo: siSo },
         url: '/lop-dong-ly-thuyet/he-so',
         success: function (response) {
             response = $.parseJSON(response);
@@ -827,7 +834,7 @@ function getHeSoLopDongLyThuyet(siSo) {
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-       
+
         }
     });
 }
@@ -843,7 +850,7 @@ function getHeSoLopDongThucHanh(siSoNhomTH) {
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-    
+
         }
     });
 }

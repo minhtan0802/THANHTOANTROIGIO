@@ -116,6 +116,7 @@ $(document).ready(function () {
                     data: { maBoMon: maBoMon },
                     url: '/bo-mon/delete',
                     success: function (response) {
+                        response = $.parseJSON(response);
                         if (response.success == true) {
                             toastr.success(response.data, "Thông báo", { timeOut: 3000 });
                             row.remove().draw();
@@ -168,12 +169,13 @@ function editBoMon() {
         data: { maBoMon: maBoMon, model: boMon },
         url: '/bo-mon/edit',
         success: function (response) {
+            response = $.parseJSON(response);
             if (response.success == true) {
                 toastr.success("Chỉnh sửa bộ môn thành công", "Thông báo", { timeOut: 2500 });
-              //  init_Table_BoMon();
-                table_BoMon.cell(row, 0).data(boMon.MaBoMon);
-                table_BoMon.cell(row, 1).data(boMon.TenBoMon);
-                table_BoMon.cell(row, 2).data(boMon.TipDauNguMonHoc);
+                //  init_Table_BoMon();
+                table_BoMon.cell(row, 0).data(response.data.MaBoMon);
+                table_BoMon.cell(row, 1).data(response.data.TenBoMon);
+                table_BoMon.cell(row, 2).data(response.data.TipDauNguMonHoc);
                 $('#modalAddBoMon').modal('hide');
                 document.getElementById("btnSaveBoMon").style.display = "inline";
                 return;
@@ -299,9 +301,10 @@ function saveBoMon(flag) {
         data: boMon,
         url: '/bo-mon/add',
         success: function (response) {
+            response = $.parseJSON(response);
             if (response.success == true) {
                 console.log("Bộ môn: " + boMon);
-                table_BoMon.row.add([boMon.MaBoMon, boMon.TenBoMon, boMon.TipDauNguMonHoc]).draw(false);
+                table_BoMon.row.add([response.data.MaBoMon, response.data.TenBoMon, response.data.TipDauNguMonHoc]).draw(false);
                 toastr.success("Thêm bộ môn thành công", "Thông báo", { timeOut: 2500 });
                 if (flag == true) {
                     $('#modalAddBoMon').modal('hide');

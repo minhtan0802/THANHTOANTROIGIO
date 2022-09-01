@@ -85,7 +85,6 @@ $(document).ready(function () {
                             row.remove().draw();
                             if (table_DMG.data().count() == 0) {
                                 document.getElementById("btnCopyDMG").removeAttribute("disabled");
-                                //    $("#btnCopyDMG").re removeAttr("disabled");
                             }
                         } else {
                             toastr.error(response.message, "Lỗi", { timeOut: 3000 });
@@ -130,6 +129,15 @@ function onChange_Select_Khoa(event) {
     maKhoa = $("#select_Khoa option:selected").val();
     getListDMG();
     init_Select_GV(maKhoa);
+    if (haveGV==false) {
+        $("#btnAddDMG").attr("disabled", "disabled");
+        $("#btnCopyDMG").attr("disabled", "disabled");
+    }
+    else {
+        $("#btnAddDMG").removeAttr("disabled");
+        $("#btnCopyDMG").removeAttr("disabled");
+    }
+
 }
 function onChange_Select_HocKy(event) {
     maHocKy = $("#select_HocKy").val();
@@ -308,7 +316,7 @@ function getListDMG() {
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-            if (maHocKy != maHocKyCurrent || !haveGV) {
+            if (maHocKy != maHocKyCurrent || haveGV==false) {
                 $("#btnAddDMG").attr("disabled", "disabled");
                 $("#btnCopyDMG").attr("disabled", "disabled");
                 canEdit = false;
@@ -433,7 +441,7 @@ function init_Select_GV(maKhoa) {
             chucVu = $("#select_GV option:selected").attr("chucVu");
             $("#chucDanh").val(chucDanh);
             $("#chucVu").val(chucVu);
-            if (response.count <= 0) {
+            if (response.data == 0) {
                 haveGV = false;
             }
             else {

@@ -64,6 +64,9 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     try
                     {
+                        StringHelper stringHelper = new StringHelper();
+                        bacHoc.TenBac = stringHelper.ChuanHoa(bacHoc.TenBac);
+                        bacHoc.MaBac = stringHelper.ChuanHoa(bacHoc.MaBac, "up");
                         var checkMaBacHoc = _context.BacHocs.Where(x => x.MaBac == bacHoc.MaBac.Trim()).FirstOrDefault();
                         if (checkMaBacHoc != null)
                         {
@@ -124,6 +127,9 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     try
                     {
+                        StringHelper stringHelper = new StringHelper();
+                        model.MaBac = stringHelper.ChuanHoa(model.MaBac, "up");
+                        model.TenBac = stringHelper.ChuanHoa(model.TenBac);
                         if (maBacHoc != model.MaBac)
                         {
                             var checkmaBacHoc = _context.BacHocs.Where(x => x.MaBac == model.MaBac.Trim()).FirstOrDefault();

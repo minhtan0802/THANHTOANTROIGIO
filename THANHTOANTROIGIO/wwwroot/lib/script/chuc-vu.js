@@ -119,9 +119,10 @@ function saveChucVu(close) {
             data: chucVu,
             url: '/chuc-vu/add',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
-                    table_ChucVu.row.add(chucVu).draw(false);
-                    toastr.success("Thêm bộ môn thành công", "Thông báo", { timeOut: 2500 });
+                    table_ChucVu.row.add(response.data).draw(false);
+                    toastr.success("Thêm chức vụ thành công", "Thông báo", { timeOut: 2500 });
                     if (close) {
                         $('#modalAddChucVu').modal('hide');
                     }
@@ -153,11 +154,11 @@ function saveChucVu(close) {
             data: { maChucVu: maChucVu, model: chucVu },
             url: '/chuc-vu/edit',
             success: function (response) {
+                response = $.parseJSON(response);
                 if (response.success == true) {
                     toastr.success("Chỉnh sửa chức vụ thành công", "Thông báo", { timeOut: 2500 });
                     //  init_table_ChucVu();
-                    console.log("Mon hoc: " + JSON.stringify(chucVu));
-                    row.data(chucVu);
+                    row.data(response.data);
                     $('#modalAddChucVu').modal('hide');
                     return;
                 }

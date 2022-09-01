@@ -1277,7 +1277,7 @@
             this.tableCell12.StylePriority.UseFont = false;
             this.tableCell12.StylePriority.UseForeColor = false;
             this.tableCell12.StylePriority.UseTextAlignment = false;
-            this.tableCell12.Text = "NCKH năm 2021 (HKII năm học 2020 - 2021; HKI năm học 2021-2022)";
+            this.tableCell12.Text = "NCKH";
             this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell12.Weight = 0.25975181331451941D;
             // 
@@ -1569,7 +1569,7 @@
             this.xrTableCell12.StylePriority.UseFont = false;
             this.xrTableCell12.StylePriority.UseForeColor = false;
             this.xrTableCell12.StylePriority.UseTextAlignment = false;
-            this.xrTableCell12.Text = "Giờ đã tạm trừ ở HK2 năm học 2020 - 2021 (giờ chuẩn)";
+            this.xrTableCell12.Text = "Giờ đã tạm trừ(giờ chuẩn)";
             this.xrTableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.xrTableCell12.Weight = 0.0646943931155925D;
             // 

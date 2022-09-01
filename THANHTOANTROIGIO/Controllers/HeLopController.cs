@@ -59,6 +59,9 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
+                StringHelper stringHelper = new StringHelper();
+                heLop.MaHeLop = stringHelper.ChuanHoa(heLop.MaHeLop, "up");
+                heLop.TenHeLop = stringHelper.ChuanHoa(heLop.TenHeLop);
 
                 using (var transaction = _context.Database.BeginTransaction())
                 {
@@ -118,6 +121,9 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult editHeLop(String maHeLop, HeLop model, double heSo)
         {
+            StringHelper stringHelper = new StringHelper();
+            model.MaHeLop = stringHelper.ChuanHoa(model.MaHeLop,"up");
+            model.TenHeLop = stringHelper.ChuanHoa(model.TenHeLop);
             try
             {
                 using (var transaction = _context.Database.BeginTransaction())

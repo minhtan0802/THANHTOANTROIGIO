@@ -67,22 +67,26 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult themLTC(LopTinChi model)
         {
-            LopTinChi ltc = new LopTinChi();
-            ltc = model;
+            StringHelper stringHelper = new StringHelper();
+            model.TenLTC = model.TenLTC.Trim();
+            var exist=_context.LopTinChis.Where(x=>x.MaMon==model.MaMon && x.MaGV==model.MaGV && x.TenLTC==model.TenLTC && x.MaNKHK==model.MaNKHK && x.MaBac==model.MaBac).FirstOrDefault();
+            if (exist != null)
+            {
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Đã tồn tại lớp tín chỉ này" }));
+            }
             try
             {
-
                 _context.LopTinChis.Add(model);
                 _context.SaveChanges();
                 return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
             }
             catch (Exception ex)
             {
-                return Json(new
+                return Json(JsonConvert.SerializeObject(new
                 {
                     success = false,
                     message = "Thêm lớp tín chỉ thất bại!" + ex.InnerException.Message
-                });
+                }));
             }
         }
 
@@ -90,21 +94,21 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult editLTC(LopTinChi model)
         {
-            LopTinChi ltc = new LopTinChi();
-            ltc = model;
+            StringHelper stringHelper = new StringHelper();
+            model.TenLTC = model.TenLTC.Trim();
             try
             {
                 _context.Entry(model).State = EntityState.Modified;
                 _context.SaveChanges();
-                return Json(new { success = true, data = model });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
             }
             catch (Exception ex)
             {
-                return Json(new
+                return Json(JsonConvert.SerializeObject(new
                 {
                     success = false,
                     message = "Chỉnh sửa lớp tín chỉ thất bại!" + ex.InnerException.Message
-                });
+                }));
             }
         }
         [Route("delete")]
@@ -117,11 +121,11 @@ namespace THANHTOANTROIGIO.Controllers
                 var ltc = _context.LopTinChis.FirstOrDefault(s => s.MaLTC == maLTC);
                 _context.Entry(ltc).State = EntityState.Deleted;
                 _context.SaveChanges();
-                return Json(new { success = true, data = "Xóa lớp tín chỉ thành công! " });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = "Xóa lớp tín chỉ thành công! " }));
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Xóa lớp tín chỉ thất bại vì vi phạm khóa ngoại" });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Xóa lớp tín chỉ thất bại vì vi phạm khóa ngoại" }));
             }
 
 
@@ -155,6 +159,7 @@ namespace THANHTOANTROIGIO.Controllers
                     }
                     using (var package = new ExcelPackage(filePath))
                     {
+                        StringHelper stringHelper = new StringHelper();
                         ExcelPackage.LicenseContext = LicenseContext.Commercial;
                         var workbook = package.Workbook;
                         var worksheet = workbook.Worksheets[maSheet];
@@ -243,7 +248,7 @@ namespace THANHTOANTROIGIO.Controllers
                                     var modelView = new LopTinChiImportModel();
                                     modelView.Stt = row;
                                     model.HSHocKy = hsHK;
-                                    modelView.TenLTC = model.TenLTC = worksheet.Cells[row, 13].Value.ToString();
+                                    modelView.TenLTC = model.TenLTC = worksheet.Cells[row, 13].Value.ToString().Trim();
                                     modelView.SiSo = model.SiSo = Int32.Parse(worksheet.Cells[row, 14].Value.ToString());
                                     int int_x;
                                     double double_x;

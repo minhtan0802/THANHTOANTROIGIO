@@ -49,6 +49,9 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
+                StringHelper stringHelper = new StringHelper();
+                chucVu.MaChucVu = stringHelper.ChuanHoa(chucVu.MaChucVu, "up");
+                chucVu.TenChucVu = stringHelper.ChuanHoa(chucVu.TenChucVu);
                 var checkMaChucVu = _context.ChucVus.Where(x => x.MaChucVu == chucVu.MaChucVu.Trim()).FirstOrDefault();
                 if (checkMaChucVu != null)
                 {
@@ -57,16 +60,16 @@ namespace THANHTOANTROIGIO.Controllers
                 var checkTenChucVu = _context.ChucVus.Where(x => x.TenChucVu.ToLower() == chucVu.TenChucVu.ToLower().Trim()).FirstOrDefault();
                 if (checkTenChucVu != null)
                 {
-                    return Json(new { success = false, message = "name" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                 }
                 _context.ChucVus.Add(chucVu);
                 _context.SaveChanges();
-                return Json(new { success = true, data = chucVu });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = chucVu }));
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
         }
         [Route("edit")]
@@ -75,20 +78,23 @@ namespace THANHTOANTROIGIO.Controllers
         {
             try
             {
+                StringHelper stringHelper = new StringHelper();
+                model.MaChucVu = stringHelper.ChuanHoa(model.MaChucVu, "up");
+                model.TenChucVu = stringHelper.ChuanHoa(model.TenChucVu);
                 if (maChucVu != model.MaChucVu)
                 {
                     var checkMaChucVu = _context.ChucVus.Where(x => x.MaChucVu == model.MaChucVu.Trim()).FirstOrDefault();
 
                     if (checkMaChucVu != null)
                     {
-                        return Json(new { success = false, message = "pk" });
+                        return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                     }
                 }
 
                 var checkTenMon = _context.ChucVus.Where(x => x.TenChucVu.ToLower() == model.TenChucVu.ToLower().Trim() && x.MaChucVu != maChucVu.Trim()).FirstOrDefault();
                 if (checkTenMon != null)
                 {
-                    return Json(new { success = false, message = "name" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "name" }));
                 }
                 var chucVu = _context.ChucVus.Where(x => x.MaChucVu == maChucVu.Trim()).FirstOrDefault();
                 chucVu.TenChucVu = model.TenChucVu.Trim();
@@ -99,13 +105,13 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maChucVu + "','" + model.MaChucVu.Trim() + "','ChucVu'");
                 }
-                return Json(new { success = true, data = chucVu });
+                return Json(JsonConvert.SerializeObject(new { success = true, data = chucVu }));
 
 
             }
             catch (Exception e)
             {
-                return Json(new { success = false, message = "Lỗi: " + e.InnerException.Message });
+                return Json(JsonConvert.SerializeObject(new { success = false, message = "Lỗi: " + e.InnerException.Message }));
             }
         }
         [Route("delete")]
