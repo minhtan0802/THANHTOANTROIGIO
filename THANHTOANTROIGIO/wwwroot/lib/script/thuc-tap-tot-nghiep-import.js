@@ -177,12 +177,12 @@ function previewTTTN() {
             if (response.success) {
                 listHuongDanTTTN = response.data;
                 table_TTTN_Import = $('#table_TTTN_Import').DataTable({
-                    "data": response.data,
+                    "data": response.view,
                     "columns": [{
                         'data': 'MaGV',
                     },
                     {
-                        'data': 'MaNKHK',
+                        'data': 'HoTenGV',
                     }, {
                         'data': 'Lop',
                     }, {
@@ -205,7 +205,9 @@ function previewTTTN() {
 
         },
         error: function () {
-            toastr.error('Lỗi', 'Lỗi', { timeOut: 3000 });
+            toastr.error('Dữ liệu file Excel đã thay đổi, mời bạn reload lại trang', 'Lỗi', { timeOut: 3000 });
+            document.getElementById("btnPreview").setAttribute("disabled", "disabled");
+            document.getElementById("btnImport").setAttribute("disabled", "disabled");
         }
     });
 }
@@ -269,6 +271,7 @@ function importTTTN() {
 }
 function onChange_Select_Sheet() {
     maSheet = $('#select_Sheet option:selected').val();
+    document.getElementById("btnImport").setAttribute("disabled", "disabled");
 }
 
 

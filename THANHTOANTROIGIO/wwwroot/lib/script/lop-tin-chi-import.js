@@ -326,6 +326,8 @@ function importLTC() {
 }
 function onChange_Select_Sheet() {
     maSheet = $('#select_Sheet option:selected').val();
+    document.getElementById("hsHocKy").removeAttribute("readonly");
+    document.getElementById("btnImport").setAttribute("disabled", "disabled");
 }
 
 

@@ -197,7 +197,8 @@ namespace THANHTOANTROIGIO.Controllers
             {
                 var rq = HttpContext.Request.Form;
                 var file = rq.Files.Count() > 0 ? rq.Files[0] : null;
-                listImport = new List<HuongDanTTTN>();
+                var listImport = new List<HuongDanTTTN>();
+                var listView = new List<HuongDanTTTNView>();
                 var maNKHK = rq["maNKHK"].ToString();
                 var maSheet = int.Parse(rq["maSheet"].ToString());
                 if (file != null)
@@ -217,24 +218,92 @@ namespace THANHTOANTROIGIO.Controllers
                         var worksheet = workbook.Worksheets[maSheet];
                         int colCount = worksheet.Dimension.End.Column;  //get Column Count
                         int rowCount = worksheet.Dimension.End.Row;
-                        List<HuongDanTTTN> list = new List<HuongDanTTTN>();
-                        for (int row = 2; row <= rowCount; row++)
-                        {
+                        int beginRow = 1;
+                        int beginCol = 1;
+                        int rowStart = 0, colStart = 0;
 
+                        int rowEnd = 0;
+                        bool flagEnd = false;
+                        bool flagChange = false;
+
+                        for (int i = beginRow; i <= rowCount; i++)
+                        {
+                            flagChange = false;
+                            for (int j = beginCol; j <= colCount; j++)
+                            {
+                                if (worksheet.Cells[i, j].Value == null)
+                                {
+                                    flagEnd = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    flagEnd = false;
+                                    flagChange = true;
+                                    if ((bool)(worksheet.Cells[i, j].Value?.ToString().Contains("MÃ GV")))
+                                    {
+                                        rowStart = i;
+                                        colStart = j;
+                                        flagEnd = false;
+                                        flagChange = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        for (int i = rowStart; i <= rowCount; i++)
+                        {
+                            flagChange = false;
+                            for (int j = beginCol; j <= colCount; j++)
+                            {
+                                if (worksheet.Cells[i, j].Value == null)
+                                {
+                                    flagEnd = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    flagEnd = false;
+                                    flagChange = true;
+                                }
+                            }
+                            if (flagEnd = true && !flagChange)
+                            {
+                                rowEnd = i;
+                                break;
+                            }
+                        }
+                        rowStart += 1;
+                        List<HuongDanTTTN> list = new List<HuongDanTTTN>();
+                        for (int row = rowStart; row < rowEnd; row++)
+                        {
                             HuongDanTTTN huongDanTTTN = new HuongDanTTTN(
                               worksheet.Cells[row, 1].Value?.ToString().Trim(),
                               maNKHK,
-                              double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
-                               double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim()),
-                                worksheet.Cells[row, 2].Value?.ToString().Trim(),
-                              double.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
-                              int.Parse(worksheet.Cells[row, 3].Value?.ToString().Trim()),
-                              double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim())
+                              double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
+                               double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
+                                worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                              double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
+                              int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
+                              double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
                                 );
                             list.Add(huongDanTTTN);
+
+                            HuongDanTTTNView huongDanTTTNView = new HuongDanTTTNView(
+                             worksheet.Cells[row, 1].Value?.ToString().Trim(),
+                             worksheet.Cells[row, 2].Value?.ToString().Trim(),
+                             double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
+                              double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
+                               worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                             double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
+                             int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
+                             double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
+                               );
+                            listView.Add(huongDanTTTNView);
                         }
                         //    listImport = list;
-                        return Json(JsonConvert.SerializeObject(new { success = true, data = list }));
+                        return Json(JsonConvert.SerializeObject(new { success = true, data = list, view=listView }));
                     }
                 }
                 else
@@ -252,22 +321,8 @@ namespace THANHTOANTROIGIO.Controllers
         [HttpPost]
         public JsonResult import([FromBody] List<HuongDanTTTN> listImport)
         {
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("MaGV", typeof(string));
-            dataTable.Columns.Add("MaNKHK", typeof(string));
-            dataTable.Columns.Add("HSPhanBien", typeof(double));
-            dataTable.Columns.Add("SoSinhVienPB", typeof(double));
-            dataTable.Columns.Add("Lop", typeof(string));
-            dataTable.Columns.Add("SoSinhVienHD", typeof(double));
-            dataTable.Columns.Add("SoTuan", typeof(int));
-            dataTable.Columns.Add("HSHuongDan", typeof(double));
-            foreach (var item in listImport)
-            {
-                if (_context.HuongDanTTTNs.Where(x => x.MaNKHK == item.MaNKHK && x.Lop == item.Lop && x.MaGV == item.MaGV).FirstOrDefault() == null)
-                {
-                    dataTable.Rows.Add(item);
-                }
-            }
+            var convert = new ListToDataTableConverter();
+            var dataTable = convert.ToDataTable(listImport);
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@HuongDanTTTN", dataTable));
             var i = new SQLHelper(_connectionString).ExecuteQuery("Import_HuongDanTTTN", param);

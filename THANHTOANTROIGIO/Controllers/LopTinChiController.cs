@@ -230,13 +230,7 @@ namespace THANHTOANTROIGIO.Controllers
                         try
                         {
                             for (int row = rowStart; row < rowEnd; row++)
-                            {
-
-/*                                if (worksheet.Cells[row, 12].Value == null)
-                                {
-                                    return Json(JsonConvert.SerializeObject(new { success = false, message = "Mời bạn xem lại sheet đã chọn đúng chưa?" }));
-                                }*/
-                                
+                            {   
                                 if (worksheet.Cells[row, 12].Value is null ||!worksheet.Cells[row, 12].Value.Equals(hocKy))
                                 {
                                     continue;
@@ -336,7 +330,7 @@ namespace THANHTOANTROIGIO.Controllers
             var dataTable = convert.ToDataTable(model);
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@LopTinChi", dataTable));
-            var i = new SQLHelper(_connectionString).ExecuteQuery("Import_LopTinChi_Full", param);
+            var i = new SQLHelper(_connectionString).ExecuteQuery("Import_LopTinChi", param);
             return Json(JsonConvert.SerializeObject(new { success = true, data = dataTable }));
         }
 
