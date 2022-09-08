@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(document).on('shown.bs.modal', '#modalAddBacHoc', function () {
         $('#maBacHoc').focus();
     })
-    document.getElementById("title").innerHTML = "bậc học";
+    document.getElementById("title").innerHTML = "BẬC HỌC";
 
 
     $('#table_BacHoc tbody').on('click', 'tr', function () {

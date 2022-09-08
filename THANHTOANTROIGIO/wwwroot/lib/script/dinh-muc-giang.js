@@ -20,8 +20,9 @@ var row;
 var maHocKyCurrent;
 var canEdit = true;
 var haveGV = false;
+var haveDMG = 0;
 $(document).ready(function () {
- /*   loading();*/
+    /*   loading();*/
     table_DMG = $("#table_DMG").DataTable();
     table_DMG.columns(0).visible(false);
     table_DMG.columns(1).visible(false);
@@ -127,15 +128,16 @@ function onChange_Select_HocKy_Copy(event) {
 }
 function onChange_Select_Khoa(event) {
     maKhoa = $("#select_Khoa option:selected").val();
-    getListDMG();
     init_Select_GV(maKhoa);
-    if (haveGV==false) {
+    getListDMG();
+    if (haveGV == false) {
         $("#btnAddDMG").attr("disabled", "disabled");
         $("#btnCopyDMG").attr("disabled", "disabled");
     }
     else {
         $("#btnAddDMG").removeAttr("disabled");
-        $("#btnCopyDMG").removeAttr("disabled");
+        if (haveDMG == 0)
+            $("#btnCopyDMG").removeAttr("disabled");
     }
 
 }
@@ -273,6 +275,7 @@ function getListDMG() {
         url: 'dinh-muc-giang/ds',
         success: function (response) {
             if ($.parseJSON(response).count > 0) {
+                haveDMG = $.parseJSON(response).count;
                 $("#btnCopyDMG").attr("disabled", "disabled");
                 document.getElementById("copyDMG").style.display = "none";
             }
@@ -280,6 +283,42 @@ function getListDMG() {
                 $("#btnCopyDMG").removeAttr("disabled");
             }
             table_DMG = $('#table_DMG').DataTable({
+                "drawCallback": function () {
+                    $('.paginate_button.next', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+
+                            if (maHocKy != maHocKyCurrent || haveGV == false) {
+                                $("#btnAddDMG").attr("disabled", "disabled");
+                                $("#btnCopyDMG").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else if (maHocKy == maHocKyCurrent && haveGV == true) {
+                                $("#btnAddDMG").removeAttr("disabled");
+                                canEdit = true;
+                            }
+                        });
+                    $('.paginate_button', this.api().table().container())
+                        .on('click', function () {
+                            var listBtnEditDelete = document.getElementsByClassName("edit");
+                            if (maHocKy != maHocKyCurrent || haveGV == false) {
+                                $("#btnAddDMG").attr("disabled", "disabled");
+                                $("#btnCopyDMG").attr("disabled", "disabled");
+                                canEdit = false;
+                                $.each(listBtnEditDelete, function (i, item) {
+                                    item.setAttribute("disabled", "disabled");
+                                });
+                            }
+                            else if (maHocKy == maHocKyCurrent && haveGV == true) {
+                                $("#btnAddDMG").removeAttr("disabled");
+      
+                                canEdit = true;
+                            }
+                        });
+                },
                 "data": $.parseJSON(response).data,
                 "columns": [{
                     'data': 'MaGiangVien',
@@ -316,18 +355,18 @@ function getListDMG() {
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-            if (maHocKy != maHocKyCurrent || haveGV==false) {
-                $("#btnAddDMG").attr("disabled", "disabled");
-                $("#btnCopyDMG").attr("disabled", "disabled");
-                canEdit = false;
-                $.each(listBtnEditDelete, function (i, item) {
-                    item.setAttribute("disabled", "disabled");
-                });
-            }
-            else {
-                $("#btnAddDMG").removeAttr("disabled");
-                canEdit = true;
-            }
+                if (maHocKy != maHocKyCurrent || haveGV==false) {
+                    $("#btnAddDMG").attr("disabled", "disabled");
+                    $("#btnCopyDMG").attr("disabled", "disabled");
+                    canEdit = false;
+                    $.each(listBtnEditDelete, function (i, item) {
+                        item.setAttribute("disabled", "disabled");
+                    });
+                }
+                else if (maHocKy == maHocKyCurrent && haveGV==true) {
+                    $("#btnAddDMG").removeAttr("disabled");
+                    canEdit = true;
+                }
             table_DMG.columns(0).visible(false);
             table_DMG.columns(1).visible(false);
         },
@@ -447,7 +486,7 @@ function init_Select_GV(maKhoa) {
             else {
                 haveGV = true;
             }
-            
+
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

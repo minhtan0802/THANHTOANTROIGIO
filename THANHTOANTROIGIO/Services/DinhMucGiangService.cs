@@ -19,5 +19,10 @@ namespace THANHTOANTROIGIO.Services
             var data= new SQLHelper(connectionString).ExecuteQuery("sp_Get_Dinh_Muc_Giang", param);
             return data;
         }
+        public DataTable getDinhMucGiangHocKy(String maNKHK, String connectionString)
+        {
+            var data = new SQLHelper(connectionString).ExecuteString("SELECT * FROM DinhMucGiang WHERE MaNKHK='" + maNKHK + "'");
+            return data;
+        }
     }
 }

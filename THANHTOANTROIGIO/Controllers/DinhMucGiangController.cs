@@ -35,7 +35,8 @@ namespace THANHTOANTROIGIO.Controllers
         public JsonResult getDinhMucGiang(String MaKhoa, String MaNKHK)
         {
             var data = _dinhMucGiangService.getDinhMucGiang(MaKhoa, MaNKHK, _configuration.GetConnectionString("DefaultConnection"));
-            return Json(JsonConvert.SerializeObject(new { success = true, data = data, count = data.Rows.Count }));
+            var dmg = _dinhMucGiangService.getDinhMucGiangHocKy(MaNKHK, _configuration.GetConnectionString("DefaultConnection"));
+            return Json(JsonConvert.SerializeObject(new { success = true, data = data, count = dmg.Rows.Count }));
         }
         [Route("add")]
         [HttpPost]
@@ -134,7 +135,7 @@ namespace THANHTOANTROIGIO.Controllers
                 var model = _context.DinhMucGiangs.Where(s => s.MaGV == maGV && s.MaNKHK == maNKHK).FirstOrDefault();
                 _context.Entry(model).State = EntityState.Deleted;
                 _context.SaveChanges();
-                return Json(JsonConvert.SerializeObject(new { success = true, data = "Xóa định mức giảng thành công! " }));
+                return Json(new { success = true, data = "Xóa định mức giảng thành công! " });
             }
             catch (Exception ex)
             {
