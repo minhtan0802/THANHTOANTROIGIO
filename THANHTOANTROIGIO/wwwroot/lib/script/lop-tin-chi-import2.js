@@ -290,16 +290,16 @@ function initSelect_Sheet() {
         contentType: false,
         success: function (response) {
             response = $.parseJSON(response);
+            console.log(JSON.stringify(response.data));
             if (response.success) {
                 $("#select_Sheet").select2({
                     data: response.data
                 });
-                maSheet = 0;
+                maSheet = 0;          
             }
             else {
                 toastr.error('Lỗi', response.message, { timeOut: 3000 });
             }
-
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });

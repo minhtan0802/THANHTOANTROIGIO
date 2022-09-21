@@ -132,7 +132,7 @@ function onChange_Select_Khoa(event) {
     getListDMG();
     if (haveGV == false) {
         $("#btnAddDMG").attr("disabled", "disabled");
-        $("#btnCopyDMG").attr("disabled", "disabled");
+      //  $("#btnCopyDMG").attr("disabled", "disabled");
     }
     else {
         $("#btnAddDMG").removeAttr("disabled");
@@ -276,8 +276,8 @@ function getListDMG() {
         success: function (response) {
             if ($.parseJSON(response).count > 0) {
                 haveDMG = $.parseJSON(response).count;
-                $("#btnCopyDMG").attr("disabled", "disabled");
-                document.getElementById("copyDMG").style.display = "none";
+          //      $("#btnCopyDMG").attr("disabled", "disabled");
+               document.getElementById("copyDMG").style.display = "none";
             }
             else {
                 $("#btnCopyDMG").removeAttr("disabled");
@@ -288,14 +288,16 @@ function getListDMG() {
                         .on('click', function () {
                             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-                            if (maHocKy != maHocKyCurrent || haveGV == false) {
+                            if (maHocKy != maHocKyCurrent) {
                                 $("#btnAddDMG").attr("disabled", "disabled");
+
                                 $("#btnCopyDMG").attr("disabled", "disabled");
                                 canEdit = false;
                                 $.each(listBtnEditDelete, function (i, item) {
                                     item.setAttribute("disabled", "disabled");
                                 });
                             }
+  
                             else if (maHocKy == maHocKyCurrent && haveGV == true) {
                                 $("#btnAddDMG").removeAttr("disabled");
                                 canEdit = true;
@@ -304,9 +306,9 @@ function getListDMG() {
                     $('.paginate_button', this.api().table().container())
                         .on('click', function () {
                             var listBtnEditDelete = document.getElementsByClassName("edit");
-                            if (maHocKy != maHocKyCurrent || haveGV == false) {
+                            if (maHocKy != maHocKyCurrent ) {
                                 $("#btnAddDMG").attr("disabled", "disabled");
-                                $("#btnCopyDMG").attr("disabled", "disabled");
+                               $("#btnCopyDMG").attr("disabled", "disabled");
                                 canEdit = false;
                                 $.each(listBtnEditDelete, function (i, item) {
                                     item.setAttribute("disabled", "disabled");
@@ -355,16 +357,17 @@ function getListDMG() {
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-                if (maHocKy != maHocKyCurrent || haveGV==false) {
+                if (maHocKy != maHocKyCurrent ) {
                     $("#btnAddDMG").attr("disabled", "disabled");
-                    $("#btnCopyDMG").attr("disabled", "disabled");
+                   $("#btnCopyDMG").attr("disabled", "disabled");
                     canEdit = false;
                     $.each(listBtnEditDelete, function (i, item) {
                         item.setAttribute("disabled", "disabled");
                     });
                 }
-                else if (maHocKy == maHocKyCurrent && haveGV==true) {
+                else if (maHocKy == maHocKyCurrent ) {
                     $("#btnAddDMG").removeAttr("disabled");
+                    $("#btnCopyDMG").removeAttr("disabled");
                     canEdit = true;
                 }
             table_DMG.columns(0).visible(false);
