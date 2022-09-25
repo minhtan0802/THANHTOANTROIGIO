@@ -252,9 +252,9 @@ namespace THANHTOANTROIGIO.Controllers
                                     modelView.TietBTTD = model.TietBTQD = Math.Round(Double.TryParse(worksheet.Cells[row, 18].Value?.ToString(), out double_x) ? double_x : 0, 2);
 
                                     modelView.TietTHTD = model.TietTHQD = Math.Round(Double.TryParse(worksheet.Cells[row, 20].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                                    model.DinhMuc = Math.Round(Double.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out double_x) ? double_x : 0, 2);
+                                    model.DinhMuc = Math.Round(Double.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out double_x) ? double_x : 0, 2)/2;
                                     var dinhMucChucDanh = Math.Round(Double.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out double_x) ? double_x : 0, 2);
-                                    model.MoTa = Math.Round((model.DinhMuc / dinhMucChucDanh) * 100,2);
+                                    model.MoTa = Math.Round((model.DinhMuc*2 / dinhMucChucDanh) * 100,2);
                                     model.MoTaNCKH = 0;
                                     model.DinhMucNCKH = Math.Round(Double.TryParse(worksheet.Cells[row, 7].Value?.ToString(), out double_x) ? double_x : 0, 2);
                                     model.TenMH = worksheet.Cells[row, 8].Value.ToString();
