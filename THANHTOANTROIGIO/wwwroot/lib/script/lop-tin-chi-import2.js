@@ -1,20 +1,10 @@
 ﻿var tenNienKhoa = "";
 var maHocKy = "";
-var maKhoa = "";
-var listSubject;
-var listGV;
-var nodeTree = null;
 var table_LTC_Import;
 var maGV = "";
-var hocViLTC = "";
-var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc = "x";
 var maHocKyInt;
-var flag_Focus_Bac = 0;
-var flag_Focus_HeLop = 0;
 var table_LTC_Import_rowIndex = 0;
 var lop = "";
-var ltcModel = null;
-var flagEdit = "";
 var fileLTC;
 var select_Sheet;
 var maSheet;
@@ -315,7 +305,7 @@ function importLTC() {
         data: JSON.stringify(listLTCImport),
         url: '/lop-tin-chi/import-file',
         success: function (response) {
-            toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
+            toastr.success("Import Danh sách LTC thành công", "Thông báo", { timeOut: 3000 });
             table_LTC_Import.clear().draw(false);
             document.getElementById("btnImport").setAttribute("disabled", "disabled");
         },

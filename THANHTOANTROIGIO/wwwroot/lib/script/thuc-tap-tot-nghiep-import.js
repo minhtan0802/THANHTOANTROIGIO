@@ -1,20 +1,9 @@
 ﻿var tenNienKhoa = "";
 var maHocKy = "";
-var maKhoa = "";
-var listSubject;
-var listGV;
-var nodeTree = null;
 var table_TTTN_Import;
 var maGV = "";
-var hocViLTC = "";
-var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc = "x";
 var maHocKyInt;
-var flag_Focus_Bac = 0;
-var flag_Focus_HeLop = 0;
 var table_TTTN_Import_rowIndex = 0;
-var lop = "";
-var tttnModel = null;
-var flagEdit = "";
 var fileTTTN;
 var select_Sheet;
 var maSheet;
@@ -257,7 +246,7 @@ function importTTTN() {
         data: JSON.stringify(listHuongDanTTTN),
         url: '/thuc-tap-tot-nghiep/import-file',
         success: function (response) {
-            toastr.success("Thành công", "Thông báo", { timeOut: 3000 });
+            toastr.success("Import Danh sách HD TTTN thành công", "Thông báo", { timeOut: 3000 });
             table_TTTN_Import.clear().draw(false);
             /*       $("#fileTTTN").val(null);    
                    $('#select_Sheet').empty();

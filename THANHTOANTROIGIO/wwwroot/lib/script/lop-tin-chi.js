@@ -1,7 +1,6 @@
 ﻿var tenNienKhoa = "";
 var maHocKy = "";
 var maKhoa = "";
-var listSubject;
 var listGV;
 var nodeTree = null;
 var table_LTC;

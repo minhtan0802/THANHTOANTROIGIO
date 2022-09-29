@@ -1,17 +1,13 @@
 ﻿var tenNienKhoa = "";
 var maHocKy = "";
 var maKhoa = "";
-var listSubject;
 var listGV;
 var nodeTree = null;
 var table_TTTN;
 var maGV = "";
 var tenGV = "";
 var hocViLTC = "";
-var maHeLop, tenHeLop, tenBac, maBac, maMonHoc, tenMonHoc = "x";
 var maHocKyInt;
-var flag_Focus_Bac = 0;
-var flag_Focus_HeLop = 0;
 var table_TTTN_rowIndex = 0;
 var lop = "";
 var tttnModel = null;

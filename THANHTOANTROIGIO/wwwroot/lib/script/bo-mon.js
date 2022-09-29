@@ -1,4 +1,3 @@
-
 var table_Khoa_rowIndex = 0;
 var table_BoMon_rowIndex = 0;
 var maKhoa = "";

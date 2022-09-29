@@ -2338,7 +2338,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTableCell46.BorderWidth = 1F;
             this.xrTableCell46.Dpi = 254F;
-            this.xrTableCell46.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold);
+            this.xrTableCell46.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell46.Name = "xrTableCell46";
             this.xrTableCell46.StyleName = "DetailData1";
             this.xrTableCell46.StylePriority.UseBorderColor = false;
@@ -2360,7 +2360,7 @@
             this.xrTableCell47.Dpi = 254F;
             this.xrTableCell47.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([DinhMuc])")});
-            this.xrTableCell47.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell47.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell47.Name = "xrTableCell47";
             this.xrTableCell47.StyleName = "DetailData1";
             this.xrTableCell47.StylePriority.UseBorderColor = false;
@@ -2384,7 +2384,7 @@
             this.xrTableCell48.Dpi = 254F;
             this.xrTableCell48.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([ThucTeGiangDay])")});
-            this.xrTableCell48.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell48.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell48.Name = "xrTableCell48";
             this.xrTableCell48.StyleName = "DetailData1";
             this.xrTableCell48.StylePriority.UseBorderColor = false;
@@ -2408,7 +2408,7 @@
             this.xrTableCell49.Dpi = 254F;
             this.xrTableCell49.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([HuongDanTTTN])")});
-            this.xrTableCell49.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell49.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell49.Name = "xrTableCell49";
             this.xrTableCell49.StyleName = "DetailData1";
             this.xrTableCell49.StylePriority.UseBorderColor = false;
@@ -2432,7 +2432,7 @@
             this.xrTableCell50.Dpi = 254F;
             this.xrTableCell50.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([GioTroi])")});
-            this.xrTableCell50.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell50.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell50.Name = "xrTableCell50";
             this.xrTableCell50.StyleName = "DetailData1";
             this.xrTableCell50.StylePriority.UseBorderColor = false;
@@ -2456,7 +2456,7 @@
             this.xrTableCell51.Dpi = 254F;
             this.xrTableCell51.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([DinhMucNCKH])")});
-            this.xrTableCell51.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell51.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell51.Name = "xrTableCell51";
             this.xrTableCell51.StyleName = "DetailData1";
             this.xrTableCell51.StylePriority.UseBorderColor = false;
@@ -2480,7 +2480,7 @@
             this.xrTableCell52.Dpi = 254F;
             this.xrTableCell52.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([ThucTeNCKH])")});
-            this.xrTableCell52.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell52.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell52.Name = "xrTableCell52";
             this.xrTableCell52.StyleName = "DetailData1";
             this.xrTableCell52.StylePriority.UseBorderColor = false;
@@ -2504,7 +2504,7 @@
             this.xrTableCell53.Dpi = 254F;
             this.xrTableCell53.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([GioTamTru])")});
-            this.xrTableCell53.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell53.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell53.Name = "xrTableCell53";
             this.xrTableCell53.StyleName = "DetailData1";
             this.xrTableCell53.StylePriority.UseBorderColor = false;
@@ -2528,7 +2528,7 @@
             this.xrTableCell54.Dpi = 254F;
             this.xrTableCell54.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([GioTroiNCKH])")});
-            this.xrTableCell54.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell54.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell54.Name = "xrTableCell54";
             this.xrTableCell54.StyleName = "DetailData1";
             this.xrTableCell54.StylePriority.UseBorderColor = false;
@@ -2552,7 +2552,7 @@
             this.xrTableCell55.Dpi = 254F;
             this.xrTableCell55.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([GioTroiChuan])")});
-            this.xrTableCell55.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell55.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell55.Name = "xrTableCell55";
             this.xrTableCell55.StyleName = "DetailData1";
             this.xrTableCell55.StylePriority.UseBorderColor = false;
@@ -2574,7 +2574,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTableCell56.BorderWidth = 1F;
             this.xrTableCell56.Dpi = 254F;
-            this.xrTableCell56.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell56.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell56.Name = "xrTableCell56";
             this.xrTableCell56.StyleName = "DetailData1";
             this.xrTableCell56.StylePriority.UseBorderColor = false;
@@ -2596,7 +2596,7 @@
             this.xrTableCell57.Dpi = 254F;
             this.xrTableCell57.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([DuocNhan])")});
-            this.xrTableCell57.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell57.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell57.Name = "xrTableCell57";
             this.xrTableCell57.StyleName = "DetailData1";
             this.xrTableCell57.StylePriority.UseBorderColor = false;
@@ -2620,7 +2620,7 @@
             this.xrTableCell58.Dpi = 254F;
             this.xrTableCell58.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([PhaiTra])")});
-            this.xrTableCell58.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell58.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell58.Name = "xrTableCell58";
             this.xrTableCell58.StyleName = "DetailData1";
             this.xrTableCell58.StylePriority.UseBorderColor = false;

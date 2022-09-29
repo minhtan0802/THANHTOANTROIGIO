@@ -3226,7 +3226,7 @@
             this.Dpi = 254F;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
             this.Landscape = true;
-            this.Margins = new System.Drawing.Printing.Margins(51, 44, 51, 64);
+            this.Margins = new System.Drawing.Printing.Margins(51, 40, 51, 64);
             this.PageHeight = 2100;
             this.PageWidth = 2970;
             this.PaperKind = System.Drawing.Printing.PaperKind.A4;

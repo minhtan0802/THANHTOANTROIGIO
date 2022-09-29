@@ -48,5 +48,21 @@ namespace THANHTOANTROIGIO.Controllers
             ViewBag.Report = report;
             return View("Report_ThanhToanGioGiang");
         }
+
+        [Route("thuc-tap-tot-nghiep")]
+        [HttpGet]
+        public IActionResult ThucTapTotNghiep()
+        {
+            return View();
+        }
+        [Route("thuc-tap-tot-nghiep")]
+        [HttpPost]
+        public IActionResult ReportTTTN(string hocKy)
+        {
+            var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
+            var report = new Report_KL_TTTN(_configuration.GetConnectionString("DefaultConnection"), _configuration.GetConnectionString("ReportConnection"), hocKy, _reportService);
+            ViewBag.Report = report;
+            return View("Index1");
+        }
     }
 }
