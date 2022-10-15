@@ -334,7 +334,7 @@
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Lớp";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.066469103915651723D;
+            this.tableCell5.Weight = 0.2144530120496323D;
             // 
             // tableCell6
             // 
@@ -345,7 +345,7 @@
             this.tableCell6.StylePriority.UseTextAlignment = false;
             this.tableCell6.Text = "HƯỚNG DẪN THỰC TẬP TỐT NGHIỆP";
             this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.40520129931842114D;
+            this.tableCell6.Weight = 0.30434092281155478D;
             // 
             // tableCell10
             // 
@@ -356,7 +356,7 @@
             this.tableCell10.StylePriority.UseTextAlignment = false;
             this.tableCell10.Text = "CHẤM BÁO CÁO TTTN";
             this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell10.Weight = 0.29665959816031473D;
+            this.tableCell10.Weight = 0.24953606653320048D;
             // 
             // tableCell13
             // 
@@ -422,7 +422,7 @@
             this.xrTableCell5.Name = "xrTableCell5";
             this.xrTableCell5.StyleName = "DetailCaption1";
             this.xrTableCell5.Text = "xrTableCell5";
-            this.xrTableCell5.Weight = 0.066469103915651723D;
+            this.xrTableCell5.Weight = 0.21445298177402308D;
             // 
             // xrTableCell6
             // 
@@ -434,7 +434,7 @@
             this.xrTableCell6.StylePriority.UseTextAlignment = false;
             this.xrTableCell6.Text = "Số tuần";
             this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell6.Weight = 0.067806979963910052D;
+            this.xrTableCell6.Weight = 0.07028724869858341D;
             // 
             // xrTableCell7
             // 
@@ -446,7 +446,7 @@
             this.xrTableCell7.StylePriority.UseTextAlignment = false;
             this.xrTableCell7.Text = "Số SV hướng dẫn  tại HVCS";
             this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell7.Weight = 0.058924662751384464D;
+            this.xrTableCell7.Weight = 0.088686767369923508D;
             // 
             // xrTableCell8
             // 
@@ -458,7 +458,7 @@
             this.xrTableCell8.StylePriority.UseTextAlignment = false;
             this.xrTableCell8.Text = "Số giờ hướng dẫn qui chuẩn/ 1 sinh viên";
             this.xrTableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell8.Weight = 0.16407214327781719D;
+            this.xrTableCell8.Weight = 0.078092667702174282D;
             // 
             // xrTableCell9
             // 
@@ -470,7 +470,7 @@
             this.xrTableCell9.StylePriority.UseTextAlignment = false;
             this.xrTableCell9.Text = "Số lượng giờ hướng dẫn TTTN";
             this.xrTableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell9.Weight = 0.11439751332530949D;
+            this.xrTableCell9.Weight = 0.067274163351850588D;
             // 
             // xrTableCell10
             // 
@@ -482,7 +482,7 @@
             this.xrTableCell10.StylePriority.UseTextAlignment = false;
             this.xrTableCell10.Text = "Số lượng báo cáo được chấm";
             this.xrTableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell10.Weight = 0.11806459702356645D;
+            this.xrTableCell10.Weight = 0.094089508592847343D;
             // 
             // xrTableCell11
             // 
@@ -494,7 +494,7 @@
             this.xrTableCell11.StylePriority.UseTextAlignment = false;
             this.xrTableCell11.Text = "Số giờ qui chuẩn chấm báo cáo TTTN";
             this.xrTableCell11.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell11.Weight = 0.098404413404294191D;
+            this.xrTableCell11.Weight = 0.076082789526976058D;
             // 
             // xrTableCell12
             // 
@@ -506,7 +506,7 @@
             this.xrTableCell12.StylePriority.UseTextAlignment = false;
             this.xrTableCell12.Text = "Số giờ chấm báo cáo TTTN (giờ chuẩn)";
             this.xrTableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell12.Weight = 0.080190587732454119D;
+            this.xrTableCell12.Weight = 0.0793638743780094D;
             // 
             // xrTableCell13
             // 
@@ -634,7 +634,7 @@
             this.tableCell16.StylePriority.UseFont = false;
             this.tableCell16.StylePriority.UseTextAlignment = false;
             this.tableCell16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell16.Weight = 0.066469121848338586D;
+            this.tableCell16.Weight = 0.21445307845251352D;
             // 
             // tableCell17
             // 
@@ -654,7 +654,7 @@
             this.tableCell17.StylePriority.UseFont = false;
             this.tableCell17.StylePriority.UseTextAlignment = false;
             this.tableCell17.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell17.Weight = 0.067806978501184764D;
+            this.tableCell17.Weight = 0.0702871562065552D;
             // 
             // tableCell18
             // 
@@ -674,7 +674,7 @@
             this.tableCell18.StylePriority.UseFont = false;
             this.tableCell18.StylePriority.UseTextAlignment = false;
             this.tableCell18.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell18.Weight = 0.058924713910862D;
+            this.tableCell18.Weight = 0.0886867555484872D;
             // 
             // tableCell19
             // 
@@ -695,7 +695,7 @@
             this.tableCell19.StylePriority.UseTextAlignment = false;
             this.tableCell19.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell19.TextFormatString = "{0:#0.00}";
-            this.tableCell19.Weight = 0.16407206734518276D;
+            this.tableCell19.Weight = 0.078092659339892817D;
             // 
             // tableCell20
             // 
@@ -716,7 +716,7 @@
             this.tableCell20.StylePriority.UseTextAlignment = false;
             this.tableCell20.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell20.TextFormatString = "{0:#.00}";
-            this.tableCell20.Weight = 0.11439750283095663D;
+            this.tableCell20.Weight = 0.067274156704524746D;
             // 
             // tableCell21
             // 
@@ -736,7 +736,7 @@
             this.tableCell21.StylePriority.UseFont = false;
             this.tableCell21.StylePriority.UseTextAlignment = false;
             this.tableCell21.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell21.Weight = 0.11806458652921359D;
+            this.tableCell21.Weight = 0.094089500055758D;
             // 
             // tableCell22
             // 
@@ -757,7 +757,7 @@
             this.tableCell22.StylePriority.UseTextAlignment = false;
             this.tableCell22.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell22.TextFormatString = "{0:#0.00}";
-            this.tableCell22.Weight = 0.098404402909941333D;
+            this.tableCell22.Weight = 0.076082780854902179D;
             // 
             // tableCell23
             // 
@@ -778,7 +778,7 @@
             this.tableCell23.StylePriority.UseTextAlignment = false;
             this.tableCell23.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell23.TextFormatString = "{0:#0.00}";
-            this.tableCell23.Weight = 0.080190582485277676D;
+            this.tableCell23.Weight = 0.079363869198323667D;
             // 
             // tableCell24
             // 
@@ -1107,7 +1107,7 @@
             this.xrTableCell18.StylePriority.UseTextAlignment = false;
             this.xrTableCell18.Text = "Lớp";
             this.xrTableCell18.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell18.Weight = 0.066469103915651723D;
+            this.xrTableCell18.Weight = 0.21445307260085075D;
             // 
             // xrTableCell19
             // 
@@ -1118,7 +1118,7 @@
             this.xrTableCell19.StylePriority.UseTextAlignment = false;
             this.xrTableCell19.Text = "HƯỚNG DẪN THỰC TẬP TỐT NGHIỆP";
             this.xrTableCell19.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell19.Weight = 0.40520129931842114D;
+            this.xrTableCell19.Weight = 0.30434080170911793D;
             // 
             // xrTableCell20
             // 
@@ -1129,7 +1129,7 @@
             this.xrTableCell20.StylePriority.UseTextAlignment = false;
             this.xrTableCell20.Text = "CHẤM BÁO CÁO TTTN";
             this.xrTableCell20.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell20.Weight = 0.29665959816031473D;
+            this.xrTableCell20.Weight = 0.24953612708441894D;
             // 
             // xrTableCell21
             // 
@@ -1195,7 +1195,7 @@
             this.xrTableCell25.Name = "xrTableCell25";
             this.xrTableCell25.StyleName = "DetailCaption1";
             this.xrTableCell25.Text = "xrTableCell5";
-            this.xrTableCell25.Weight = 0.066469103915651723D;
+            this.xrTableCell25.Weight = 0.21445307260085075D;
             // 
             // xrTableCell26
             // 
@@ -1207,7 +1207,7 @@
             this.xrTableCell26.StylePriority.UseTextAlignment = false;
             this.xrTableCell26.Text = "Số tuần";
             this.xrTableCell26.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell26.Weight = 0.067806979963910052D;
+            this.xrTableCell26.Weight = 0.07028715787175574D;
             // 
             // xrTableCell27
             // 
@@ -1219,7 +1219,7 @@
             this.xrTableCell27.StylePriority.UseTextAlignment = false;
             this.xrTableCell27.Text = "Số SV hướng dẫn  tại HVCS";
             this.xrTableCell27.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell27.Weight = 0.058924662751384464D;
+            this.xrTableCell27.Weight = 0.088686767369923508D;
             // 
             // xrTableCell28
             // 
@@ -1231,7 +1231,7 @@
             this.xrTableCell28.StylePriority.UseTextAlignment = false;
             this.xrTableCell28.Text = "Số giờ hướng dẫn qui chuẩn/ 1 sinh viên";
             this.xrTableCell28.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell28.Weight = 0.16407214327781719D;
+            this.xrTableCell28.Weight = 0.078092667702174282D;
             // 
             // xrTableCell29
             // 
@@ -1243,7 +1243,7 @@
             this.xrTableCell29.StylePriority.UseTextAlignment = false;
             this.xrTableCell29.Text = "Số lượng giờ hướng dẫn TTTN";
             this.xrTableCell29.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell29.Weight = 0.11439751332530949D;
+            this.xrTableCell29.Weight = 0.067274163351850588D;
             // 
             // xrTableCell30
             // 
@@ -1255,7 +1255,7 @@
             this.xrTableCell30.StylePriority.UseTextAlignment = false;
             this.xrTableCell30.Text = "Số lượng báo cáo được chấm";
             this.xrTableCell30.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell30.Weight = 0.11806459702356645D;
+            this.xrTableCell30.Weight = 0.094089508592847329D;
             // 
             // xrTableCell31
             // 
@@ -1267,7 +1267,7 @@
             this.xrTableCell31.StylePriority.UseTextAlignment = false;
             this.xrTableCell31.Text = "Số giờ qui chuẩn chấm báo cáo TTTN";
             this.xrTableCell31.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell31.Weight = 0.098404413404294191D;
+            this.xrTableCell31.Weight = 0.076082789526976058D;
             // 
             // xrTableCell32
             // 
@@ -1279,7 +1279,7 @@
             this.xrTableCell32.StylePriority.UseTextAlignment = false;
             this.xrTableCell32.Text = "Số giờ chấm báo cáo TTTN (giờ chuẩn)";
             this.xrTableCell32.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell32.Weight = 0.080190587732454119D;
+            this.xrTableCell32.Weight = 0.0793638743780094D;
             // 
             // xrTableCell33
             // 

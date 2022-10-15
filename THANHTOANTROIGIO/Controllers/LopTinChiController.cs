@@ -18,13 +18,17 @@ namespace THANHTOANTROIGIO.Controllers
         private readonly ThanhToanTroiGioEntities _context;
         private readonly LopTinChiService _lopTinChiService;
         private readonly String _connectionString;
-
-        public LopTinChiController(IConfiguration configuration, ThanhToanTroiGioEntities context, LopTinChiService lopTinChiService)
+        private readonly LopDongThucHanhService _lopDongThucHanhService;
+        private readonly LopDongLyThuyetService _lopDongLyThuyetService;
+        public LopTinChiController(IConfiguration configuration, ThanhToanTroiGioEntities context, LopTinChiService lopTinChiService,
+            LopDongThucHanhService lopDongThucHanhService, LopDongLyThuyetService lopDongLyThuyetService)
         {
             _configuration = configuration;
             _context = context;
             _lopTinChiService = lopTinChiService;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _lopDongThucHanhService = lopDongThucHanhService;
+            _lopDongLyThuyetService = lopDongLyThuyetService;
         }
 
         [Route("")]
@@ -277,8 +281,8 @@ namespace THANHTOANTROIGIO.Controllers
 
                                     modelView.HSMonMoi = model.HSMonMoi = Math.Round(Double.TryParse(worksheet.Cells[row, 26].Value?.ToString(), out double_x) ? double_x : 1, 2);
                                     modelView.HSNgoaiGio = model.HSNgoaiGio = Math.Round(Double.TryParse(worksheet.Cells[row, 25].Value?.ToString(), out double_x) ? double_x : 1, 2);
-                                    modelView.HSLopDongLT = model.HSLopDongLT = Math.Round(Double.TryParse(worksheet.Cells[row, 24].Value?.ToString(), out double_x) ? double_x : 1, 2);
-                                    modelView.HSLopDongTH = model.HSLopDongTH = Math.Round(Double.TryParse(worksheet.Cells[row, 27].Value?.ToString(), out double_x) ? double_x : 1, 2);
+                                    modelView.HSLopDongLT = model.HSLopDongLT = Math.Round(_lopDongLyThuyetService.getHeSo((int)model.SiSo), 2);
+                                    modelView.HSLopDongTH = model.HSLopDongTH = Math.Round(_lopDongThucHanhService.getHeSo(_connectionString, model.MaMH, (int)model.SiSo), 2);
                                     modelView.HSLTC = model.HSLTC = Math.Round(Double.TryParse(worksheet.Cells[row, 28].Value?.ToString(), out double_x) ? double_x : 1, 2);
 
                                     model.HSNhomTH = 0.5;
