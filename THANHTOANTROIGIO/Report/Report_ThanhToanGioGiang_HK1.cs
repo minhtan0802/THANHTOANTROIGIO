@@ -49,8 +49,8 @@ namespace THANHTOANTROIGIO.Report
             this.label_tpkttc.Text = tpkttc;
             this.label_NguoiLapBang.Text = nguoiLapBang;
             int namHoc = int.Parse(maNKHK.Substring(0, 4));
-            this.label_NCKH.Text = "NCKH năm " + (namHoc+1) + " (Học kỳ II năm học "+namHoc+"-"+(namHoc+1)+"; Học kỳ I năm học "+(namHoc+1)
-                +"-"+(namHoc+2)+")";
+            this.label_NCKH.Text = "NCKH năm " + (namHoc) + " (Học kỳ II năm học "+(namHoc-1)+"-"+(namHoc)+"; Học kỳ I năm học "+(namHoc)
+                +"-"+(namHoc+1)+")";
             //NCKH chưa fix vì chưa rõ nghiệp vụ
             this.sqlDataSource1.Fill();
         }
