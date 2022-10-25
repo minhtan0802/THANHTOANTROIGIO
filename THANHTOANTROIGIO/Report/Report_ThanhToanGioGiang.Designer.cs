@@ -188,8 +188,6 @@
             this.xrTableCell57 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell58 = new DevExpress.XtraReports.UI.XRTableCell();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
-            this.label_NKHK = new DevExpress.XtraReports.UI.XRLabel();
-            this.sqlDataSource2 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
             this.xrTableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -218,6 +216,8 @@
             this.xrTableCell73 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell74 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell75 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.label_NKHK = new DevExpress.XtraReports.UI.XRLabel();
+            this.sqlDataSource2 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
@@ -2207,7 +2207,7 @@
             this.xrLabel3.SizeF = new System.Drawing.SizeF(474.1333F, 58.42F);
             this.xrLabel3.StylePriority.UseFont = false;
             this.xrLabel3.StylePriority.UseTextAlignment = false;
-            this.xrLabel3.Text = "TRƯỞNG KHOA";
+            this.xrLabel3.Text = "TRƯỞNG PHÒNG\r\nKINH TẾ TÀI CHÍNH";
             this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // xrLabel2
@@ -2552,39 +2552,6 @@
             this.PageHeader.Dpi = 254F;
             this.PageHeader.HeightF = 397.2633F;
             this.PageHeader.Name = "PageHeader";
-            // 
-            // label_NKHK
-            // 
-            this.label_NKHK.Dpi = 254F;
-            this.label_NKHK.Font = new System.Drawing.Font("Times", 14F, System.Drawing.FontStyle.Bold);
-            this.label_NKHK.LocationFloat = new DevExpress.Utils.PointFloat(0F, 147.9667F);
-            this.label_NKHK.Multiline = true;
-            this.label_NKHK.Name = "label_NKHK";
-            this.label_NKHK.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-            this.label_NKHK.SizeF = new System.Drawing.SizeF(2870F, 58.41998F);
-            this.label_NKHK.StylePriority.UseFont = false;
-            this.label_NKHK.StylePriority.UseTextAlignment = false;
-            this.label_NKHK.Text = "HỌC KỲ 2 - NĂM HỌC 2021 - 2022";
-            this.label_NKHK.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-            // 
-            // sqlDataSource2
-            // 
-            this.sqlDataSource2.ConnectionName = "DefaultConnection";
-            this.sqlDataSource2.Name = "sqlDataSource2";
-            storedProcQuery2.Name = "sp_Report_TinhTienTroiGio";
-            queryParameter2.Name = "@maNKHK";
-            queryParameter2.Type = typeof(string);
-            queryParameter2.ValueInfo = "20212";
-            queryParameter3.Name = "@maNKHK_TRUOC";
-            queryParameter3.Type = typeof(string);
-            queryParameter3.ValueInfo = "20211";
-            storedProcQuery2.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
-            queryParameter2,
-            queryParameter3});
-            storedProcQuery2.StoredProcName = "sp_Report_TinhTienTroiGio";
-            this.sqlDataSource2.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
-            storedProcQuery2});
-            this.sqlDataSource2.ResultSchemaSerializable = resources.GetString("sqlDataSource2.ResultSchemaSerializable");
             // 
             // xrTable2
             // 
@@ -3119,6 +3086,39 @@
             this.xrTableCell75.Text = "Phải trả";
             this.xrTableCell75.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.xrTableCell75.Weight = 0.077083914029385511D;
+            // 
+            // label_NKHK
+            // 
+            this.label_NKHK.Dpi = 254F;
+            this.label_NKHK.Font = new System.Drawing.Font("Times", 14F, System.Drawing.FontStyle.Bold);
+            this.label_NKHK.LocationFloat = new DevExpress.Utils.PointFloat(0F, 147.9667F);
+            this.label_NKHK.Multiline = true;
+            this.label_NKHK.Name = "label_NKHK";
+            this.label_NKHK.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+            this.label_NKHK.SizeF = new System.Drawing.SizeF(2870F, 58.41998F);
+            this.label_NKHK.StylePriority.UseFont = false;
+            this.label_NKHK.StylePriority.UseTextAlignment = false;
+            this.label_NKHK.Text = "HỌC KỲ 2 - NĂM HỌC 2021 - 2022";
+            this.label_NKHK.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // sqlDataSource2
+            // 
+            this.sqlDataSource2.ConnectionName = "DefaultConnection";
+            this.sqlDataSource2.Name = "sqlDataSource2";
+            storedProcQuery2.Name = "sp_Report_TinhTienTroiGio";
+            queryParameter2.Name = "@maNKHK";
+            queryParameter2.Type = typeof(string);
+            queryParameter2.ValueInfo = "20212";
+            queryParameter3.Name = "@maNKHK_TRUOC";
+            queryParameter3.Type = typeof(string);
+            queryParameter3.ValueInfo = "20211";
+            storedProcQuery2.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
+            queryParameter2,
+            queryParameter3});
+            storedProcQuery2.StoredProcName = "sp_Report_TinhTienTroiGio";
+            this.sqlDataSource2.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            storedProcQuery2});
+            this.sqlDataSource2.ResultSchemaSerializable = resources.GetString("sqlDataSource2.ResultSchemaSerializable");
             // 
             // Report_ThanhToanGioGiang
             // 
