@@ -282,7 +282,15 @@ namespace THANHTOANTROIGIO.Controllers
                                     modelView.HSMonMoi = model.HSMonMoi = Math.Round(Double.TryParse(worksheet.Cells[row, 26].Value?.ToString(), out double_x) ? double_x : 1, 2);
                                     modelView.HSNgoaiGio = model.HSNgoaiGio = Math.Round(Double.TryParse(worksheet.Cells[row, 25].Value?.ToString(), out double_x) ? double_x : 1, 2);
                                     modelView.HSLopDongLT = model.HSLopDongLT = Math.Round(_lopDongLyThuyetService.getHeSo((int)model.SiSo), 2);
-                                    modelView.HSLopDongTH = model.HSLopDongTH = Math.Round(_lopDongThucHanhService.getHeSo(_connectionString, model.MaMH, (int)model.SiSo), 2);
+                                    if (model.SoNhomTH == 0)
+                                    {
+                                        modelView.HSLopDongTH = model.HSLopDongTH = null;
+                                    }
+                                    else
+                                    {
+                                        modelView.HSLopDongTH = model.HSLopDongTH = Math.Round(_lopDongThucHanhService.getHeSo(_connectionString, model.MaMH, (int)model.SiSo/model.SoNhomTH), 2);
+                                    }    
+                                 
                                     modelView.HSLTC = model.HSLTC = Math.Round(Double.TryParse(worksheet.Cells[row, 28].Value?.ToString(), out double_x) ? double_x : 1, 2);
 
                                     model.HSNhomTH = 0.5;

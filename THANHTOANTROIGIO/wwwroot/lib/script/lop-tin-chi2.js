@@ -652,7 +652,7 @@ function saveLTC(close) {
         return;
     }
 
-    if (hsLDTH.toString() == "") {
+    if (soNhomTH > 0 && (hsLDTH.toString() == "")) {
         $("#hsLDTH").focus();
         toastr.error("Vui lòng nhập hệ số LĐ TH", "Lỗi", { timeOut: 3000 });
         return;
@@ -685,6 +685,11 @@ function saveLTC(close) {
     if (tietTHTD.toString() == "") {
         $("#tietTHTD").focus();
         toastr.error("Vui lòng nhập tiết TH TD", "Lỗi", { timeOut: 3000 });
+        return;
+    }
+    if (tietTHQD > 0 && (soNhomTH == 0 || soNhomTH.toString() == "")) {
+        $("#soNhomTH").focus();
+        toastr.error("Vui lòng nhập số nhóm TH và số nhóm TH>0", "Lỗi", { timeOut: 3000 });
         return;
     }
     ltcAdd = {
@@ -801,8 +806,16 @@ function onKeyUpSoNhomTH() {
         $('#siSo').focus();
         return;
     }
-    var siSoNhomTH = siSo / soNhom;
-    getHeSoLopDongThucHanh(siSoNhomTH);
+    var siSoNhomTH;
+    if (soNhom == 0) {
+        getHeSoLopDongThucHanh(0);
+        return;
+    }
+    else {
+        siSoNhomTH = siSo / soNhom;
+        getHeSoLopDongThucHanh(siSoNhomTH);
+    }
+  
 }
 function onClickHSTH() {
     var siSo = document.getElementById("siSo").value;
@@ -817,8 +830,16 @@ function onClickHSTH() {
         $('#soNhomTH').focus();
         return;
     }
-    var siSoNhomTH = siSo / soNhom;
-    getHeSoLopDongThucHanh(siSoNhomTH);
+    var siSoNhomTH;
+    if (soNhom == 0) {
+        getHeSoLopDongThucHanh(0);
+        return;
+    }
+    else {
+        siSoNhomTH = siSo / soNhom;
+        getHeSoLopDongThucHanh(siSoNhomTH);
+    }
+   
 }
 function getHeSoLopDongLyThuyet(siSo) {
     $.ajax({
@@ -837,20 +858,27 @@ function getHeSoLopDongLyThuyet(siSo) {
     });
 }
 function getHeSoLopDongThucHanh(siSoNhomTH) {
-    $.ajax({
-        async: true,
-        type: 'GET',
-        data: { maMon: maMonHoc, siSo: siSoNhomTH },
-        url: '/lop-dong-thuc-hanh/he-so',
-        success: function (response) {
-            response = $.parseJSON(response);
-            $('#hsLDTH').val(response);
-        },
-        error: function () {
-            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+    if (siSoNhomTH == 0) {
+        $('#hsLDTH').val(null);
+        return;
+    }
+    else {
+        $.ajax({
+            async: true,
+            type: 'GET',
+            data: { maMon: maMonHoc, siSo: siSoNhomTH },
+            url: '/lop-dong-thuc-hanh/he-so',
+            success: function (response) {
+                response = $.parseJSON(response);
+                $('#hsLDTH').val(response);
+            },
+            error: function () {
+                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
 
-        }
-    });
+            }
+        });
+    }
+   
 }
 function loading() {
     $.ajax({

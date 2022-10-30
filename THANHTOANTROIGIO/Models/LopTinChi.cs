@@ -20,7 +20,7 @@ namespace THANHTOANTROIGIO.Models
         public int DonGia { get; set; }
         public double HSMonMoi { get; set; }
         public double HSNgoaiGio { get; set; }
-        public double HSLopDongTH { get; set; }
+        public double? HSLopDongTH { get; set; }
         public double HSLopDongLT { get; set; }
         public double HSLTC { get; set; }
         public double HSHocKy { get; set; }
@@ -83,7 +83,7 @@ namespace THANHTOANTROIGIO.Models
         public double HSLopDongLT { get; set; }
         public double HSNgoaiGio { get; set; }
         public double HSMonMoi { get; set; }
-        public double HSLopDongTH { get; set; }
+        public double? HSLopDongTH { get; set; }
         public double HSLTC { get; set; }  
         public double TietLTTD { get; set; }
         public double TietBTTD { get; set; }

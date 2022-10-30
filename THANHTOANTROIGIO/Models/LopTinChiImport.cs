@@ -20,7 +20,7 @@
         public double TietTHQD { get; set; }
         public double HSNgoaiGio { get; set; }
         public double HSMonMoi { get; set; }
-        public double HSLopDongTH { get; set; }
+        public double? HSLopDongTH { get; set; }
         public double HSLopDongLT { get; set; }
         public double HSLTC { get; set; }
         public double HSNhomTH { get; set; }
