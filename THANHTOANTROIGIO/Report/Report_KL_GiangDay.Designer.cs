@@ -1927,7 +1927,7 @@
             this.xrTableCell12.StylePriority.UseFont = false;
             this.xrTableCell12.StylePriority.UseForeColor = false;
             this.xrTableCell12.StylePriority.UseTextAlignment = false;
-            this.xrTableCell12.Text = "SỐ TIẾT THỰC GIẢNG";
+            this.xrTableCell12.Text = "SỐ TIẾT THỰC GIẢNG ĐƯỢC THANH TOÁN";
             this.xrTableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.xrTableCell12.Weight = 0.15234543472356318D;
             // 
