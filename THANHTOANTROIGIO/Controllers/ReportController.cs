@@ -98,6 +98,21 @@ namespace THANHTOANTROIGIO.Controllers
             ViewBag.Report = report;
             return View("Index1");
         }
+        [Route("ti-le-giang")]
+        [HttpGet]
+        public IActionResult TiLeGiang()
+        {
+            return View();
+        }
+        [Route("ti-le-giang")]
+        [HttpPost]
+        public IActionResult ReportTiLeGiang(string nienKhoa)
+        {
+            var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
+            var report = new Report_TiLe_GiangDay(_configuration.GetConnectionString("DefaultConnection"), _configuration.GetConnectionString("ReportConnection"), nienKhoa, _reportService);
+            ViewBag.Report = report;
+            return View("Index1");
+        }
 
     }
 }
