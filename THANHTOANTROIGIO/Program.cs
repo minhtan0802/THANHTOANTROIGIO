@@ -20,6 +20,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ThanhToanTroiGioEntities, ThanhToanTroiGioEntities>();
 builder.Services.AddScoped<DinhMucGiangService, DinhMucGiangService>();
 builder.Services.AddScoped<DinhMucNCKHService, DinhMucNCKHService>();
+builder.Services.AddScoped<NguoiKyService, NguoiKyService>();
 builder.Services.AddScoped<ThucHienNCKHService, ThucHienNCKHService>();
 builder.Services.AddScoped<KhoaService, KhoaService>();
 builder.Services.AddScoped<NienKhoaHocKyService, NienKhoaHocKyService>();
