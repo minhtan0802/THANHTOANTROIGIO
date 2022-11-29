@@ -55,7 +55,7 @@ namespace THANHTOANTROIGIO.Controllers
                 var checkMaChucVu = _context.ChucVus.Where(x => x.MaChucVu == chucVu.MaChucVu.Trim()).FirstOrDefault();
                 if (checkMaChucVu != null)
                 {
-                    return Json(new { success = false, message = "pk" });
+                    return Json(JsonConvert.SerializeObject(new { success = false, message = "pk" }));
                 }
                 var checkTenChucVu = _context.ChucVus.Where(x => x.TenChucVu.ToLower() == chucVu.TenChucVu.ToLower().Trim()).FirstOrDefault();
                 if (checkTenChucVu != null)
@@ -105,7 +105,7 @@ namespace THANHTOANTROIGIO.Controllers
                 {
                     var x = new SQLHelper(_connectionString).ExecuteString("EXEC [dbo].[updatePK] '" + maChucVu + "','" + model.MaChucVu.Trim() + "','ChucVu'");
                 }
-                return Json(JsonConvert.SerializeObject(new { success = true, data = chucVu }));
+                return Json(JsonConvert.SerializeObject(new { success = true, data = model }));
 
 
             }

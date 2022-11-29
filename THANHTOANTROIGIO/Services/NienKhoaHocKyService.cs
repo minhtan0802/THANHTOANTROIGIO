@@ -29,5 +29,15 @@ namespace THANHTOANTROIGIO.Services
             return list;
 
         }
+        public List<NienKhoaHocKy> GetDSNKHK()
+        {
+            var data = _context.NienKhoaHocKys.ToList();
+            return data;
+        }
+        public NienKhoaHocKy GoiYNKHK()
+        {
+            var data = _context.NienKhoaHocKys.OrderByDescending(x => x.MaNKHK).FirstOrDefault();
+            return data;
+        }
     }
 }

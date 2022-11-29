@@ -550,7 +550,7 @@
             // label_PGD
             // 
             this.label_PGD.Dpi = 254F;
-            this.label_PGD.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_PGD.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_PGD.LocationFloat = new DevExpress.Utils.PointFloat(2139.748F, 210.0298F);
             this.label_PGD.Multiline = true;
             this.label_PGD.Name = "label_PGD";
@@ -566,7 +566,7 @@
             this.xrLabel15.Dpi = 254F;
             this.xrLabel15.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[TruongKhoa]")});
-            this.xrLabel15.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrLabel15.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(1424.315F, 210.0298F);
             this.xrLabel15.Multiline = true;
             this.xrLabel15.Name = "xrLabel15";
@@ -580,7 +580,7 @@
             // label_TPGV
             // 
             this.label_TPGV.Dpi = 254F;
-            this.label_TPGV.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TPGV.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_TPGV.LocationFloat = new DevExpress.Utils.PointFloat(673.6152F, 210.0298F);
             this.label_TPGV.Multiline = true;
             this.label_TPGV.Name = "label_TPGV";
@@ -594,7 +594,7 @@
             // label_NguoiLapBang
             // 
             this.label_NguoiLapBang.Dpi = 254F;
-            this.label_NguoiLapBang.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_NguoiLapBang.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_NguoiLapBang.LocationFloat = new DevExpress.Utils.PointFloat(52.59424F, 210.0298F);
             this.label_NguoiLapBang.Multiline = true;
             this.label_NguoiLapBang.Name = "label_NguoiLapBang";

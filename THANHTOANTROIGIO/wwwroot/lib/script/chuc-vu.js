@@ -7,7 +7,6 @@ var row;
 $(document).ready(function () {
     table_ChucVu = $("#table_ChucVu").DataTable();
     init_table_ChucVu();
- /*   loading();*/
     $(document).on('shown.bs.modal', '#modalAddChucVu', function () {
         $('#maChucVu').focus();
     })
@@ -28,7 +27,7 @@ $(document).ready(function () {
     });
 
     $('#table_ChucVu').on('click', 'td.editor-edit', function (e) {
-        $("#titleAddMonHoc").html("Chỉnh sửa môn học");
+        $("#titleAddMonHoc").html("Chỉnh sửa chức vụ");
         row = table_ChucVu.row(this);
         maChucVu = table_ChucVu.cell(this, 0).data().trim();
         var dinhMucGiam = table_ChucVu.cell(this, 2).data();

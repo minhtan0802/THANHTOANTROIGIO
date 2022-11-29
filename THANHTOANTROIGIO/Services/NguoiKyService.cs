@@ -18,5 +18,11 @@ namespace THANHTOANTROIGIO.Services
             var data = new SQLHelper(connectionString).ExecuteQuery("get_NguoiKy", param);
             return data;
         }
+        public DataTable getChucVuNguoiKy(String connectionString)
+        {
+            List<SqlParameter> param = new List<SqlParameter>();
+            var data = new SQLHelper(connectionString).ExecuteQuery("sp_Get_ChucVu_Nguoi_Ky", param);
+            return data;
+        }
     }
 }

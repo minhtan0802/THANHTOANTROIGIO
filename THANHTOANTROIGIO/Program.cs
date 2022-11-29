@@ -38,6 +38,7 @@ builder.Services.AddScoped<ThucTapTotNghiepService, ThucTapTotNghiepService>();
 builder.Services.AddScoped<ReportService, ReportService>();
 builder.Services.AddScoped<AuthService, AuthService>();
 
+
 var authSettingsSection = builder.Configuration.GetSection("AuthSettings");
 builder.Services.Configure<AuthSettings>(authSettingsSection);
 var appSettings = authSettingsSection.Get<AuthSettings>();

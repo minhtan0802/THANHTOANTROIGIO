@@ -32,6 +32,15 @@ namespace THANHTOANTROIGIO.Controllers
             var data = _nguoiKyService.getDSNguoiKy(all, _configuration.GetConnectionString("DefaultConnection"));
             return Json(JsonConvert.SerializeObject(new {success=true, data=data}));
         }
+
+        [HttpGet]
+        [Route("ds-chuc-vu")]
+        public JsonResult GetDSChucVuNguoiKy()
+        {
+            var data = _nguoiKyService.getChucVuNguoiKy(_configuration.GetConnectionString("DefaultConnection"));
+            return Json(JsonConvert.SerializeObject(data));
+        }
+        
         [HttpPost]
         [Route("add")]
         public JsonResult ThemNguoiKy(NguoiKy model)
