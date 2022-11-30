@@ -116,7 +116,7 @@
             this.tableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.label_NKCH = new DevExpress.XtraReports.UI.XRLabel();
+            this.label_NKCH2 = new DevExpress.XtraReports.UI.XRLabel();
             this.tableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell17 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell18 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -196,7 +196,7 @@
             this.xrTableCell43 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell44 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell45 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrLabel10 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label_NCKH = new DevExpress.XtraReports.UI.XRLabel();
             this.xrTableCell53 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell59 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell60 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -1236,7 +1236,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.tableCell12.BorderWidth = 1F;
             this.tableCell12.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.label_NKCH});
+            this.label_NKCH2});
             this.tableCell12.Dpi = 254F;
             this.tableCell12.Font = new System.Drawing.Font("Times", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell12.ForeColor = System.Drawing.Color.Black;
@@ -1252,15 +1252,15 @@
             this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell12.Weight = 0.25975181331451941D;
             // 
-            // label_NKCH
+            // label_NKCH2
             // 
-            this.label_NKCH.Dpi = 254F;
-            this.label_NKCH.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-            this.label_NKCH.Multiline = true;
-            this.label_NKCH.Name = "label_NKCH";
-            this.label_NKCH.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-            this.label_NKCH.SizeF = new System.Drawing.SizeF(691.26F, 71.12F);
-            this.label_NKCH.Text = "NCKH năm 2022";
+            this.label_NKCH2.Dpi = 254F;
+            this.label_NKCH2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+            this.label_NKCH2.Multiline = true;
+            this.label_NKCH2.Name = "label_NKCH2";
+            this.label_NKCH2.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+            this.label_NKCH2.SizeF = new System.Drawing.SizeF(691.26F, 71.12F);
+            this.label_NKCH2.Text = "NCKH năm 2022";
             // 
             // tableCell16
             // 
@@ -2702,7 +2702,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTableCell45.BorderWidth = 1F;
             this.xrTableCell45.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel10});
+            this.label_NCKH});
             this.xrTableCell45.Dpi = 254F;
             this.xrTableCell45.Font = new System.Drawing.Font("Times", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell45.ForeColor = System.Drawing.Color.Black;
@@ -2718,15 +2718,15 @@
             this.xrTableCell45.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.xrTableCell45.Weight = 0.25975181331451941D;
             // 
-            // xrLabel10
+            // label_NCKH
             // 
-            this.xrLabel10.Dpi = 254F;
-            this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-            this.xrLabel10.Multiline = true;
-            this.xrLabel10.Name = "xrLabel10";
-            this.xrLabel10.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-            this.xrLabel10.SizeF = new System.Drawing.SizeF(691.26F, 71.12F);
-            this.xrLabel10.Text = "NCKH năm 2022";
+            this.label_NCKH.Dpi = 254F;
+            this.label_NCKH.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+            this.label_NCKH.Multiline = true;
+            this.label_NCKH.Name = "label_NCKH";
+            this.label_NCKH.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+            this.label_NCKH.SizeF = new System.Drawing.SizeF(691.26F, 71.12F);
+            this.label_NCKH.Text = "NCKH năm 2022";
             // 
             // xrTableCell53
             // 
@@ -3291,7 +3291,7 @@
         private DevExpress.XtraReports.UI.XRLabel xrLabel2;
         private DevExpress.XtraReports.UI.XRLabel xrLabel1;
         private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource2;
-        public DevExpress.XtraReports.UI.XRLabel label_NKCH;
+        public DevExpress.XtraReports.UI.XRLabel label_NKCH2;
         private DevExpress.XtraReports.UI.XRTable xrTable2;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow3;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell12;
@@ -3300,7 +3300,7 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell43;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell44;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell45;
-        public DevExpress.XtraReports.UI.XRLabel xrLabel10;
+        public DevExpress.XtraReports.UI.XRLabel label_NCKH;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell53;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell59;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell60;

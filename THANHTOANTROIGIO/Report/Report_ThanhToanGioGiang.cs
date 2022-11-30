@@ -48,7 +48,7 @@ namespace THANHTOANTROIGIO.Report
             this.label_PGD.Text = pgd;
             this.label_tpkttc.Text= tpkttc;
             this.label_NguoiLapBang.Text = nguoiLapBang;
-            this.label_NKCH.Text = "NCKH năm " + (int.Parse(maNKHK.Substring(0, 4)) + 1)+ "";
+            this.label_NCKH.Text = "NCKH năm " + (int.Parse(maNKHK.Substring(0, 4)) + 1)+ "";
             //NCKH chưa fix vì chưa rõ nghiệp vụ
             this.sqlDataSource2.Fill();
         }

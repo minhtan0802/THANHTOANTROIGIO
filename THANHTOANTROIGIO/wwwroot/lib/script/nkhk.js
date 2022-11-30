@@ -9,7 +9,7 @@ var flagEditNKHK = false;
 $(document).ready(function () {
     /* loading();*/
     init_table_NKHK();
-   // init_Select_NienKhoa();
+    // init_Select_NienKhoa();
     // init_Select_NKHK();
     $('#select_NKHK').select2({
         dropdownParent: $('#modalAddNKHK'),
@@ -68,50 +68,45 @@ $(document).ready(function () {
     });
 
     $('#table_NKHK').on('click', 'td.editor-delete', function () {
-        if (canEdit) {
-            var id = table_NKHK.cell(this, 0).data();
-            swal({
-                title: "Xác nhận",
-                text: "Bạn có chắc chắn muốn xóa Niên khóa học kỳ này?",
-                type: 'warning',
-                buttons: true,
-                dangerMode: true
-            }).then((willDelete) => {
-                if (willDelete) {
-                    var row = table_NKHK.row(this);
-                    $.ajax({
-                        async: true,
-                        type: 'POST',
-                        data: { id: id },
-                        url: '/nguoi-ky/delete',
-                        success: function (response) {
-                            response = $.parseJSON(response);
-                            if (response.success == true) {
-                                toastr.success("Xóa Niên khóa học kỳ thành công", "Thông báo", { timeOut: 3000 });
-                                init_table_NKHK();
-                            } else {
-                                toastr.error(response.message, "Lỗi", { timeOut: 5000 });
-                            }
+        var MaNKHK = table_NKHK.cell(this, 0).data();
+        swal({
+            title: "Xác nhận",
+            text: "Bạn có chắc chắn muốn xóa Niên khóa học kỳ này?",
+            type: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                var row = table_NKHK.row(this);
+                $.ajax({
+                    async: true,
+                    type: 'POST',
+                    data: { MaNKHK: MaNKHK },
+                    url: '/nien-khoa-hoc-ky/delete',
+                    success: function (response) {
+                        response = $.parseJSON(response);
+                        if (response.success == true) {
+                            toastr.success("Xóa Niên khóa học kỳ thành công", "Thông báo", { timeOut: 3000 });
+                            init_table_NKHK();
+                        } else {
+                            toastr.error(response.message, "Lỗi", { timeOut: 5000 });
                         }
-                    });
+                    }
+                });
 
-                };
-            });
-        }
-        else {
-            return;
-        }
+            };
+        });
 
     });
     // Open modal on page load
     $("#btnAddNKHK").click(function () {
         flagEdit = "";
-     //   init_Select_NienKhoa();
+        //   init_Select_NienKhoa();
         $('#select_NKHK').select2({
             dropdownParent: $('#modalAddNKHK'),
         });
         $("#titleAddNKHK").html("Thêm Niên khóa học kỳ");
-        document.getElementById("btnSaveNKHK").style.display = "inline";
+        //  document.getElementById("btnSaveNKHK").style.display = "inline";
         clearForm();
         $(document).on('shown.bs.modal', '#modalAddNKHK', function () {
             $('#tenNienKhoa').focus();
@@ -145,86 +140,48 @@ $(document).ready(function () {
 
 });
 function saveNKHK(close) {
-    var hoTen = $("#hoTen").val();
-    var kyHieu = $("#select_NKHK").val();
-    var chucVu = $('#select_NKHK :selected').text();
-    var nkhk = $("#select_HocKy").val();
-    if (hoTen.toString().trim() == "") {
-        $("#hoTen").focus();
-        toastr.error("Vui lòng nhập họ tên", "Lỗi", { timeOut: 2500 });
+    var tenNienKhoa = $("#tenNienKhoa").val();
+    var hocKy = $('#select_HocKy :selected').text();
+    if (tenNienKhoa.toString().trim() == "") {
+        $("#tenNienKhoa").focus();
+        toastr.error("Vui lòng nhập tên Niên khóa", "Lỗi", { timeOut: 2500 });
         return;
     }
-    var nguoiKy = {
-        id: 0,
-        HoTen: hoTen,
-        KyHieu: kyHieu,
-        NKHK: chucVu,
-        MaNKHK: nkhk
+    var model = {
+        MaNKHK: 0,
+        TenHocKy: hocKy,
+        TenNienKhoa: tenNienKhoa
     };
-    if (!flagEdit) {
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: { model: nguoiKy },
-            url: '/nguoi-ky/add',
-            success: function (response) {
-                response = $.parseJSON(response);
-                if (response.success == true) {
-                    // var ldltFull = { MaNKHK: maNKHKAdd, TenNKHK: tenNKHK, DonGia: donGia };
-                    init_table_NKHK();
-                    toastr.success("Thêm Niên khóa học kỳ thành công", "Thông báo", { timeOut: 2500 });
-                    if (close) {
-                        $('#modalAddNKHK').modal('hide');
-                    }
-                }
-                else {
-                    if (response.message == "pk") {
-                        $("#hoTen").focus();
-                        toastr.error(response.message, "Thêm Niên khóa học kỳ thất bại", { timeOut: 2500 });
-                        return;
-                    }
-                    toastr.error(response.message, "Thêm Niên khóa học kỳ thất bại", { timeOut: 2500 });
-                }
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
-            }
 
-        });
-    }
-    else {
-        nguoiKy.id = table_NKHK.cell(row, 0).data();
-      
-        $.ajax({
-            async: true,
-            type: 'POST',
-            data: { model: nguoiKy },
-            url: '/nguoi-ky/edit',
-            success: function (response) {
-                response = $.parseJSON(response);
-                if (response.success == true) {
-                    toastr.success("Chỉnh sửa Niên khóa học kỳ thành công", "Thông báo", { timeOut: 2500 });
-                    row.data(response.data);
+    $.ajax({
+        async: true,
+        type: 'POST',
+        data: { model: model },
+        url: '/nien-khoa-hoc-ky/add',
+        success: function (response) {
+            response = $.parseJSON(response);
+            if (response.success == true) {
+                // var ldltFull = { MaNKHK: maNKHKAdd, TenNKHK: tenNKHK, DonGia: donGia };
+                table_NKHK.row.add(response.data).draw(false);;
+                toastr.success("Thêm Niên khóa học kỳ thành công", "Thông báo", { timeOut: 2500 });
+                if (close) {
                     $('#modalAddNKHK').modal('hide');
-                    flagEdit = false;
-                    flagEditNKHK = false;
-                    init_table_NKHK();
-                    return;
                 }
-                else {
-                    $("#hoTen").focus();
-                    toastr.error(response.message, "Chỉnh sửa Niên khóa học kỳ thất bại: ", { timeOut: 2500 });
-                    return;
-                    
-                   
-                }
-            },
-            error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
             }
+            else {
+                if (response.message == "pk") {
+                    $("#tenNienKhoa").focus();
+                    toastr.error(response.message, "Thêm Niên khóa học kỳ thất bại", { timeOut: 2500 });
+                    return;
+                }
+                toastr.error(response.message, "Thêm Niên khóa học kỳ thất bại", { timeOut: 2500 });
+            }
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
 
-        });
-    }
+    });
 }
 function loading() {
     $.ajax({
@@ -263,17 +220,17 @@ function init_table_NKHK() {
                         .on('click', function () {
                             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-                            if (showAll == 1) {
-                                $("#btnAddNKHK").attr("disabled", "disabled");
-                                canEdit = false;
-                                $.each(listBtnEditDelete, function (i, item) {
-                                    item.setAttribute("disabled", "disabled");
-                                });
-                            }
-                            else {
-                                $("#btnAddNKHK").removeAttr("disabled");
-                                canEdit = true;
-                            }
+                            /*          if (showAll == 1) {
+                                          $("#btnAddNKHK").attr("disabled", "disabled");
+                                          canEdit = false;
+                                          $.each(listBtnEditDelete, function (i, item) {
+                                              item.setAttribute("disabled", "disabled");
+                                          });
+                                      }
+                                      else {
+                                          $("#btnAddNKHK").removeAttr("disabled");
+                                          canEdit = true;
+                                      }*/
                         });
                     $('.paginate_button', this.api().table().container())
                         .on('click', function () {
@@ -317,17 +274,17 @@ function init_table_NKHK() {
             );
             var listBtnEditDelete = document.getElementsByClassName("edit");
 
-            if (showAll == 1) {
-                $("#btnAddNKHK").attr("disabled", "disabled");
-                canEdit = false;
-                $.each(listBtnEditDelete, function (i, item) {
-                    item.setAttribute("disabled", "disabled");
-                });
-            }
-            else {
-                $("#btnAddNKHK").removeAttr("disabled");
-                canEdit = true;
-            }
+            /*   if (showAll == 1) {
+                   $("#btnAddNKHK").attr("disabled", "disabled");
+                   canEdit = false;
+                   $.each(listBtnEditDelete, function (i, item) {
+                       item.setAttribute("disabled", "disabled");
+                   });
+               }
+               else {
+                   $("#btnAddNKHK").removeAttr("disabled");
+                   canEdit = true;
+               }*/
         },
         error: function () {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
@@ -422,14 +379,14 @@ function onChange_Select_HocKy(event) {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
-}*/
+*//*}*//*
 function init_Select_NKHK() {
     $("#select_NKHK").empty();
     $.ajax({
         async: true,
         type: 'GET',
         data: "",
-        url: '/nguoi-ky/ds-chuc-vu',
+        url: '/nien-khoa-hoc-ky/ds-chuc-vu',
         success: function (response) {
             console.log(response);
             response = $.parseJSON(response);
@@ -447,4 +404,4 @@ function init_Select_NKHK() {
             toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
         }
     });
-}
+}*/

@@ -8,9 +8,11 @@ namespace THANHTOANTROIGIO.Services
     public class NienKhoaHocKyService
     {
         private ThanhToanTroiGioEntities _context;
-        public NienKhoaHocKyService(ThanhToanTroiGioEntities context)
+        private IConfiguration _configuration;
+        public NienKhoaHocKyService(ThanhToanTroiGioEntities context,IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         public IEnumerable<Object> getNienKhoa()
         {

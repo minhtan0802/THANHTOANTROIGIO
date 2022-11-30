@@ -106,10 +106,10 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("ti-le-giang")]
         [HttpPost]
-        public IActionResult ReportTiLeGiang(string nienKhoa)
+        public IActionResult ReportTiLeGiang(int nam)
         {
             var user = _authService.GetCurrentAuthUser(HttpContext.Session.GetString("user"));
-            var report = new Report_TiLe_GiangDay(_configuration.GetConnectionString("DefaultConnection"), _configuration.GetConnectionString("ReportConnection"), nienKhoa, _reportService);
+            var report = new Report_TiLe_GiangDay(_configuration.GetConnectionString("DefaultConnection"), _configuration.GetConnectionString("ReportConnection"), nam, _reportService);
             ViewBag.Report = report;
             return View("Index1");
         }

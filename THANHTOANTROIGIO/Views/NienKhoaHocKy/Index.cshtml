@@ -54,7 +54,7 @@
 <div class=".container-fluid">
     <div class="row" style="height:600px">
         <div class="column" style="width:100%">
-            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH NGƯỜI KÝ</label>
+            <label style="display: flex; font-size: 1.3rem; justify-content: center;align-items: center;">DANH SÁCH NIÊN KHÓA HỌC KỲ</label>
             <button type="button" class="btn btn-primary" id="btnAddNKHK">
                 Thêm
             </button>
@@ -86,8 +86,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btnCloseNKHK">Thoát</button>
-                            <button type="button" class="btn btn-primary" id="btnSaveNKHK" onclick="saveNKHK(false)">Lưu</button>
-                            @*  <button type="button" class="btn btn-primary" id="btnSaveCloseNKHK" onclick="saveNKHK(true)">Lưu và thoát</button>*@
+                           @* <button type="button" class="btn btn-primary" id="btnSaveNKHK" onclick="saveNKHK(false)">Lưu</button>*@
+                            <button type="button" class="btn btn-primary" id="btnSaveCloseNKHK" onclick="saveNKHK(true)">Lưu và thoát</button>
                         </div>
                     </div>
                 </div>
@@ -108,8 +108,8 @@
             </div>
 
             <br />  <br />
-            <input type="checkbox" onchange="showAllNKHK()" id="showAll">
-            <label for="validationDefault01" class="form-label">Hiển thị tất cả</label>
+         @*   <input type="checkbox" onchange="showAllNKHK()" id="showAll">
+            <label for="validationDefault01" class="form-label">Hiển thị tất cả</label>*@
             <label id="notify" style="display: none;color: red;font-style: italic;font-size: 10pt;">* Ở chế độ hiển thị tất cả, bạn không thể thêm, chỉnh sửa, xóa người ký!</label>
             <table id="table_NKHK" class="display" style="width:100%">
                 <thead>

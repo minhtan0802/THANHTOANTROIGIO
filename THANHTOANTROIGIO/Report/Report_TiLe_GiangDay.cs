@@ -11,15 +11,14 @@ namespace THANHTOANTROIGIO.Report
 {
     public partial class Report_TiLe_GiangDay : DevExpress.XtraReports.UI.XtraReport
     {
-        public Report_TiLe_GiangDay(String connectionString, String connectionStringReport, string nienKhoa, ReportService _reportService)
+        public Report_TiLe_GiangDay(String connectionString, String connectionStringReport, int nam, ReportService _reportService)
         {
             InitializeComponent();
-            var nienKhoaSplit = nienKhoa.Split('-')[0];
-            var hocKy1 = nienKhoaSplit + '1';
-            var hocKy2 = nienKhoaSplit + '2';
-            this.sqlDataSource1.Connection.ConnectionString = connectionStringReport;
-            this.sqlDataSource1.Queries[0].Parameters[0].Value = hocKy1;
-            this.sqlDataSource1.Queries[0].Parameters[1].Value = hocKy2;
+            var hocKy1 = nam + "1";
+            var hocKy2 = (nam-1) + "2";
+            this.sqlDataSource2.Connection.ConnectionString = connectionStringReport;
+            this.sqlDataSource2.Queries[0].Parameters[0].Value = hocKy1;
+            this.sqlDataSource2.Queries[0].Parameters[1].Value = hocKy2;
 
             string nguoiLapBang = "";
             string tenHocKy = "";
@@ -27,23 +26,25 @@ namespace THANHTOANTROIGIO.Report
             string pgd = "";
             List<SqlParameter> param = new List<SqlParameter>();
             var Sql = new SQLHelper(connectionString);
-            param.Add(new SqlParameter("@MaNKHK", hocKy2));
+            param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "TPGV"));
             tpgv = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
             param.Clear();
-            param.Add(new SqlParameter("@MaNKHK", hocKy2));
+            param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "PGD"));
-            pgd = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+            var pgdDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            pgd = pgdDataTable.Rows.Count>0?pgdDataTable.Rows[0][3].ToString():"";
             param.Clear();
-            param.Add(new SqlParameter("@MaNKHK", hocKy2));
+            param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "NLB"));
             nguoiLapBang = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
-            tenHocKy += " NIÊN KHÓA " + nienKhoa;
-            this.label_NKHK.Text = tenHocKy;
+            this.label_HK2.Text = "HỌC KÌ II NĂM HỌC "+(nam-1)+"-"+nam;
+            this.label_HK1.Text = "HỌC KÌ I NĂM HỌC " + nam + "-" + (nam + 1);
+            this.label_NKHK.Text = "NĂM "+nam;
             this.label_TPGV.Text = tpgv;
             this.label_PGD.Text = pgd;
             this.label_NguoiLapBang.Text = nguoiLapBang;
-            this.sqlDataSource1.Fill();
+            this.sqlDataSource2.Fill();
         }
     }
 }
