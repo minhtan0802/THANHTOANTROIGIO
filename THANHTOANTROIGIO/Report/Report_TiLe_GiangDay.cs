@@ -28,7 +28,10 @@ namespace THANHTOANTROIGIO.Report
             var Sql = new SQLHelper(connectionString);
             param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "TPGV"));
-            tpgv = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+
+            var tpgvDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            tpgv = tpgvDataTable.Rows.Count > 0 ? tpgvDataTable.Rows[0][3].ToString() : "";
+
             param.Clear();
             param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "PGD"));
@@ -37,7 +40,10 @@ namespace THANHTOANTROIGIO.Report
             param.Clear();
             param.Add(new SqlParameter("@MaNKHK", hocKy1));
             param.Add(new SqlParameter("@KyHieu", "NLB"));
-            nguoiLapBang = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+
+            var nguoiLapBangDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+
+            nguoiLapBang = pgdDataTable.Rows.Count > 0?pgdDataTable.Rows[0][3].ToString():"";
             this.label_HK2.Text = "HỌC KÌ II NĂM HỌC "+(nam-1)+"-"+nam;
             this.label_HK1.Text = "HỌC KÌ I NĂM HỌC " + nam + "-" + (nam + 1);
             this.label_NKHK.Text = "NĂM "+nam;
