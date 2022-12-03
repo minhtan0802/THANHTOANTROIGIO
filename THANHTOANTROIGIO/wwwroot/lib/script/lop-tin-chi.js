@@ -728,7 +728,7 @@ function saveLTC(close) {
             success: function (response) {
                 response = $.parseJSON(response);
                 if (response.success == true) {
-                    toastr.success('Thông báo', 'Thêm lớp tín chỉ thành công!', { timeOut: 3000 });
+                    toastr.success('Thêm lớp tín chỉ thành công!', 'Thông báo', { timeOut: 3000 });
 
                     maLTC = response.data.MaLTC;
                     console.log("Ma LTC: " + maLTC);
@@ -757,7 +757,7 @@ function saveLTC(close) {
             success: function (response) {
                 response = $.parseJSON(response);
                 if (response.success = true) {
-                    toastr.success('Thông báo', 'Chỉnh sửa lớp tín chỉ thành công!', { timeOut: 3000 });
+                    toastr.success('Chỉnh sửa lớp tín chỉ thành công!', 'Thông báo', { timeOut: 3000 });
                     if (close) {
                         $('#modalAddLTC').modal('hide');
                     }
@@ -781,11 +781,11 @@ function saveLTC(close) {
                     table_LTC.cell(row, 15).data(tenBac);
                 }
                 else {
-                    toastr.success('Lỗi', 'Chỉnh sửa lớp tín chỉ thất bại ' + response.message, { timeOut: 3000 });
+                    toastr.success('Chỉnh sửa lớp tín chỉ thất bại ' + response.message, 'Lỗi', { timeOut: 3000 });
                 }
             },
             error: function () {
-                toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+                toastr.error('Error Alert', 'Lỗi rồi', { timeOut: 3000 });
             }
         });
     }
