@@ -8,6 +8,7 @@ using THANHTOANTROIGIO.Services;
 namespace THANHTOANTROIGIO.Controllers
 {
     [Route("nguoi-ky")]
+    [AuthorizeUser]
     public class NguoiKyController : Controller
     {
         private readonly IConfiguration _configuration;

@@ -36,6 +36,10 @@ namespace THANHTOANTROIGIO.Controllers
         [Route("ds-giang-vien")]
         public JsonResult AjaxMethod_GV(BoMon model)
         {
+            if(model.MaBoMon is null)
+            {
+                return Json(JsonConvert.SerializeObject(""));
+            }
             var data = _giangVienService.getListGiangVien(model.MaBoMon.Trim(), _connectionString);
             
             return Json(JsonConvert.SerializeObject(data));

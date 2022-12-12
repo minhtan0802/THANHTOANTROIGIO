@@ -144,6 +144,20 @@ function onChange_Select_GV(event) {
     chucVu = $("#select_GV option:selected").attr("chucVu");
     $("#chucDanh").val(chucDanh);
     $("#chucVu").val(chucVu);
+    $.ajax({
+        async: false,
+        type: 'GET',
+        data: { MaGV: maGV },
+        url: '/chuc-vu/dinh-muc',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $("#dinhMucGiang").val(response.dinhMuc);
+            $("#ghiChu").val(response.ghiChu);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
 }
 
 /////
@@ -253,8 +267,22 @@ function loading() {
 function initFormAdd() {
     $("#select_GV").prop("selectedIndex", 0);
     $("#select_GV").removeAttr("disabled");
-    $("#dinhMucGiang").val(null);
-    $("#ghiChu").val("");
+    $.ajax({
+        async: false,
+        type: 'GET',
+        data: { MaGV: maGV },
+        url: '/chuc-vu/dinh-muc',
+        success: function (response) {
+            response = $.parseJSON(response);
+            $("#dinhMucGiang").val(response.dinhMuc);
+            $("#ghiChu").val(response.ghiChu);
+        },
+        error: function () {
+            toastr.error('Lỗi rồi', 'Error Alert', { timeOut: 3000 });
+        }
+    });
+/*    $("#dinhMucGiang").val(null);
+    $("#ghiChu").val("");*/
 
 }
 function getListDMG() {

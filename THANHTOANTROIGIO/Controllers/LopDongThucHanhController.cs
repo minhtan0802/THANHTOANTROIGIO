@@ -8,6 +8,7 @@ using THANHTOANTROIGIO.Services;
 namespace THANHTOANTROIGIO.Controllers
 {
     [Route("lop-dong-thuc-hanh")]
+    [AuthorizeUser]
     public class LopDongThucHanhController : Controller
     {
         private readonly LopDongThucHanhService _lopDongThucHanhService;

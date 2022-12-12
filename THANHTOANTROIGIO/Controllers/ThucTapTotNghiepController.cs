@@ -12,6 +12,7 @@ using THANHTOANTROIGIO.Services;
 namespace THANHTOANTROIGIO.Controllers
 {
     [Route("thuc-tap-tot-nghiep")]
+    [AuthorizeUser]
     public class ThucTapTotNghiepController : Controller
     {
         private readonly ThucTapTotNghiepService _thucTapTotNghiepService;

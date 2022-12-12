@@ -43,6 +43,17 @@ namespace THANHTOANTROIGIO.Controllers
             var data = _chucVuService.getChucVuByMaGV(model.MaGiangVien);
             return Json(JsonConvert.SerializeObject(data));
         }
+        [HttpGet]
+        [Route("dinh-muc")]
+        public JsonResult getDinhMucByMaGV(String MaGV)
+        {
+            var maChucVu = _chucVuService.getChucVuByMaGV(MaGV);
+            var chucVu = _context.ChucVus.Where(x => x.MaChucVu== maChucVu).FirstOrDefault();
+            var dinhMuc = Math.Round(135 * (1 - chucVu.DinhMucGiam),2);
+            var phanTram = Math.Round((1 - chucVu.DinhMucGiam) * 100,2);
+            var ghiChu = chucVu.DinhMucGiam == 0 ? "" : "Thực hiện " + phanTram + "% định mức giảng dạy";
+            return Json(JsonConvert.SerializeObject(new {dinhMuc=dinhMuc,ghiChu=ghiChu}));
+        }
         [Route("add")]
         [HttpPost]
         public JsonResult themChucVu(ChucVu chucVu)
