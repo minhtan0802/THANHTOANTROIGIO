@@ -2582,7 +2582,9 @@
             this.label_PGD,
             this.xrTable2});
             this.ReportFooter.HeightF = 152.6664F;
+            this.ReportFooter.KeepTogether = true;
             this.ReportFooter.Name = "ReportFooter";
+            this.ReportFooter.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
             // 
             // xrLabel1
             // 

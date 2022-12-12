@@ -20,27 +20,25 @@ namespace THANHTOANTROIGIO.Report
             string tenHocKy = "";
             string tenNienKhoa = "";
             string tpgv = "";
-            string pgd = "";
+            string tptc = "";
             tenHocKy = _reportService.GetTenHocKy(maNKHK);
             tenNienKhoa = _reportService.GetTenNienKhoa(maNKHK);
             List<SqlParameter> param = new List<SqlParameter>();
             var Sql = new SQLHelper(connectionString);
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "TPGV"));
-            tpgv = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+
+            var tpgvDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            tpgv = tpgvDataTable.Rows.Count > 0 ? tpgvDataTable.Rows[0][3].ToString() : "";
             param.Clear();
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
-            param.Add(new SqlParameter("@KyHieu", "PGD"));
-            pgd = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
-            param.Clear();
-            param.Add(new SqlParameter("@MaNKHK", maNKHK));
-            param.Add(new SqlParameter("@KyHieu", "NLB"));
-            nguoiLapBang = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+            param.Add(new SqlParameter("@KyHieu", "TPTC"));
+            var tptcDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            tptc = tptcDataTable.Rows.Count > 0 ? tptcDataTable.Rows[0][3].ToString() : "";
             tenHocKy += " Năm học " + tenNienKhoa;
             this.label_NKHK.Text = tenHocKy;
-            /*   this.label_TPGV.Text = tpgv;
-               this.label_PGD.Text = pgd;
-               this.label_NguoiLapBang.Text = nguoiLapBang;*/
+            this.label_TPTC.Text = tpgv;
+            this.label_TPTC.Text = tptc;
             this.sqlDataSource1.Fill();
         }
     }

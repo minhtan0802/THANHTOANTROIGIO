@@ -2779,6 +2779,7 @@
             this.xrTable4});
             this.GroupFooter3.Dpi = 254F;
             this.GroupFooter3.HeightF = 399.6832F;
+            this.GroupFooter3.KeepTogether = true;
             this.GroupFooter3.Level = 2;
             this.GroupFooter3.Name = "GroupFooter3";
             this.GroupFooter3.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
@@ -3226,7 +3227,7 @@
             this.Dpi = 254F;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
             this.Landscape = true;
-            this.Margins = new System.Drawing.Printing.Margins(51, 40, 51, 64);
+            this.Margins = new System.Drawing.Printing.Margins(47, 40, 51, 64);
             this.PageHeight = 2100;
             this.PageWidth = 2970;
             this.PaperKind = System.Drawing.Printing.PaperKind.A4;

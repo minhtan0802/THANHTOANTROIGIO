@@ -27,20 +27,18 @@ namespace THANHTOANTROIGIO.Report
             var Sql = new SQLHelper(connectionString);
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "TPGV"));
-            tpgv = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+
+            var tpgvDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            tpgv = tpgvDataTable.Rows.Count > 0 ? tpgvDataTable.Rows[0][3].ToString() : "";
             param.Clear();
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "PGD"));
-            pgd = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
-            param.Clear();
-            param.Add(new SqlParameter("@MaNKHK", maNKHK));
-            param.Add(new SqlParameter("@KyHieu", "NLB"));
-            nguoiLapBang = Sql.ExecuteQuery("sp_Get_NguoiKy", param).Rows[0][3].ToString();
+            var pdgDataTale = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
+            pgd = pdgDataTale.Rows.Count > 0 ? pdgDataTale.Rows[0][3].ToString() : "";
             tenHocKy += " Năm học " + tenNienKhoa;
             this.label_NKHK.Text = tenHocKy;
-         /*   this.label_TPGV.Text = tpgv;
+            this.label_TPGV.Text = tpgv;
             this.label_PGD.Text = pgd;
-            this.label_NguoiLapBang.Text = nguoiLapBang;*/
             this.sqlDataSource1.Fill();
         }
     }

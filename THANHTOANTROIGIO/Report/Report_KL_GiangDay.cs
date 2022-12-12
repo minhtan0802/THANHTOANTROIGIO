@@ -42,7 +42,7 @@ namespace THANHTOANTROIGIO.Report
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "NLB"));
             var nlbDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
-            nguoiLapBang = nlbDataTable.Rows.Count > 0 ? pgdDataTable.Rows[0][3].ToString() : "";
+            nguoiLapBang = nlbDataTable.Rows.Count > 0 ? nlbDataTable.Rows[0][3].ToString() : "";
             tenHocKy += " Năm học " + tenNienKhoa;
             this.label_NKHK.Text = tenHocKy;
             this.label_TPGV.Text = tpgv;

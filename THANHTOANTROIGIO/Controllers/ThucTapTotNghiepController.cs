@@ -275,12 +275,16 @@ namespace THANHTOANTROIGIO.Controllers
                             }
                         }
                         rowStart += 1;
-                        List<HuongDanTTTN> list = new List<HuongDanTTTN>();
+                        List<HuongDanTTTNImport> list = new List<HuongDanTTTNImport>();
                         for (int row = rowStart; row < rowEnd; row++)
                         {
-                            HuongDanTTTN huongDanTTTN = new HuongDanTTTN(
-                              worksheet.Cells[row, 1].Value?.ToString().Trim(),
-                              maNKHK,
+                            var hoTen = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                            var length = hoTen.Split(' ').Length;
+                            var tenGV = hoTen.Split(' ')[length - 1];
+                            var hoGV = hoTen.Substring(0, hoTen.Length - tenGV.Length).Trim();
+                            HuongDanTTTNImport huongDanTTTN = new HuongDanTTTNImport(
+                              worksheet.Cells[row, 1].Value?.ToString().Trim(), maNKHK, hoGV,tenGV,
+                              
                               double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
                                double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
                                 worksheet.Cells[row, 3].Value?.ToString().Trim(),
@@ -319,7 +323,7 @@ namespace THANHTOANTROIGIO.Controllers
         }
         [Route("import-file")]
         [HttpPost]
-        public JsonResult import([FromBody] List<HuongDanTTTN> listImport)
+        public JsonResult import([FromBody] List<HuongDanTTTNImport> listImport)
         {
             var convert = new ListToDataTableConverter();
             var dataTable = convert.ToDataTable(listImport);

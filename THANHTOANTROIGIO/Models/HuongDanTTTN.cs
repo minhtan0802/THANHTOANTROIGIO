@@ -51,5 +51,32 @@ namespace THANHTOANTROIGIO.Models
             HSHuongDan = hSHuongDan;
         }
     }
+    public class HuongDanTTTNImport
+    {
+        public String MaGV { get; set; }
+        public String MaNKHK { get; set; }
+        public String HoGV { get; set; }
+        public String TenGV { get; set; }
+        public double HSPhanBien { get; set; }
+        public double SoSinhVienPB { get; set; }
+        public String Lop { get; set; }
+        public double SoSinhVienHD { get; set; }
+        public int SoTuan { get; set; }
+        public double HSHuongDan { get; set; }
+
+        public HuongDanTTTNImport(string maGV,string maNKHK, string hoGV,string tenGV, double hSPhanBien, double soSinhVienPB, string lop, double soSinhVienHD, int soTuan, double hSHuongDan)
+        {
+            MaGV = maGV;
+            MaNKHK = maNKHK;
+            HoGV = hoGV;
+            TenGV = tenGV;
+            HSPhanBien = hSPhanBien;
+            SoSinhVienPB = soSinhVienPB;
+            Lop = lop;
+            SoSinhVienHD = soSinhVienHD;
+            SoTuan = soTuan;
+            HSHuongDan = hSHuongDan;
+        }
+    }
 
 }

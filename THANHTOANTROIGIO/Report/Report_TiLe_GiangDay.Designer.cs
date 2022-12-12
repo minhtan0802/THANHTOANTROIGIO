@@ -87,7 +87,6 @@
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel5 = new DevExpress.XtraReports.UI.XRLabel();
-            this.label2 = new DevExpress.XtraReports.UI.XRLabel();
             this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
             this.GroupCaption1 = new DevExpress.XtraReports.UI.XRControlStyle();
@@ -587,14 +586,14 @@
             this.xrLabel4,
             this.xrLabel3,
             this.xrLabel2,
-            this.xrLabel5,
-            this.label2});
+            this.xrLabel5});
             this.GroupFooter1.Dpi = 254F;
             this.GroupFooter1.GroupUnion = DevExpress.XtraReports.UI.GroupFooterUnion.WithLastDetail;
             this.GroupFooter1.HeightF = 283.2615F;
+            this.GroupFooter1.KeepTogether = true;
             this.GroupFooter1.Level = 1;
             this.GroupFooter1.Name = "GroupFooter1";
-            this.GroupFooter1.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBandExceptLastEntry;
+            this.GroupFooter1.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
             // 
             // label_PGD
             // 
@@ -703,16 +702,6 @@
             this.xrLabel5.SizeF = new System.Drawing.SizeF(400.5444F, 58.42F);
             this.xrLabel5.StylePriority.UseFont = false;
             this.xrLabel5.Text = "NGƯỜI LẬP BẢNG";
-            // 
-            // label2
-            // 
-            this.label2.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.label2.Dpi = 254F;
-            this.label2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-            this.label2.Name = "label2";
-            this.label2.SizeF = new System.Drawing.SizeF(2770F, 5.2832F);
-            this.label2.StyleName = "GroupFooterBackground3";
-            this.label2.StylePriority.UseBorders = false;
             // 
             // sqlDataSource1
             // 
@@ -861,7 +850,7 @@
             // 
             this.xrLabel1.Dpi = 254F;
             this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Concat(\'THỐNG KÊ SỐ TIẾT GIẢNG DẠY CỦA KHOA \',Upper([TenKhoa] ))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Concat(\'THỐNG KÊ TỈ LỆ GIỜ TRỘI CỦA KHOA \',Upper([TenKhoa] ))")});
             this.xrLabel1.Font = new System.Drawing.Font("Times", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrLabel1.ForeColor = System.Drawing.Color.Black;
             this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(1.999975F, 12.7F);
@@ -1228,7 +1217,6 @@
         private DevExpress.XtraReports.UI.XRTableCell tableCell16;
         private DevExpress.XtraReports.UI.XRTableCell tableCell17;
         private DevExpress.XtraReports.UI.GroupFooterBand GroupFooter1;
-        private DevExpress.XtraReports.UI.XRLabel label2;
         private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
         private DevExpress.XtraReports.UI.XRControlStyle Title;
         private DevExpress.XtraReports.UI.XRControlStyle GroupCaption1;
