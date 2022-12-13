@@ -15,6 +15,9 @@ var haveGV = false;
 var haveThucHienNCKH = 0;
 $(document).ready(function () {
     /*   loading();*/
+    $(document).on('shown.bs.modal', '#modalAddThucHienNCKH', function () {
+        $('#thucTeNCKH').focus();
+    })
     table_ThucHienNCKH = $("#table_ThucHienNCKH").DataTable();
     table_ThucHienNCKH.columns(0).visible(false);
     table_ThucHienNCKH.columns(1).visible(false);

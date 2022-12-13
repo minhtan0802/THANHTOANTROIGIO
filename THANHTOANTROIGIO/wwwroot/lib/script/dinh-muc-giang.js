@@ -15,6 +15,9 @@ var haveGV = false;
 var haveDMG = 0;
 $(document).ready(function () {
     /*   loading();*/
+    $(document).on('shown.bs.modal', '#modalAddDMG', function () {
+        $('#dinhMucGiang').focus();
+    })
     table_DMG = $("#table_DMG").DataTable();
     table_DMG.columns(0).visible(false);
     table_DMG.columns(1).visible(false);

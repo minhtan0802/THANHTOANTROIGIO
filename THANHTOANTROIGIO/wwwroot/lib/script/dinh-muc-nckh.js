@@ -15,6 +15,9 @@ var haveGV = false;
 var haveDMNCKH = 0;
 $(document).ready(function () {
     /*   loading();*/
+    $(document).on('shown.bs.modal', '#modalAddDMNCKH', function () {
+        $('#dinhMucNCKH').focus();
+    })
     table_DMNCKH = $("#table_DMNCKH").DataTable();
     table_DMNCKH.columns(0).visible(false);
     table_DMNCKH.columns(1).visible(false);
