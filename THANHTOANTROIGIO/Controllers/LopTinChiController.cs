@@ -231,6 +231,7 @@ namespace THANHTOANTROIGIO.Controllers
                         rowStart += 2;
                         List<LopTinChiImport> list = new List<LopTinChiImport>();
                         List<LopTinChiImportModel> listView = new List<LopTinChiImportModel>();
+                        int check = 0;
                         try
                         {
                             for (int row = rowStart; row < rowEnd; row++)
@@ -241,6 +242,8 @@ namespace THANHTOANTROIGIO.Controllers
                                 }
                                 else
                                 {
+                                    check++;
+                                    
 
                                     var model = new LopTinChiImport();
                                     var modelView = new LopTinChiImportModel();
@@ -260,7 +263,7 @@ namespace THANHTOANTROIGIO.Controllers
                                     var dinhMucChucDanh = Math.Round(Double.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out double_x) ? double_x : 0, 2);
                                     model.MoTa = Math.Round((model.DinhMuc*2 / dinhMucChucDanh) * 100,2);
                                     model.MoTaNCKH = 0;
-                                    model.DinhMucNCKH = Math.Round(Double.TryParse(worksheet.Cells[row, 7].Value?.ToString(), out double_x) ? double_x : 0, 2);
+                                    model.DinhMucNCKH = Math.Round(Double.TryParse(worksheet.Cells[row, 7].Value?.ToString(), out double_x) ? double_x/2 : 0, 2);
                                     model.TenMH = worksheet.Cells[row, 8].Value.ToString();
                                     model.MaMH = worksheet.Cells[row, 9].Value.ToString();
                                     var maHocVi = worksheet.Cells[row, 2].Value.ToString().Split('.')[0];
@@ -316,6 +319,10 @@ namespace THANHTOANTROIGIO.Controllers
                                 }
                             }
                             listImport = list;
+                            if (check == 0)
+                            {
+                                return Json(JsonConvert.SerializeObject(new { success = false, message="Bạn xem lại cấu trúc file"}));
+                            }
                             return Json(JsonConvert.SerializeObject(new { success = true, data = list, dataView = listView }));
                         }
                         catch (Exception ex1)

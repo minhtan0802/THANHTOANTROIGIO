@@ -193,6 +193,7 @@
             this.xrTableCell36 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell37 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell38 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.label_nckh_hk2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrTableCell39 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell40 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell41 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -1110,7 +1111,7 @@
             this.xrTableCell55.BorderWidth = 1F;
             this.xrTableCell55.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([DuocNhan])")});
-            this.xrTableCell55.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell55.Font = new System.Drawing.Font("Times", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell55.ForeColor = System.Drawing.Color.Black;
             this.xrTableCell55.Multiline = true;
             this.xrTableCell55.Name = "xrTableCell55";
@@ -1139,7 +1140,7 @@
             this.xrTableCell53.BorderWidth = 1F;
             this.xrTableCell53.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([PhaiTra])")});
-            this.xrTableCell53.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrTableCell53.Font = new System.Drawing.Font("Times", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell53.ForeColor = System.Drawing.Color.Black;
             this.xrTableCell53.Multiline = true;
             this.xrTableCell53.Name = "xrTableCell53";
@@ -2455,6 +2456,8 @@
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTableCell38.BorderWidth = 1F;
+            this.xrTableCell38.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.label_nckh_hk2});
             this.xrTableCell38.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell38.Multiline = true;
             this.xrTableCell38.Name = "xrTableCell38";
@@ -2466,6 +2469,17 @@
             this.xrTableCell38.Text = "Giờ đã tạm trừ ở HK2 năm học 2021-2022 (giờ chuẩn)";
             this.xrTableCell38.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.xrTableCell38.Weight = 0.055268110360359689D;
+            // 
+            // label_nckh_hk2
+            // 
+            this.label_nckh_hk2.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_nckh_hk2.LocationFloat = new DevExpress.Utils.PointFloat(0.0001831055F, 0F);
+            this.label_nckh_hk2.Multiline = true;
+            this.label_nckh_hk2.Name = "label_nckh_hk2";
+            this.label_nckh_hk2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.label_nckh_hk2.SizeF = new System.Drawing.SizeF(57.75708F, 27.99997F);
+            this.label_nckh_hk2.StylePriority.UseFont = false;
+            this.label_nckh_hk2.Text = "label_nckh_hk2";
             // 
             // xrTableCell39
             // 
@@ -2589,7 +2603,7 @@
             // xrLabel1
             // 
             this.xrLabel1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(32.5F, 30.15335F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(61.66667F, 30.15335F);
             this.xrLabel1.Multiline = true;
             this.xrLabel1.Name = "xrLabel1";
             this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -2637,13 +2651,15 @@
             // label_NguoiLapBang
             // 
             this.label_NguoiLapBang.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_NguoiLapBang.LocationFloat = new DevExpress.Utils.PointFloat(32.5F, 119.6664F);
+            this.label_NguoiLapBang.LocationFloat = new DevExpress.Utils.PointFloat(10F, 119.6663F);
             this.label_NguoiLapBang.Multiline = true;
             this.label_NguoiLapBang.Name = "label_NguoiLapBang";
             this.label_NguoiLapBang.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.label_NguoiLapBang.SizeF = new System.Drawing.SizeF(157.6946F, 23F);
+            this.label_NguoiLapBang.SizeF = new System.Drawing.SizeF(242.168F, 23.00002F);
             this.label_NguoiLapBang.StylePriority.UseFont = false;
+            this.label_NguoiLapBang.StylePriority.UseTextAlignment = false;
             this.label_NguoiLapBang.Text = "LÊ THỊ THU TRANG";
+            this.label_NguoiLapBang.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // label_TPGV
             // 
@@ -3206,5 +3222,6 @@
         private DevExpress.XtraReports.UI.XRLabel label_tpkttc;
         public DevExpress.XtraReports.UI.XRLabel label_PGD;
         public DevExpress.XtraReports.UI.XRLabel label_NCKH;
+        public DevExpress.XtraReports.UI.XRLabel label_nckh_hk2;
     }
 }

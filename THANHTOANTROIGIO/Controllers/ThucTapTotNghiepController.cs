@@ -226,31 +226,37 @@ namespace THANHTOANTROIGIO.Controllers
                         int rowEnd = 0;
                         bool flagEnd = false;
                         bool flagChange = false;
-
-                        for (int i = beginRow; i <= rowCount; i++)
+                        try
                         {
-                            flagChange = false;
-                            for (int j = beginCol; j <= colCount; j++)
+                            for (int i = beginRow; i <= rowCount; i++)
                             {
-                                if (worksheet.Cells[i, j].Value == null)
+                                flagChange = false;
+                                for (int j = beginCol; j <= colCount; j++)
                                 {
-                                    flagEnd = true;
-                                    continue;
-                                }
-                                else
-                                {
-                                    flagEnd = false;
-                                    flagChange = true;
-                                    if ((bool)(worksheet.Cells[i, j].Value?.ToString().Contains("MÃ GV")))
+                                    if (worksheet.Cells[i, j].Value == null)
                                     {
-                                        rowStart = i;
-                                        colStart = j;
+                                        flagEnd = true;
+                                        continue;
+                                    }
+                                    else
+                                    {
                                         flagEnd = false;
-                                        flagChange = false;
-                                        break;
+                                        flagChange = true;
+                                        if ((bool)(worksheet.Cells[i, j].Value?.ToString().Contains("MÃ GV")))
+                                        {
+                                            rowStart = i;
+                                            colStart = j;
+                                            flagEnd = false;
+                                            flagChange = false;
+                                            break;
+                                        }
                                     }
                                 }
                             }
+                        }
+                        catch(Exception ex)
+                        {
+                            return Json(JsonConvert.SerializeObject(new { success = false, message = ex.Message }));
                         }
 
                         for (int i = rowStart; i <= rowCount; i++)
@@ -277,36 +283,46 @@ namespace THANHTOANTROIGIO.Controllers
                         }
                         rowStart += 1;
                         List<HuongDanTTTNImport> list = new List<HuongDanTTTNImport>();
-                        for (int row = rowStart; row < rowEnd; row++)
-                        {
-                            var hoTen = worksheet.Cells[row, 2].Value?.ToString().Trim();
-                            var length = hoTen.Split(' ').Length;
-                            var tenGV = hoTen.Split(' ')[length - 1];
-                            var hoGV = hoTen.Substring(0, hoTen.Length - tenGV.Length).Trim();
-                            HuongDanTTTNImport huongDanTTTN = new HuongDanTTTNImport(
-                              worksheet.Cells[row, 1].Value?.ToString().Trim(), maNKHK, hoGV,tenGV,
-                              
-                              double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
-                               double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
-                                worksheet.Cells[row, 3].Value?.ToString().Trim(),
-                              double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
-                              int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
-                              double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
-                                );
-                            list.Add(huongDanTTTN);
+                       
+                            for (int row = rowStart; row < rowEnd; row++)
+                            {
+                            try
+                            {
+                                var hoTen = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                                var length = hoTen.Split(' ').Length;
+                                var tenGV = hoTen.Split(' ')[length - 1];
+                                var hoGV = hoTen.Substring(0, hoTen.Length - tenGV.Length).Trim();
+                                HuongDanTTTNImport huongDanTTTN = new HuongDanTTTNImport(
+                                  worksheet.Cells[row, 1].Value?.ToString().Trim(), maNKHK, hoGV, tenGV,
 
-                            HuongDanTTTNView huongDanTTTNView = new HuongDanTTTNView(
-                             worksheet.Cells[row, 1].Value?.ToString().Trim(),
-                             worksheet.Cells[row, 2].Value?.ToString().Trim(),
-                             double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
-                              double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
-                               worksheet.Cells[row, 3].Value?.ToString().Trim(),
-                             double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
-                             int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
-                             double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
-                               );
-                            listView.Add(huongDanTTTNView);
+                                  double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
+                                   double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
+                                    worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                                  double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
+                                  int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
+                                  double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
+                                    );
+                                list.Add(huongDanTTTN);
+
+                                HuongDanTTTNView huongDanTTTNView = new HuongDanTTTNView(
+                                 worksheet.Cells[row, 1].Value?.ToString().Trim(),
+                                 worksheet.Cells[row, 2].Value?.ToString().Trim(),
+                                 double.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
+                                  double.Parse(worksheet.Cells[row, 7].Value?.ToString().Trim()),
+                                   worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                                 double.Parse(worksheet.Cells[row, 5].Value?.ToString().Trim()),
+                                 int.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
+                                 double.Parse(worksheet.Cells[row, 6].Value?.ToString().Trim())
+                                   );
+                                listView.Add(huongDanTTTNView);
+                            }
+                            catch (Exception ex)
+                            {
+                                return Json(JsonConvert.SerializeObject(new { success = false, message = ex.Message }));
+                            }
                         }
+                    
+                      
                         //    listImport = list;
                         return Json(JsonConvert.SerializeObject(new { success = true, data = list, view=listView }));
                     }

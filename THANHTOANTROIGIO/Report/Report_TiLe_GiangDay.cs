@@ -43,7 +43,7 @@ namespace THANHTOANTROIGIO.Report
 
             var nguoiLapBangDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
 
-            nguoiLapBang = pgdDataTable.Rows.Count > 0?pgdDataTable.Rows[0][3].ToString():"";
+            nguoiLapBang = nguoiLapBangDataTable.Rows.Count > 0?nguoiLapBangDataTable.Rows[0][3].ToString():"";
             this.label_HK2.Text = "HỌC KÌ II NĂM HỌC "+(nam-1)+"-"+nam;
             this.label_HK1.Text = "HỌC KÌ I NĂM HỌC " + nam + "-" + (nam + 1);
             this.label_NKHK.Text = "NĂM "+nam;

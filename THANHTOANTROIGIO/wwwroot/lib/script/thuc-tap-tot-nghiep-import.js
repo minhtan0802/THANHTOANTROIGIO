@@ -148,8 +148,7 @@ function getListTTTN() {
     });
 }
 function previewTTTN() {
-    document.getElementById("btnImport").removeAttribute("disabled");
-    table_TTTN_Import.destroy();
+   
     var formData = new FormData();
     formData.append('file', fileTTTN);
     formData.append('maNKHK', maHocKy);
@@ -163,7 +162,9 @@ function previewTTTN() {
         contentType: false,
         success: function (response) {
             response = $.parseJSON(response);
-            if (response.success) {
+            if (response.success == true) {
+                document.getElementById("btnImport").removeAttribute("disabled");
+                table_TTTN_Import.destroy();
                 listHuongDanTTTN = response.data;
                 table_TTTN_Import = $('#table_TTTN_Import').DataTable({
                     "data": response.view,
@@ -189,7 +190,8 @@ function previewTTTN() {
                 );
             }
             else {
-                toastr.error(response.message, 'Lỗi', { timeOut: 3000 });
+                toastr.error(response.message+' huhu', 'Lỗi', { timeOut: 3000 });
+                return;
             }
 
         },

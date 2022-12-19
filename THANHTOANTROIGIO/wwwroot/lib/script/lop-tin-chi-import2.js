@@ -157,7 +157,7 @@ function loading() {
     });
 }
 */function previewLTC() {
-    document.getElementById("btnImport").removeAttribute("disabled");
+  
     document.getElementById("hsHocKy").setAttribute("readonly", "readonly");
     var hsHK = $("#hsHocKy").val();
     var formData = new FormData();
@@ -174,7 +174,9 @@ function loading() {
         contentType: false,
         success: function (response) {
             response = $.parseJSON(response);
+            console.log('Success: ' + response.success);
             if (response.success == true) {
+                document.getElementById("btnImport").removeAttribute("disabled");
                 table_LTC_Import.destroy();
                 listLTCPreview = response.dataView;
                 listLTCImport = response.data;

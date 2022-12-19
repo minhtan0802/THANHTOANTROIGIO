@@ -41,21 +41,22 @@ namespace THANHTOANTROIGIO.Report
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "NLB"));
             var nlbDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
-            nguoiLapBang = nlbDataTable.Rows.Count > 0 ? pgdDataTable.Rows[0][3].ToString() : "";
+            nguoiLapBang = nlbDataTable.Rows.Count > 0 ? nlbDataTable.Rows[0][3].ToString() : "";
             param.Clear();
             param.Add(new SqlParameter("@MaNKHK", maNKHK));
             param.Add(new SqlParameter("@KyHieu", "TPKTTC"));
 
             var tpkttcDataTable = Sql.ExecuteQuery("sp_Get_NguoiKy", param);
-            tpkttc = tpkttcDataTable.Rows.Count > 0 ? pgdDataTable.Rows[0][3].ToString() : "";
+            tpkttc = tpkttcDataTable.Rows.Count > 0 ? tpkttcDataTable.Rows[0][3].ToString() : "";
             tenHocKy += " Năm học " + tenNienKhoa;
             this.label_NKHK.Text = tenHocKy;
             this.label_TPGV.Text = tpgv;
             this.label_PGD.Text = pgd;
             this.label_tpkttc.Text = tpkttc;
             this.label_NguoiLapBang.Text = nguoiLapBang;
-            this.label_NCKH.Text = "NCKH năm " + (int.Parse(maNKHK.Substring(0, 4)) + 1) + "";
-            //NCKH chưa fix vì chưa rõ nghiệp vụ
+            this.label_NCKH.Text = "NCKH năm " + (int.Parse(maNKHK.Substring(0, 4))) + " (HKII năm học "+ (int.Parse(maNKHK.Substring(0, 4))-1)+"-"+
+                (int.Parse(maNKHK.Substring(0, 4)))+"; HKI năm học "+ (int.Parse(maNKHK.Substring(0, 4)))+"-"+ (int.Parse(maNKHK.Substring(0, 4))+1)+")";
+            this.label_nckh_hk2.Text= "Giờ đã tạm trừ ở HK2 năm học "+ (int.Parse(maNKHK.Substring(0, 4)) -1) +"-"+ (int.Parse(maNKHK.Substring(0, 4))) + " (giờ chuẩn)";
             this.sqlDataSource1.Fill();
         }
     }

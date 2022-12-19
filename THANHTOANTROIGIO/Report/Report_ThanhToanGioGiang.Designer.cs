@@ -2176,13 +2176,15 @@
             // 
             this.label_NguoiLapBang.Dpi = 254F;
             this.label_NguoiLapBang.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_NguoiLapBang.LocationFloat = new DevExpress.Utils.PointFloat(78.95429F, 320.9099F);
+            this.label_NguoiLapBang.LocationFloat = new DevExpress.Utils.PointFloat(25.00001F, 320.9099F);
             this.label_NguoiLapBang.Multiline = true;
             this.label_NguoiLapBang.Name = "label_NguoiLapBang";
             this.label_NguoiLapBang.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
-            this.label_NguoiLapBang.SizeF = new System.Drawing.SizeF(400.5444F, 58.42F);
+            this.label_NguoiLapBang.SizeF = new System.Drawing.SizeF(606.0967F, 58.41998F);
             this.label_NguoiLapBang.StylePriority.UseFont = false;
+            this.label_NguoiLapBang.StylePriority.UseTextAlignment = false;
             this.label_NguoiLapBang.Text = "LÊ THỊ THU TRANG";
+            this.label_NguoiLapBang.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // xrLabel4
             // 
@@ -2228,7 +2230,7 @@
             // 
             this.xrLabel1.Dpi = 254F;
             this.xrLabel1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(78.95429F, 93.54662F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(142.4543F, 93.54662F);
             this.xrLabel1.Multiline = true;
             this.xrLabel1.Name = "xrLabel1";
             this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);

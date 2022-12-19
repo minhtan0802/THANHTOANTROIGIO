@@ -2655,7 +2655,7 @@
             this.xrTableCell52.BorderWidth = 1F;
             this.xrTableCell52.Dpi = 254F;
             this.xrTableCell52.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([TietLTTD])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([LTQuiChuan])")});
             this.xrTableCell52.Font = new System.Drawing.Font("Times", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell52.ForeColor = System.Drawing.Color.Black;
             this.xrTableCell52.Multiline = true;

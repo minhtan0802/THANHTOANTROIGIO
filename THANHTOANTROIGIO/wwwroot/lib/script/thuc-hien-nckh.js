@@ -147,6 +147,7 @@ function onChange_Select_GV(event) {
     chucVu = $("#select_GV option:selected").attr("chucVu");
     $("#chucDanh").val(chucDanh);
     $("#chucVu").val(chucVu);
+
 }
 
 /////
@@ -396,7 +397,7 @@ function saveThucHienNCKH(close) {
             success: function (response) {
                 response = $.parseJSON(response);
                 if (response.success == true) {
-                    toastr.success('Thông báo', 'Thêm thực hiện NCKH thành công!', { timeOut: 3000 });
+                    toastr.success('Thêm thực hiện NCKH thành công!', 'Thông báo', { timeOut: 3000 });
                     var model = {
                         MaGiangVien: maGV,
                         MaNKHK: maHocKy,
