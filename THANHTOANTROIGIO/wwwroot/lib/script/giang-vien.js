@@ -330,7 +330,7 @@ function init_Table_GV() {
                 "rowId": 'MaGiangVien'.trim(),
                 "createdRow": function (row, data, dataIndex) {
                     $(row).attr('id', data[0]);
-                    if (data[10] == true) {
+                    if (data[10] ==true) {
                         $(row).find("input[type='checkbox']")
                             .attr('checked', 'checked');
                     }
@@ -536,10 +536,10 @@ function saveGiangVien() {
                 if (gvAdd.GioiTinh == 1) {
                     gioiTinh = "Nam";
                 }
-                if (chucDanh == "GVC") {
+                if (gvAdd.ChucDanh == "GVC") {
                     chucDanh = "Giảng viên chính";
                 }
-                else if (chucDanh == "GVCC") {
+                else if (gvAdd.ChucDanh == "GVCC") {
                     chucDanh = "Giảng viên cao cấp";
                 }
                 gvAdd.ChucDanh = chucDanh;
@@ -626,6 +626,14 @@ function editGiangVien() {
                     row.remove().draw();
                 }
                 else {
+                    var chucDanh = "Giảng viên";
+                    if (gvAdd.ChucDanh == "GVC") {
+                        chucDanh = "Giảng viên chính";
+                    }
+                    else if (gvAdd.ChucDanh == "GVCC") {
+                        chucDanh = "Giảng viên cao cấp";
+                    }
+                    gvAdd.ChucDanh = chucDanh;
                     row.data(gvAdd);
                 }
                 $('#modalAddGV').modal('hide');
